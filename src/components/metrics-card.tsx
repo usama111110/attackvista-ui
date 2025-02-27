@@ -15,7 +15,7 @@ interface MetricsCardProps {
 
 export function MetricsCard({ title, value, icon, className, trend }: MetricsCardProps) {
   return (
-    <Card className={cn("p-6 backdrop-blur-sm bg-card hover:bg-opacity-10 transition-all duration-300 animate-float", className)}>
+    <Card className={cn("p-6 backdrop-blur-sm bg-card hover:bg-opacity-10 transition-all duration-300", className)}>
       <div className="flex items-center justify-between">
         <div className="space-y-2">
           <p className="text-sm text-gray-400">{title}</p>

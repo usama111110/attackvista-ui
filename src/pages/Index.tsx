@@ -15,7 +15,7 @@ const Index = () => {
         <MetricsCard
           title="Total Attacks"
           value="1,234"
-          icon={<Shield className="animate-pulse" />}
+          icon={<Shield />}
           trend={{ value: 12, isPositive: false }}
         />
         <MetricsCard
@@ -61,6 +61,6 @@ const Index = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Index;
