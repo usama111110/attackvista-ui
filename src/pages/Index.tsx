@@ -1,15 +1,24 @@
 
-import { Shield, AlertTriangle, Activity, Network, Database, Lock } from "lucide-react";
+import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2 } from "lucide-react";
 import { MetricsCard } from "@/components/metrics-card";
 import { AttackChart } from "@/components/attack-chart";
 import { LiveTrafficGraph } from "@/components/live-traffic-graph";
 import { DashboardLayout } from "@/components/dashboard-layout";
+import { Card } from "@/components/ui/card";
+import { SecurityScore } from "@/components/security-score";
+import { ThreatMap } from "@/components/threat-map";
 
 const Index = () => {
   return (
     <DashboardLayout>
       <header className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Security Dashboard</h1>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-3xl font-bold">Security Dashboard</h1>
+          <div className="flex items-center gap-2 text-sm bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-700/50">
+            <Loader2 size={14} className="animate-spin text-primary" />
+            <span className="text-gray-300">Live monitoring active</span>
+          </div>
+        </div>
         <p className="text-gray-400">Real-time network security monitoring</p>
       </header>
 
@@ -39,20 +48,105 @@ const Index = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <LiveTrafficGraph />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2">
+          <LiveTrafficGraph />
+        </div>
+        <SecurityScore score={78} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2">
+          <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px]">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Global Threat Map</h3>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                <span>Live attacks</span>
+              </div>
+            </div>
+            <ThreatMap />
+          </Card>
+        </div>
         <AttackChart />
       </div>
 
-      <div className="bg-card p-6 rounded-lg backdrop-blur-sm mb-6">
-        <h3 className="text-lg font-semibold mb-4">Recent Attacks</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+          <h3 className="text-lg font-semibold mb-4">Network Performance</h3>
+          <div className="space-y-4">
+            {[
+              { name: "Main Gateway", value: 92, icon: <Globe size={18} /> },
+              { name: "Database Server", value: 88, icon: <Database size={18} /> },
+              { name: "Application Server", value: 95, icon: <Zap size={18} /> },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gray-700/50 rounded-lg">
+                    {item.icon}
+                  </div>
+                  <span>{item.name}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-36 h-2 bg-gray-700/50 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-primary rounded-full" 
+                      style={{ width: `${item.value}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium">{item.value}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+          <h3 className="text-lg font-semibold mb-4">System Health</h3>
+          <div className="space-y-4">
+            {[
+              { name: "CPU Usage", value: 42, icon: <Gauge size={18} /> },
+              { name: "Memory Usage", value: 65, icon: <AreaChart size={18} /> },
+              { name: "Disk Space", value: 28, icon: <Database size={18} /> },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gray-700/50 rounded-lg">
+                    {item.icon}
+                  </div>
+                  <span>{item.name}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-36 h-2 bg-gray-700/50 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full ${
+                        item.value > 80 ? 'bg-red-500' : 
+                        item.value > 60 ? 'bg-orange-500' : 
+                        'bg-green-500'
+                      }`}
+                      style={{ width: `${item.value}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium">{item.value}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <div className="bg-card p-6 rounded-lg backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">Recent Attacks</h3>
+          <button className="text-xs text-primary hover:underline">View all</button>
+        </div>
         <div className="space-y-4">
           {[
             { type: "DDoS Attack", ip: "192.168.1.1", time: "2 min ago", severity: "High" },
             { type: "SQL Injection", ip: "192.168.1.45", time: "15 min ago", severity: "Critical" },
             { type: "Brute Force", ip: "192.168.2.12", time: "1 hour ago", severity: "Medium" }
           ].map((attack, i) => (
-            <div key={i} className="flex items-center justify-between p-4 bg-black/20 rounded-lg">
+            <div key={i} className="flex items-center justify-between p-4 bg-black/20 rounded-lg hover:bg-black/30 transition-colors">
               <div className="flex items-center gap-4">
                 <Network className="text-primary" />
                 <div>

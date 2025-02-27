@@ -58,3 +58,19 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Background patterns */
+.bg-world-map {
+  background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M362,81c-19-13-39-24-65-24c-55,0-111,44-111,102c0,28,26,64,26,64c26-32,40-36,40-36c-14,0-31,23-31,50c0,65,64,114,64,114c-14-10-31-32-31-64c0-43,43-61,43-61c-5,14-7,28-7,40c0,47,38,100,89,127c51-27,89-80,89-127c0-12-2-26-7-40c0,0,43,18,43,61c0,32-17,54-31,64c0,0,64-49,64-114c0-27-17-50-31-50c0,0,14,4,40,36c0,0,26-36,26-64c0-58-56-102-111-102c-26,0-46,11-65,24c-19-28-51-47-87-47C394,34,362,53,362,81z' fill='rgba(100, 100, 100, 0.05)'/%3E%3C/svg%3E");
+}
+
+/* Utility classes */
+@layer utilities {
+  .backdrop-blur-md {
+    backdrop-filter: blur(12px);
+  }
+  
+  .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+  }
+}
