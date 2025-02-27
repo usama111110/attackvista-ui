@@ -1,11 +1,13 @@
 
-import { Shield, AlertTriangle, Activity, Network, Database } from "lucide-react";
+import { Shield, AlertTriangle, Activity, Network, Database, Lock } from "lucide-react";
 import { MetricsCard } from "@/components/metrics-card";
 import { AttackChart } from "@/components/attack-chart";
+import { LiveTrafficGraph } from "@/components/live-traffic-graph";
+import { DashboardLayout } from "@/components/dashboard-layout";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+    <DashboardLayout>
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Security Dashboard</h1>
         <p className="text-gray-400">Real-time network security monitoring</p>
@@ -37,29 +39,45 @@ const Index = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <LiveTrafficGraph />
         <AttackChart />
-        <div className="grid grid-cols-1 gap-6">
-          <div className="bg-card p-6 rounded-lg backdrop-blur-sm">
-            <h3 className="text-lg font-semibold mb-4">Recent Attacks</h3>
-            <div className="space-y-4">
-              {[1, 2, 3].map((_, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-black/20 rounded-lg">
-                  <div className="flex items-center gap-4">
-                    <Network className="text-primary" />
-                    <div>
-                      <p className="font-medium">DDoS Attack Detected</p>
-                      <p className="text-sm text-gray-400">192.168.1.1</p>
-                    </div>
-                  </div>
-                  <span className="text-sm text-gray-400">2 min ago</span>
+      </div>
+
+      <div className="bg-card p-6 rounded-lg backdrop-blur-sm mb-6">
+        <h3 className="text-lg font-semibold mb-4">Recent Attacks</h3>
+        <div className="space-y-4">
+          {[
+            { type: "DDoS Attack", ip: "192.168.1.1", time: "2 min ago", severity: "High" },
+            { type: "SQL Injection", ip: "192.168.1.45", time: "15 min ago", severity: "Critical" },
+            { type: "Brute Force", ip: "192.168.2.12", time: "1 hour ago", severity: "Medium" }
+          ].map((attack, i) => (
+            <div key={i} className="flex items-center justify-between p-4 bg-black/20 rounded-lg">
+              <div className="flex items-center gap-4">
+                <Network className="text-primary" />
+                <div>
+                  <p className="font-medium">{attack.type}</p>
+                  <p className="text-sm text-gray-400">{attack.ip}</p>
                 </div>
-              ))}
+              </div>
+              <div className="flex items-center gap-4">
+                <span className={`px-2 py-1 rounded-full text-xs ${
+                  attack.severity === "Critical" ? "bg-red-900/50 text-red-400" :
+                  attack.severity === "High" ? "bg-orange-900/50 text-orange-400" :
+                  "bg-yellow-900/50 text-yellow-400"
+                }`}>
+                  {attack.severity}
+                </span>
+                <span className="text-sm text-gray-400">{attack.time}</span>
+                <button className="p-1.5 bg-primary/20 text-primary rounded-md hover:bg-primary/30 transition-colors">
+                  <Lock size={16} />
+                </button>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
 
