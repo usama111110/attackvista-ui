@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { icon: Shield, label: "Dashboard", path: "/" },
-  { icon: AlertTriangle, label: "Threats", path: "/threats" },
+  { icon: AlertTriangle, label: "Detection", path: "/detection" },
   { icon: BarChart, label: "Analytics", path: "/analytics" },
   { icon: Globe, label: "Network", path: "/network" },
   { icon: Users, label: "Users", path: "/users" },
