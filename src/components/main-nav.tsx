@@ -1,7 +1,10 @@
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Shield, Activity, Users, Settings, Bell, LogOut, AlertTriangle, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUserStore } from "@/utils/userDatabase";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 const navItems = [
   { icon: Shield, label: "Dashboard", path: "/" },
@@ -18,6 +21,33 @@ interface MainNavProps {
 
 export function MainNav({ collapsed = false }: MainNavProps) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { currentUser, logout } = useUserStore();
+  
+  // Check if user is authenticated
+  useEffect(() => {
+    // Skip authentication check for login page
+    if (location.pathname === "/login") return;
+    
+    // If no user is logged in, redirect to login
+    if (!currentUser) {
+      navigate("/login", { 
+        state: { 
+          message: "Please login to access this page" 
+        } 
+      });
+    }
+  }, [currentUser, location.pathname, navigate]);
+  
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out"
+    });
+    navigate("/login");
+  };
   
   return (
     <nav className="py-4 px-2 space-y-1 flex-1">
@@ -51,24 +81,25 @@ export function MainNav({ collapsed = false }: MainNavProps) {
           to="/notifications"
           className={cn(
             "flex items-center gap-3 px-3 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200",
-            collapsed ? "justify-center" : ""
+            collapsed ? "justify-center" : "",
+            location.pathname === "/notifications" ? "bg-primary/20 text-primary" : ""
           )}
           title={collapsed ? "Notifications" : undefined}
         >
           <Bell className={`${collapsed ? 'h-6 w-6' : 'h-5 w-5'}`} />
           {!collapsed && <span>Notifications</span>}
         </Link>
-        <Link
-          to="/login"
+        <button
+          onClick={handleLogout}
           className={cn(
-            "flex items-center gap-3 px-3 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200",
+            "flex items-center gap-3 px-3 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 w-full",
             collapsed ? "justify-center" : ""
           )}
           title={collapsed ? "Logout" : undefined}
         >
           <LogOut className={`${collapsed ? 'h-6 w-6' : 'h-5 w-5'}`} />
           {!collapsed && <span>Logout</span>}
-        </Link>
+        </button>
       </div>
     </nav>
   );

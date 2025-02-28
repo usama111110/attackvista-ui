@@ -1,23 +1,73 @@
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Shield, Mail, Lock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Shield, Mail, Lock, AlertTriangle } from "lucide-react";
+import { useUserStore } from "@/utils/userDatabase";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  
   const navigate = useNavigate();
+  const location = useLocation();
+  const { toast } = useToast();
+  const { login, currentUser } = useUserStore();
+  
+  // Redirect if already logged in
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
+  
+  // Check if we were redirected here
+  useEffect(() => {
+    // Check if we have a message in the state (e.g., "You need to login first")
+    if (location.state?.message) {
+      toast({
+        title: "Authentication Required",
+        description: location.state.message,
+        variant: "destructive"
+      });
+    }
+  }, [location.state, toast]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setIsLoading(true);
+    
+    // Basic validation
+    if (!email || !password) {
+      setError("Please enter both email and password");
+      setIsLoading(false);
+      return;
+    }
     
     // Simulate authentication delay
     setTimeout(() => {
+      const user = login(email, password);
+      
+      if (user) {
+        toast({
+          title: "Login Successful",
+          description: `Welcome back, ${user.name}!`
+        });
+        navigate("/");
+      } else {
+        setError("Invalid email or password");
+        toast({
+          title: "Login Failed",
+          description: "Invalid email or password",
+          variant: "destructive"
+        });
+      }
+      
       setIsLoading(false);
-      navigate("/");
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -33,6 +83,13 @@ const Login = () => {
 
         <div className="bg-gray-800/50 backdrop-blur-md rounded-xl p-8 shadow-xl border border-gray-700">
           <h2 className="text-2xl font-semibold text-white mb-6">Login</h2>
+          
+          {error && (
+            <div className="mb-6 p-3 bg-red-900/20 border border-red-700/30 rounded-lg flex items-center gap-2 text-red-400">
+              <AlertTriangle size={18} />
+              <p className="text-sm">{error}</p>
+            </div>
+          )}
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
@@ -81,8 +138,12 @@ const Login = () => {
           </form>
           
           <div className="mt-6 text-center text-sm text-gray-500">
-            <span>Don't have an account? </span>
-            <a href="#" className="text-primary hover:underline">Sign up</a>
+            <p>Default users for testing:</p>
+            <div className="mt-2 text-xs text-gray-400 space-y-1">
+              <p>admin@example.com / admin123</p>
+              <p>analyst@example.com / analyst123</p>
+              <p>guest@example.com / guest123</p>
+            </div>
           </div>
         </div>
       </div>
