@@ -7,6 +7,7 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { SecurityScore } from "@/components/security-score";
 import { ThreatMap } from "@/components/threat-map";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
@@ -138,7 +139,7 @@ const Index = () => {
       <div className="bg-card p-6 rounded-lg backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 mb-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Recent Attacks</h3>
-          <button className="text-xs text-primary hover:underline">View all</button>
+          <Link to="/live-traffic" className="text-xs text-primary hover:underline">View all</Link>
         </div>
         <div className="space-y-4">
           {[
