@@ -11,7 +11,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <div className="min-h-screen flex bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white">
       <aside 
         className={`${collapsed ? 'w-16' : 'w-64'} border-r border-gray-800/50 bg-gray-900/50 backdrop-blur-md transition-all duration-300 ease-in-out flex flex-col`}
       >

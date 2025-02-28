@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -12,10 +13,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em rgba(255, 123, 0, 0.6));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em rgba(255, 123, 0, 0.6));
 }
 
 @keyframes logo-spin {
@@ -39,4 +40,39 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* New additions for modern UI */
+.animated-gradient {
+  background: linear-gradient(-45deg, #FF7B00, #FF9800, #646464, #444444);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hover-lift {
+  transition: transform 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(255, 123, 0, 0.2);
+}
+
+.shadow-glow:hover {
+  box-shadow: 0 0 20px rgba(255, 123, 0, 0.4);
 }

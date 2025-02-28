@@ -53,8 +53,22 @@ export function MainNav({ collapsed = false }: MainNavProps) {
     <nav className="py-4 px-2 space-y-1 flex-1">
       <div className={`mb-8 ${collapsed ? 'px-2 justify-center' : 'px-4'} flex items-center`}>
         <div className={`flex items-center gap-2 text-primary font-bold ${collapsed ? 'justify-center' : 'text-xl'}`}>
-          <Shield className={`${collapsed ? 'h-8 w-8' : 'h-6 w-6'}`} />
-          {!collapsed && <span>AttackVista</span>}
+          {collapsed ? (
+            <img 
+              src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
+              alt="NetworkFort Logo" 
+              className="h-8 w-8 object-contain"
+            />
+          ) : (
+            <>
+              <img 
+                src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
+                alt="NetworkFort Logo" 
+                className="h-6 w-6 object-contain"
+              />
+              <span>NetworkFort</span>
+            </>
+          )}
         </div>
       </div>
       
