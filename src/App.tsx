@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
-import Analytics from "./pages/Analytics";
+import LiveTraffic from "./pages/LiveTraffic";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Detection from "./pages/Detection";
@@ -28,7 +28,7 @@ const App = () => (
           <Route path="/detection" element={<Detection />} />
           <Route path="/network" element={<Network />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/live-traffic" element={<LiveTraffic />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="*" element={<NotFound />} />
