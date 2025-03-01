@@ -30,26 +30,26 @@
     --radius: 0.75rem;
   }
 
-  /* Light mode */
+  /* Light mode - now more refined with better contrast and colors */
   .light-mode {
-    --background: 0 0% 98%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 222 47% 11%;
     --primary: 24 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 20%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
     --ring: 24 100% 50%;
   }
 
@@ -68,7 +68,7 @@
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Dark Mode */
 .dark-mode ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -87,6 +87,7 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* Custom scrollbar - Light Mode */
 .light-mode ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -97,12 +98,12 @@
 }
 
 .light-mode ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 
 .light-mode ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 /* Background patterns */
@@ -120,20 +121,24 @@
     backdrop-filter: blur(16px);
   }
   
-  .glass {
+  /* Dark mode glass effect */
+  .dark-mode .glass {
     @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl;
   }
   
+  /* Light mode glass effect */
   .light-mode .glass {
-    @apply bg-black/5 backdrop-blur-lg border border-black/10 rounded-xl;
+    @apply bg-black/5 backdrop-blur-lg border border-black/5 rounded-xl shadow-sm;
   }
   
-  .glass-card {
+  /* Dark mode card effect */
+  .dark-mode .glass-card {
     @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300;
   }
   
+  /* Light mode card effect */
   .light-mode .glass-card {
-    @apply bg-black/5 backdrop-blur-lg border border-black/10 rounded-xl hover:bg-black/10 transition-all duration-300;
+    @apply bg-white backdrop-blur-lg border border-gray-100 rounded-xl hover:bg-gray-50 transition-all duration-300 shadow-sm;
   }
   
   .text-gradient {
@@ -142,7 +147,7 @@
 
   /* Light mode specific utility classes */
   .light-mode .card-light {
-    @apply bg-white shadow-sm border border-gray-200/70;
+    @apply bg-white shadow-sm border border-gray-100;
   }
   
   .light-mode .text-light-primary {
@@ -155,5 +160,14 @@
   
   .light-mode .bg-light-hover {
     @apply hover:bg-gray-100;
+  }
+  
+  /* Additional light mode utility classes for better visuals */
+  .light-mode .shadow-soft {
+    @apply shadow-md shadow-gray-100/50;
+  }
+  
+  .light-mode .border-soft {
+    @apply border border-gray-100;
   }
 }

@@ -32,11 +32,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       localStorage.setItem('theme-mode', 'light');
     }
     
-    // Force a re-paint to ensure theme changes are applied
+    // Force a re-paint to ensure theme changes are applied immediately
     document.body.style.display = 'none';
-    setTimeout(() => {
-      document.body.style.display = '';
-    }, 0);
+    document.body.offsetHeight; // Trigger a reflow
+    document.body.style.display = '';
     
   }, [isDarkMode]);
 

@@ -49,7 +49,10 @@ const Settings = () => {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
+        <Card className={`${isDarkMode 
+          ? 'bg-card backdrop-blur-sm border-gray-700/50' 
+          : 'bg-white border-gray-200/20 shadow-sm'}`}
+        >
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Bell className="h-5 w-5 text-primary" /> 
@@ -72,7 +75,7 @@ const Settings = () => {
                   checked={settings.attackNotifications}
                   onChange={() => handleToggle('attackNotifications')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -91,7 +94,7 @@ const Settings = () => {
                   checked={settings.systemNotifications}
                   onChange={() => handleToggle('systemNotifications')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -110,13 +113,16 @@ const Settings = () => {
                   checked={settings.emailAlerts}
                   onChange={() => handleToggle('emailAlerts')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
         </Card>
         
-        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
+        <Card className={`${isDarkMode 
+          ? 'bg-card backdrop-blur-sm border-gray-700/50' 
+          : 'bg-white border-gray-200/20 shadow-sm'}`}
+        >
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" /> 
@@ -139,7 +145,7 @@ const Settings = () => {
                   checked={settings.highSecurityMode}
                   onChange={() => handleToggle('highSecurityMode')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -158,13 +164,16 @@ const Settings = () => {
                   checked={settings.logoutOnInactivity}
                   onChange={() => handleToggle('logoutOnInactivity')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
         </Card>
         
-        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
+        <Card className={`${isDarkMode 
+          ? 'bg-card backdrop-blur-sm border-gray-700/50' 
+          : 'bg-white border-gray-200/20 shadow-sm'}`}
+        >
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Globe className="h-5 w-5 text-primary" /> 
@@ -187,7 +196,7 @@ const Settings = () => {
                   checked={settings.networkMonitoring}
                   onChange={() => handleToggle('networkMonitoring')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -206,13 +215,16 @@ const Settings = () => {
                   checked={settings.anonymousUsageData}
                   onChange={() => handleToggle('anonymousUsageData')} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
         </Card>
         
-        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
+        <Card className={`${isDarkMode 
+          ? 'bg-card backdrop-blur-sm border-gray-700/50' 
+          : 'bg-white border-gray-200/20 shadow-sm'}`}
+        >
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Sun className="h-5 w-5 text-primary" /> 
@@ -235,7 +247,7 @@ const Settings = () => {
                   checked={isDarkMode}
                   onChange={handleDarkModeToggle} 
                 />
-                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
