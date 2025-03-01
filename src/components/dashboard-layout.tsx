@@ -15,12 +15,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className={`min-h-screen flex ${isDarkMode 
       ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100' 
-      : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-800'}`}>
+      : 'bg-gradient-to-br from-blue-50 via-white to-slate-50 text-gray-800'}`}>
       <aside 
         className={`${collapsed ? 'w-16' : 'w-64'} border-r transition-all duration-300 ease-in-out flex flex-col ${
           isDarkMode 
             ? 'border-gray-800/50 bg-gray-900/50' 
-            : 'border-gray-200/70 bg-white/90'
+            : 'border-gray-200 bg-white shadow-sm'
         } backdrop-blur-md`}
       >
         <MainNav collapsed={collapsed} />
@@ -29,7 +29,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           className={`mt-auto mb-4 mx-auto p-2 rounded-full transition-colors ${
             isDarkMode 
               ? 'bg-gray-800/50 hover:bg-gray-700/50' 
-              : 'bg-gray-100 hover:bg-gray-200'
+              : 'bg-blue-50 hover:bg-blue-100 text-blue-700'
           }`}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}

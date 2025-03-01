@@ -45,21 +45,21 @@ const Settings = () => {
     <DashboardLayout>
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Settings</h1>
-        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Configure system settings and preferences</p>
+        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Configure system settings and preferences</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className={`${isDarkMode 
           ? 'bg-card backdrop-blur-sm border-gray-700/50' 
-          : 'bg-white border-gray-200/20 shadow-sm'}`}
+          : 'bg-white border-gray-200 shadow-sm'}`}
         >
-          <CardHeader>
+          <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
             <CardTitle className="text-xl flex items-center gap-2">
               <Bell className="h-5 w-5 text-primary" /> 
               Notification Settings
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Shield className="h-5 w-5 text-amber-500" />
@@ -121,15 +121,15 @@ const Settings = () => {
         
         <Card className={`${isDarkMode 
           ? 'bg-card backdrop-blur-sm border-gray-700/50' 
-          : 'bg-white border-gray-200/20 shadow-sm'}`}
+          : 'bg-white border-gray-200 shadow-sm'}`}
         >
-          <CardHeader>
+          <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
             <CardTitle className="text-xl flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" /> 
               Security Settings
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Zap className="h-5 w-5 text-yellow-500" />
@@ -172,15 +172,15 @@ const Settings = () => {
         
         <Card className={`${isDarkMode 
           ? 'bg-card backdrop-blur-sm border-gray-700/50' 
-          : 'bg-white border-gray-200/20 shadow-sm'}`}
+          : 'bg-white border-gray-200 shadow-sm'}`}
         >
-          <CardHeader>
+          <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
             <CardTitle className="text-xl flex items-center gap-2">
               <Globe className="h-5 w-5 text-primary" /> 
               Network Settings
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Wifi className="h-5 w-5 text-cyan-500" />
@@ -223,15 +223,15 @@ const Settings = () => {
         
         <Card className={`${isDarkMode 
           ? 'bg-card backdrop-blur-sm border-gray-700/50' 
-          : 'bg-white border-gray-200/20 shadow-sm'}`}
+          : 'bg-white border-gray-200 shadow-sm'}`}
         >
-          <CardHeader>
+          <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
             <CardTitle className="text-xl flex items-center gap-2">
               <Sun className="h-5 w-5 text-primary" /> 
               Display Settings
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Moon className="h-5 w-5 text-purple-400" />

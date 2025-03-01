@@ -30,9 +30,9 @@
     --radius: 0.75rem;
   }
 
-  /* Light mode - now more refined with better contrast and colors */
+  /* Light mode - updated with fresh, airy colors */
   .light-mode {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
@@ -128,7 +128,7 @@
   
   /* Light mode glass effect */
   .light-mode .glass {
-    @apply bg-black/5 backdrop-blur-lg border border-black/5 rounded-xl shadow-sm;
+    @apply bg-white backdrop-blur-lg border border-gray-200 rounded-xl shadow-sm;
   }
   
   /* Dark mode card effect */
@@ -138,7 +138,7 @@
   
   /* Light mode card effect */
   .light-mode .glass-card {
-    @apply bg-white backdrop-blur-lg border border-gray-100 rounded-xl hover:bg-gray-50 transition-all duration-300 shadow-sm;
+    @apply bg-white backdrop-blur-lg border border-gray-200 rounded-xl hover:bg-blue-50/50 transition-all duration-300 shadow-sm;
   }
   
   .text-gradient {
@@ -147,7 +147,7 @@
 
   /* Light mode specific utility classes */
   .light-mode .card-light {
-    @apply bg-white shadow-sm border border-gray-100;
+    @apply bg-white shadow-sm border border-gray-200;
   }
   
   .light-mode .text-light-primary {
@@ -159,15 +159,15 @@
   }
   
   .light-mode .bg-light-hover {
-    @apply hover:bg-gray-100;
+    @apply hover:bg-blue-50;
   }
   
   /* Additional light mode utility classes for better visuals */
   .light-mode .shadow-soft {
-    @apply shadow-md shadow-gray-100/50;
+    @apply shadow-md shadow-blue-100/50;
   }
   
   .light-mode .border-soft {
-    @apply border border-gray-100;
+    @apply border border-blue-100;
   }
 }

@@ -31,12 +31,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       root.classList.remove('dark-mode');
       localStorage.setItem('theme-mode', 'light');
     }
-    
-    // Force a re-paint to ensure theme changes are applied immediately
-    document.body.style.display = 'none';
-    document.body.offsetHeight; // Trigger a reflow
-    document.body.style.display = '';
-    
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {
