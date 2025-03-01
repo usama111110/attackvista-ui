@@ -31,6 +31,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       root.classList.remove('dark-mode');
       localStorage.setItem('theme-mode', 'light');
     }
+    
+    // Force a re-paint to ensure theme changes are applied
+    document.body.style.display = 'none';
+    setTimeout(() => {
+      document.body.style.display = '';
+    }, 0);
+    
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {

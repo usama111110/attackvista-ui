@@ -139,4 +139,21 @@
   .text-gradient {
     @apply bg-gradient-to-r from-primary to-orange-300 bg-clip-text text-transparent;
   }
+
+  /* Light mode specific utility classes */
+  .light-mode .card-light {
+    @apply bg-white shadow-sm border border-gray-200/70;
+  }
+  
+  .light-mode .text-light-primary {
+    @apply text-gray-800;
+  }
+  
+  .light-mode .text-light-secondary {
+    @apply text-gray-600;
+  }
+  
+  .light-mode .bg-light-hover {
+    @apply hover:bg-gray-100;
+  }
 }

@@ -45,11 +45,11 @@ const Settings = () => {
     <DashboardLayout>
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Settings</h1>
-        <p className="text-gray-400">Configure system settings and preferences</p>
+        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Configure system settings and preferences</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="bg-card backdrop-blur-sm border border-gray-700/50">
+        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Bell className="h-5 w-5 text-primary" /> 
@@ -62,7 +62,7 @@ const Settings = () => {
                 <Shield className="h-5 w-5 text-amber-500" />
                 <div>
                   <p className="text-sm font-medium">Attack Notifications</p>
-                  <p className="text-xs text-gray-400">Get notified when attacks are detected</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Get notified when attacks are detected</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -72,7 +72,7 @@ const Settings = () => {
                   checked={settings.attackNotifications}
                   onChange={() => handleToggle('attackNotifications')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -81,7 +81,7 @@ const Settings = () => {
                 <BellRing className="h-5 w-5 text-blue-500" />
                 <div>
                   <p className="text-sm font-medium">System Notifications</p>
-                  <p className="text-xs text-gray-400">Get notified about system events</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Get notified about system events</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -91,7 +91,7 @@ const Settings = () => {
                   checked={settings.systemNotifications}
                   onChange={() => handleToggle('systemNotifications')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -100,7 +100,7 @@ const Settings = () => {
                 <MailWarning className="h-5 w-5 text-purple-500" />
                 <div>
                   <p className="text-sm font-medium">Email Alerts</p>
-                  <p className="text-xs text-gray-400">Receive critical alerts via email</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Receive critical alerts via email</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -110,13 +110,13 @@ const Settings = () => {
                   checked={settings.emailAlerts}
                   onChange={() => handleToggle('emailAlerts')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="bg-card backdrop-blur-sm border border-gray-700/50">
+        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" /> 
@@ -129,7 +129,7 @@ const Settings = () => {
                 <Zap className="h-5 w-5 text-yellow-500" />
                 <div>
                   <p className="text-sm font-medium">High Security Mode</p>
-                  <p className="text-xs text-gray-400">Enable stricter security checks</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Enable stricter security checks</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -139,7 +139,7 @@ const Settings = () => {
                   checked={settings.highSecurityMode}
                   onChange={() => handleToggle('highSecurityMode')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -148,7 +148,7 @@ const Settings = () => {
                 <EyeOff className="h-5 w-5 text-green-500" />
                 <div>
                   <p className="text-sm font-medium">Auto Logout on Inactivity</p>
-                  <p className="text-xs text-gray-400">Automatically log out when inactive</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Automatically log out when inactive</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -158,13 +158,13 @@ const Settings = () => {
                   checked={settings.logoutOnInactivity}
                   onChange={() => handleToggle('logoutOnInactivity')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="bg-card backdrop-blur-sm border border-gray-700/50">
+        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Globe className="h-5 w-5 text-primary" /> 
@@ -177,7 +177,7 @@ const Settings = () => {
                 <Wifi className="h-5 w-5 text-cyan-500" />
                 <div>
                   <p className="text-sm font-medium">Network Monitoring</p>
-                  <p className="text-xs text-gray-400">Continuously monitor network traffic</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Continuously monitor network traffic</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -187,7 +187,7 @@ const Settings = () => {
                   checked={settings.networkMonitoring}
                   onChange={() => handleToggle('networkMonitoring')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
             
@@ -196,7 +196,7 @@ const Settings = () => {
                 <Globe className="h-5 w-5 text-indigo-500" />
                 <div>
                   <p className="text-sm font-medium">Anonymous Usage Data</p>
-                  <p className="text-xs text-gray-400">Share anonymous data to improve security</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Share anonymous data to improve security</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -206,13 +206,13 @@ const Settings = () => {
                   checked={settings.anonymousUsageData}
                   onChange={() => handleToggle('anonymousUsageData')} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="bg-card backdrop-blur-sm border border-gray-700/50">
+        <Card className={`${isDarkMode ? 'bg-card backdrop-blur-sm border-gray-700/50' : 'bg-white border-gray-200/70'} border`}>
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Sun className="h-5 w-5 text-primary" /> 
@@ -225,7 +225,7 @@ const Settings = () => {
                 <Moon className="h-5 w-5 text-purple-400" />
                 <div>
                   <p className="text-sm font-medium">Dark Mode</p>
-                  <p className="text-xs text-gray-400">Use dark mode for the interface</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Use dark mode for the interface</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -235,7 +235,7 @@ const Settings = () => {
                   checked={isDarkMode}
                   onChange={handleDarkModeToggle} 
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
           </CardContent>
