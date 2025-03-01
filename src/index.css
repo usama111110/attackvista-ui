@@ -6,7 +6,8 @@
 @tailwind utilities;
  
 @layer base {
-  :root {
+  /* Dark mode (default) */
+  :root, .dark-mode {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -29,6 +30,29 @@
     --radius: 0.75rem;
   }
 
+  /* Light mode */
+  .light-mode {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 20%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 24 100% 50%;
+  }
+
   * {
     @apply border-border selection:bg-primary/10 selection:text-primary;
   }
@@ -45,22 +69,40 @@
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
+.dark-mode ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
+.dark-mode ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
 }
 
-::-webkit-scrollbar-thumb {
+.dark-mode ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.dark-mode ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+.light-mode ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.light-mode ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 /* Background patterns */
@@ -82,8 +124,16 @@
     @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl;
   }
   
+  .light-mode .glass {
+    @apply bg-black/5 backdrop-blur-lg border border-black/10 rounded-xl;
+  }
+  
   .glass-card {
     @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300;
+  }
+  
+  .light-mode .glass-card {
+    @apply bg-black/5 backdrop-blur-lg border border-black/10 rounded-xl hover:bg-black/10 transition-all duration-300;
   }
   
   .text-gradient {

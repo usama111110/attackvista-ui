@@ -5,10 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSettingsStore } from "@/utils/notificationUtils";
+import { useTheme } from "@/providers/ThemeProvider";
 
 const Settings = () => {
   const settings = useSettingsStore();
   const { toast } = useToast();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [mounted, setMounted] = useState(false);
   
   // Wait for client-side hydration to avoid hydration mismatch
@@ -22,6 +24,16 @@ const Settings = () => {
     toast({
       title: "Setting Updated",
       description: `${setting.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())} has been ${settings[setting] ? 'disabled' : 'enabled'}.`,
+    });
+  };
+
+  // Handle dark mode toggle specifically
+  const handleDarkModeToggle = () => {
+    toggleDarkMode();
+    
+    toast({
+      title: "Theme Updated",
+      description: `${isDarkMode ? 'Light' : 'Dark'} mode has been enabled.`,
     });
   };
 
@@ -220,8 +232,8 @@ const Settings = () => {
                 <input 
                   type="checkbox" 
                   className="sr-only peer" 
-                  checked={settings.darkMode}
-                  onChange={() => handleToggle('darkMode')} 
+                  checked={isDarkMode}
+                  onChange={handleDarkModeToggle} 
                 />
                 <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
               </label>
