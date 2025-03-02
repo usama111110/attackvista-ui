@@ -40,15 +40,15 @@ const insightsData = [
 
 export function AttackInsights() {
   return (
-    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
+    <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Shield className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-semibold text-gradient">Attack Insights</h3>
+          <h3 className="text-lg font-semibold dark:text-gradient">Attack Insights</h3>
         </div>
-        <div className="flex items-center gap-2 bg-gray-800/40 px-3 py-1 rounded-full border border-gray-700/50 animate-pulse">
-          <Search className="h-4 w-4 text-gray-400" />
-          <span className="text-xs text-gray-400">Real-time analysis</span>
+        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800/40 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700/50 animate-pulse">
+          <Search className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          <span className="text-xs text-gray-600 dark:text-gray-400">Real-time analysis</span>
         </div>
       </div>
       
@@ -56,14 +56,14 @@ export function AttackInsights() {
         {insightsData.map((insight, index) => (
           <div 
             key={index} 
-            className="bg-gray-800/40 rounded-lg p-4 border border-gray-700/50 hover:bg-gray-700/40 transition-all duration-300 hover-lift"
+            className="bg-gray-100 dark:bg-gray-800/40 rounded-lg p-4 border border-gray-200 dark:border-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700/40 transition-all duration-300 hover-lift animate-fade-in"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex items-start gap-3">
               <div className={`p-2 rounded-lg ${
-                insight.severity === "critical" ? "bg-red-900/20 text-red-400" :
-                insight.severity === "high" ? "bg-orange-900/20 text-orange-400" :
-                "bg-blue-900/20 text-blue-400"
+                insight.severity === "critical" ? "bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400" :
+                insight.severity === "high" ? "bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400" :
+                "bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
               }`}>
                 <insight.icon className="h-5 w-5" />
               </div>
@@ -73,27 +73,27 @@ export function AttackInsights() {
                   <h4 className="font-medium">{insight.type}</h4>
                   <div className="flex items-center gap-1">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      insight.severity === "critical" ? "bg-red-900/20 text-red-400" :
-                      insight.severity === "high" ? "bg-orange-900/20 text-orange-400" :
-                      "bg-blue-900/20 text-blue-400"
+                      insight.severity === "critical" ? "bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400" :
+                      insight.severity === "high" ? "bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400" :
+                      "bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                     }`}>
                       {insight.severity.toUpperCase()}
                     </span>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      insight.trend === "increasing" ? "bg-red-900/20 text-red-400" :
-                      insight.trend === "decreasing" ? "bg-green-900/20 text-green-400" :
-                      "bg-gray-700/30 text-gray-400"
+                      insight.trend === "increasing" ? "bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400" :
+                      insight.trend === "decreasing" ? "bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400" :
+                      "bg-gray-200 dark:bg-gray-700/30 text-gray-600 dark:text-gray-400"
                     }`}>
                       {insight.trend.toUpperCase()}
                     </span>
                   </div>
                 </div>
                 
-                <p className="text-sm text-gray-400 mt-1.5">{insight.description}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1.5">{insight.description}</p>
                 
-                <div className="mt-3 bg-gray-900/40 rounded p-2 border border-gray-700/30">
-                  <span className="text-xs text-gray-500">RECOMMENDATION</span>
-                  <p className="text-sm text-gray-300">{insight.recommendation}</p>
+                <div className="mt-3 bg-white/50 dark:bg-gray-900/40 rounded p-2 border border-gray-200 dark:border-gray-700/30">
+                  <span className="text-xs text-gray-500 dark:text-gray-500">RECOMMENDATION</span>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{insight.recommendation}</p>
                 </div>
               </div>
             </div>

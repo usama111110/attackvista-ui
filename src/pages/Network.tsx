@@ -42,141 +42,141 @@ const Network = () => {
 
   return (
     <DashboardLayout>
-      <header className="mb-8">
+      <header className="mb-8 animate-fade-in">
         <h1 className="text-3xl font-bold mb-2">Network Management</h1>
-        <p className="text-gray-400">Manage and monitor your protected network infrastructure</p>
+        <p className="text-gray-600 dark:text-gray-400">Manage and monitor your protected network infrastructure</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
+        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
           <div className="flex items-center gap-4 mb-4">
             <div className="p-3 bg-primary/20 text-primary rounded-lg">
               <NetworkIcon size={24} />
             </div>
             <div>
               <h2 className="text-xl font-semibold">{networkInfo.name}</h2>
-              <p className="text-gray-400">Network ID: {networkInfo.id}</p>
+              <p className="text-gray-600 dark:text-gray-400">Network ID: {networkInfo.id}</p>
             </div>
           </div>
           
           <div className="space-y-4 mt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Globe size={18} className="text-gray-400" />
+                <Globe size={18} className="text-gray-600 dark:text-gray-400" />
                 <span>Subnet</span>
               </div>
-              <span className="font-mono bg-gray-800/50 px-2 py-1 rounded text-primary">{networkInfo.subnet}</span>
+              <span className="font-mono bg-gray-100 dark:bg-gray-800/50 px-2 py-1 rounded text-primary">{networkInfo.subnet}</span>
             </div>
             
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Share2 size={18} className="text-gray-400" />
+                <Share2 size={18} className="text-gray-600 dark:text-gray-400" />
                 <span>Gateway</span>
               </div>
-              <span className="font-mono bg-gray-800/50 px-2 py-1 rounded text-green-400">{networkInfo.gateway}</span>
+              <span className="font-mono bg-gray-100 dark:bg-gray-800/50 px-2 py-1 rounded text-green-600 dark:text-green-400">{networkInfo.gateway}</span>
             </div>
             
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Laptop size={18} className="text-gray-400" />
+                <Laptop size={18} className="text-gray-600 dark:text-gray-400" />
                 <span>DHCP Range</span>
               </div>
-              <span className="font-mono bg-gray-800/50 px-2 py-1 rounded">{networkInfo.dhcpRange}</span>
+              <span className="font-mono bg-gray-100 dark:bg-gray-800/50 px-2 py-1 rounded">{networkInfo.dhcpRange}</span>
             </div>
             
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Server size={18} className="text-gray-400" />
+                <Server size={18} className="text-gray-600 dark:text-gray-400" />
                 <span>DNS Servers</span>
               </div>
               <div className="flex gap-2">
                 {networkInfo.dns.map((dns, index) => (
-                  <span key={index} className="font-mono bg-gray-800/50 px-2 py-1 rounded">{dns}</span>
+                  <span key={index} className="font-mono bg-gray-100 dark:bg-gray-800/50 px-2 py-1 rounded">{dns}</span>
                 ))}
               </div>
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-gray-800/50 p-4 rounded-lg">
+            <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-400">VPN Status</span>
-                <span className={`px-2 py-1 rounded-full text-xs ${networkInfo.vpnEnabled ? "bg-green-900/50 text-green-400" : "bg-red-900/50 text-red-400"}`}>
+                <span className="text-gray-600 dark:text-gray-400">VPN Status</span>
+                <span className={`px-2 py-1 rounded-full text-xs ${networkInfo.vpnEnabled ? "bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400" : "bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400"}`}>
                   {networkInfo.vpnEnabled ? "Enabled" : "Disabled"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Last Scan</span>
+                <span className="text-gray-600 dark:text-gray-400">Last Scan</span>
                 <span>{networkInfo.lastScan}</span>
               </div>
             </div>
             
-            <div className="bg-gray-800/50 p-4 rounded-lg">
+            <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-400">Firewall</span>
-                <span className="px-2 py-1 rounded-full text-xs bg-green-900/50 text-green-400">{networkInfo.firewallStatus}</span>
+                <span className="text-gray-600 dark:text-gray-400">Firewall</span>
+                <span className="px-2 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">{networkInfo.firewallStatus}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Security Level</span>
+                <span className="text-gray-600 dark:text-gray-400">Security Level</span>
                 <span className="text-primary font-medium">{networkInfo.securityLevel}</span>
               </div>
             </div>
           </div>
         </Card>
         
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
+        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
           <div className="flex items-center gap-4 mb-6">
             <div className="p-3 bg-primary/20 text-primary rounded-lg">
               <Shield size={24} />
             </div>
             <div>
               <h2 className="text-xl font-semibold">Protection Status</h2>
-              <p className="text-gray-400">{protectedSystems.length} systems protected</p>
+              <p className="text-gray-600 dark:text-gray-400">{protectedSystems.length} systems protected</p>
             </div>
           </div>
           
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
+              <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
                 <Server size={24} className="text-primary mb-2" />
                 <span className="text-2xl font-bold">
                   {protectedSystems.filter(s => s.type === "Server").length}
                 </span>
-                <span className="text-gray-400">Servers</span>
+                <span className="text-gray-600 dark:text-gray-400">Servers</span>
               </div>
               
-              <div className="bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
-                <Laptop size={24} className="text-blue-400 mb-2" />
+              <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
+                <Laptop size={24} className="text-blue-600 dark:text-blue-400 mb-2" />
                 <span className="text-2xl font-bold">
                   {protectedSystems.filter(s => s.type === "Workstation").length}
                 </span>
-                <span className="text-gray-400">Workstations</span>
+                <span className="text-gray-600 dark:text-gray-400">Workstations</span>
               </div>
               
-              <div className="bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
-                <Smartphone size={24} className="text-yellow-400 mb-2" />
+              <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
+                <Smartphone size={24} className="text-yellow-600 dark:text-yellow-400 mb-2" />
                 <span className="text-2xl font-bold">
                   {protectedSystems.filter(s => s.type === "Mobile").length}
                 </span>
-                <span className="text-gray-400">Mobile Devices</span>
+                <span className="text-gray-600 dark:text-gray-400">Mobile Devices</span>
               </div>
               
-              <div className="bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
-                <Wifi size={24} className="text-green-400 mb-2" />
+              <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg flex flex-col items-center justify-center">
+                <Wifi size={24} className="text-green-600 dark:text-green-400 mb-2" />
                 <span className="text-2xl font-bold">
                   {protectedSystems.filter(s => s.type === "IoT").length}
                 </span>
-                <span className="text-gray-400">IoT Devices</span>
+                <span className="text-gray-600 dark:text-gray-400">IoT Devices</span>
               </div>
             </div>
           </div>
         </Card>
       </div>
       
-      <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 mb-6 data-card">
+      <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 mb-6 data-card hover-lift animate-fade-in">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold">Protected Systems</h3>
-          <div className="flex items-center gap-2 text-sm bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-700/50">
+          <div className="flex items-center gap-2 text-sm bg-gray-100 dark:bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700/50">
             <Shield size={14} className="text-primary" />
             <span>All systems secure</span>
           </div>
@@ -184,17 +184,17 @@ const Network = () => {
         
         <Table>
           <TableHeader>
-            <TableRow className="border-gray-700/50">
-              <TableHead className="text-gray-400">System ID</TableHead>
-              <TableHead className="text-gray-400">System Name</TableHead>
-              <TableHead className="text-gray-400">IP Address</TableHead>
-              <TableHead className="text-gray-400">Type</TableHead>
-              <TableHead className="text-gray-400 text-right">Status</TableHead>
+            <TableRow className="border-gray-200 dark:border-gray-700/50">
+              <TableHead className="text-gray-600 dark:text-gray-400">System ID</TableHead>
+              <TableHead className="text-gray-600 dark:text-gray-400">System Name</TableHead>
+              <TableHead className="text-gray-600 dark:text-gray-400">IP Address</TableHead>
+              <TableHead className="text-gray-600 dark:text-gray-400">Type</TableHead>
+              <TableHead className="text-gray-600 dark:text-gray-400 text-right">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {protectedSystems.map((system) => (
-              <TableRow key={system.id} className="border-gray-700/50">
+              <TableRow key={system.id} className="border-gray-200 dark:border-gray-700/50">
                 <TableCell className="font-mono">{system.id}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
@@ -205,7 +205,7 @@ const Network = () => {
                 <TableCell className="font-mono">{system.ip}</TableCell>
                 <TableCell>{system.type}</TableCell>
                 <TableCell className="text-right">
-                  <span className="px-2 py-1 rounded-full text-xs bg-green-900/50 text-green-400">
+                  <span className="px-2 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">
                     {system.status}
                   </span>
                 </TableCell>

@@ -12,15 +12,15 @@ import { Link } from "react-router-dom";
 const Index = () => {
   return (
     <DashboardLayout>
-      <header className="mb-8">
+      <header className="mb-8 animate-fade-in">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-3xl font-bold">Security Dashboard</h1>
-          <div className="flex items-center gap-2 text-sm bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-700/50">
+          <h1 className="text-3xl font-bold dark:text-gradient">Security Dashboard</h1>
+          <div className="flex items-center gap-2 text-sm bg-gray-100 dark:bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700/50">
             <Loader2 size={14} className="animate-spin text-primary" />
-            <span className="text-gray-300">Live monitoring active</span>
+            <span className="text-gray-700 dark:text-gray-300">Live monitoring active</span>
           </div>
         </div>
-        <p className="text-gray-400">Real-time network security monitoring</p>
+        <p className="text-gray-600 dark:text-gray-400">Real-time network security monitoring</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -39,7 +39,7 @@ const Index = () => {
         <MetricsCard
           title="Network Status"
           value="Stable"
-          icon={<Activity className="text-green-400" />}
+          icon={<Activity className="text-green-600 dark:text-green-400" />}
         />
         <MetricsCard
           title="Protected Systems"
@@ -58,10 +58,10 @@ const Index = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-2">
-          <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px]">
+          <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 h-[400px] hover-lift animate-fade-in">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Global Threat Map</h3>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <span className="w-2 h-2 rounded-full bg-red-500"></span>
                 <span>Live attacks</span>
               </div>
@@ -73,7 +73,7 @@ const Index = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in">
           <h3 className="text-lg font-semibold mb-4">Network Performance</h3>
           <div className="space-y-4">
             {[
@@ -83,13 +83,13 @@ const Index = () => {
             ].map((item, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gray-700/50 rounded-lg">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg">
                     {item.icon}
                   </div>
                   <span>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-36 h-2 bg-gray-700/50 rounded-full overflow-hidden">
+                  <div className="w-36 h-2 bg-gray-200 dark:bg-gray-700/50 rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-primary rounded-full" 
                       style={{ width: `${item.value}%` }}
@@ -102,7 +102,7 @@ const Index = () => {
           </div>
         </Card>
 
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in">
           <h3 className="text-lg font-semibold mb-4">System Health</h3>
           <div className="space-y-4">
             {[
@@ -112,13 +112,13 @@ const Index = () => {
             ].map((item, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gray-700/50 rounded-lg">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg">
                     {item.icon}
                   </div>
                   <span>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-36 h-2 bg-gray-700/50 rounded-full overflow-hidden">
+                  <div className="w-36 h-2 bg-gray-200 dark:bg-gray-700/50 rounded-full overflow-hidden">
                     <div 
                       className={`h-full rounded-full ${
                         item.value > 80 ? 'bg-red-500' : 
@@ -136,7 +136,7 @@ const Index = () => {
         </Card>
       </div>
 
-      <div className="bg-card p-6 rounded-lg backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 mb-6">
+      <div className="bg-white/90 dark:bg-gray-800/20 p-6 rounded-lg backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 mb-6 hover-lift animate-fade-in">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Recent Attacks</h3>
           <Link to="/live-traffic" className="text-xs text-primary hover:underline">View all</Link>
@@ -147,23 +147,23 @@ const Index = () => {
             { type: "SQL Injection", ip: "192.168.1.45", time: "15 min ago", severity: "Critical" },
             { type: "Brute Force", ip: "192.168.2.12", time: "1 hour ago", severity: "Medium" }
           ].map((attack, i) => (
-            <div key={i} className="flex items-center justify-between p-4 bg-black/20 rounded-lg hover:bg-black/30 transition-colors">
+            <div key={i} className="flex items-center justify-between p-4 bg-gray-100/70 dark:bg-black/20 rounded-lg hover:bg-gray-200/70 dark:hover:bg-black/30 transition-colors">
               <div className="flex items-center gap-4">
                 <Network className="text-primary" />
                 <div>
                   <p className="font-medium">{attack.type}</p>
-                  <p className="text-sm text-gray-400">{attack.ip}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{attack.ip}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <span className={`px-2 py-1 rounded-full text-xs ${
-                  attack.severity === "Critical" ? "bg-red-900/50 text-red-400" :
-                  attack.severity === "High" ? "bg-orange-900/50 text-orange-400" :
-                  "bg-yellow-900/50 text-yellow-400"
+                  attack.severity === "Critical" ? "bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400" :
+                  attack.severity === "High" ? "bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400" :
+                  "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400"
                 }`}>
                   {attack.severity}
                 </span>
-                <span className="text-sm text-gray-400">{attack.time}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">{attack.time}</span>
                 <button className="p-1.5 bg-primary/20 text-primary rounded-md hover:bg-primary/30 transition-colors">
                   <Lock size={16} />
                 </button>

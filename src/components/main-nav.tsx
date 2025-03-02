@@ -52,14 +52,14 @@ export function MainNav({ collapsed = false }: MainNavProps) {
   };
   
   return (
-    <nav className="py-4 px-2 space-y-1 flex-1">
+    <nav className="py-4 px-2 space-y-1 flex-1 animate-fade-in">
       <div className={`mb-8 ${collapsed ? 'px-2 justify-center' : 'px-4'} flex items-center`}>
         <div className={`flex items-center gap-2 text-primary font-bold ${collapsed ? 'justify-center' : 'text-xl'}`}>
           {collapsed ? (
             <img 
               src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
               alt="NetworkFort Logo" 
-              className="h-8 w-8 object-contain"
+              className="h-8 w-8 object-contain hover-lift transition-all duration-300"
             />
           ) : (
             <>
@@ -79,7 +79,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
           key={item.path}
           to={item.path}
           className={cn(
-            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200",
+            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 hover-lift",
             collapsed ? "justify-center" : "",
             location.pathname === item.path
               ? "bg-primary/20 text-primary"
@@ -94,11 +94,11 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         </Link>
       ))}
       
-      <div className="pt-6 mt-6 border-t border-gray-800/50">
+      <div className="pt-6 mt-6 border-t border-gray-200 dark:border-gray-800/50">
         <Link
           to="/notifications"
           className={cn(
-            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200",
+            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 hover-lift",
             collapsed ? "justify-center" : "",
             location.pathname === "/notifications" 
               ? "bg-primary/20 text-primary" 
@@ -114,7 +114,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         <button
           onClick={handleLogout}
           className={cn(
-            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 w-full",
+            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 w-full hover-lift",
             collapsed ? "justify-center" : "",
             isDarkMode 
               ? "text-gray-400 hover:text-white hover:bg-white/10" 

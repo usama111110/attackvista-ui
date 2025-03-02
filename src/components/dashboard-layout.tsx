@@ -13,7 +13,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isDarkMode } = useTheme();
 
   return (
-    <div className={`min-h-screen flex ${isDarkMode 
+    <div className={`min-h-screen flex animate-fade-in ${isDarkMode 
       ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 animated-gradient' 
       : 'bg-gradient-to-br from-blue-50 via-white to-slate-50 text-gray-800'}`}>
       <aside 

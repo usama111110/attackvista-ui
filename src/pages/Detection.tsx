@@ -41,21 +41,21 @@ const Detection = () => {
 
   return (
     <DashboardLayout>
-      <header className="mb-6">
+      <header className="mb-6 animate-fade-in">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2 text-gradient">Attack Detection</h1>
-            <p className="text-gray-400">Monitor and analyze security threats across your network</p>
+            <h1 className="text-3xl font-bold mb-2 dark:text-gradient">Attack Detection</h1>
+            <p className="text-gray-600 dark:text-gray-400">Monitor and analyze security threats across your network</p>
           </div>
-          <div className="flex items-center gap-2 bg-red-900/20 px-4 py-2 rounded-lg border border-red-700/50 animate-pulse">
-            <AlertTriangle className="h-5 w-5 text-red-400" />
-            <span className="text-sm font-medium text-red-400">27 Active Threats Detected</span>
+          <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900/20 px-4 py-2 rounded-lg border border-red-200 dark:border-red-700/50 animate-pulse">
+            <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+            <span className="text-sm font-medium text-red-600 dark:text-red-400">27 Active Threats Detected</span>
           </div>
         </div>
       </header>
 
       {/* Time Filter */}
-      <div className="mb-6">
+      <div className="mb-6 animate-fade-in">
         <TimeFilter value={timeRange} onChange={setTimeRange} />
       </div>
 
@@ -86,12 +86,12 @@ const Detection = () => {
               onBack={() => setSelectedAttackId(null)}
             />
           ) : (
-            <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
+            <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5 text-primary" />
                 Select an attack type to view detailed analysis
               </h3>
-              <p className="text-gray-400 mb-4">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Click on any attack type from the list to view detailed graphs and analysis for that specific attack.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -99,10 +99,10 @@ const Detection = () => {
                   <button
                     key={attack.id}
                     onClick={() => setSelectedAttackId(attack.id)}
-                    className="p-4 rounded-lg border border-gray-700/50 hover:bg-gray-700/30 transition-all duration-300 hover:scale-105 text-left hover-lift shadow-glow"
+                    className="p-4 rounded-lg border border-gray-200 dark:border-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700/30 transition-all duration-300 hover:scale-105 text-left hover-lift shadow-glow"
                   >
                     <div className="font-medium">{attack.name}</div>
-                    <div className="text-sm text-gray-400 mt-1">{attack.value} incidents</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">{attack.value} incidents</div>
                   </button>
                 ))}
               </div>
@@ -117,9 +117,9 @@ const Detection = () => {
       {/* Attack types visualization */}
       {!selectedAttack && (
         <>
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 animate-fade-in">
             <LineChart className="h-5 w-5 text-primary" />
-            <span className="text-gradient">Attack Types Analysis</span>
+            <span className="dark:text-gradient">Attack Types Analysis</span>
           </h2>
           <AttackTypesVisualization />
         </>

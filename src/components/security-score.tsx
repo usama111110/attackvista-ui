@@ -38,9 +38,9 @@ export function SecurityScore({ score }: SecurityScoreProps) {
 
   // Calculate description and icon based on score
   const getDescription = () => {
-    if (score >= 80) return { text: "Good", icon: <Shield className="text-green-500" /> };
-    if (score >= 60) return { text: "Fair", icon: <Shield className="text-yellow-500" /> };
-    return { text: "Poor", icon: <AlertTriangle className="text-red-500" /> };
+    if (score >= 80) return { text: "Good", icon: <Shield className="text-green-600 dark:text-green-500" /> };
+    if (score >= 60) return { text: "Fair", icon: <Shield className="text-yellow-600 dark:text-yellow-500" /> };
+    return { text: "Poor", icon: <AlertTriangle className="text-red-600 dark:text-red-500" /> };
   };
 
   const color = getColor();
@@ -54,8 +54,8 @@ export function SecurityScore({ score }: SecurityScoreProps) {
   const strokeDashoffset = circumference - (animatedScore / 100) * circumference;
 
   return (
-    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px] flex flex-col items-center justify-center data-card hover-lift transition-all duration-300">
-      <h3 className="text-lg font-semibold mb-4 text-gradient">Security Score</h3>
+    <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 h-[400px] flex flex-col items-center justify-center data-card hover-lift transition-all duration-300 animate-fade-in">
+      <h3 className="text-lg font-semibold mb-4 dark:text-gradient">Security Score</h3>
       
       <div className="relative">
         {/* Background circle */}
@@ -86,7 +86,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         {/* Score text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="text-4xl font-bold">{animatedScore}</div>
-          <div className="text-sm text-gray-400">out of 100</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">out of 100</div>
         </div>
       </div>
       
