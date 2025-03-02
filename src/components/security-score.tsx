@@ -32,7 +32,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
-    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px] flex flex-col items-center justify-center">
+    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px] flex flex-col items-center justify-center data-card">
       <h3 className="text-lg font-semibold mb-4">Security Score</h3>
       
       <div className="relative">

@@ -16,7 +16,7 @@ interface MetricsCardProps {
 export function MetricsCard({ title, value, icon, className, trend }: MetricsCardProps) {
   return (
     <Card className={cn(
-      "p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 hover:bg-gray-700/30 transition-all duration-300 overflow-hidden relative group", 
+      "p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 hover:bg-gray-700/30 transition-all duration-300 overflow-hidden relative group data-card", 
       className
     )}>
       <div className="absolute -right-12 -top-12 w-24 h-24 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-all duration-300"></div>

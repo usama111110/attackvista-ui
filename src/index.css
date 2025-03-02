@@ -123,22 +123,26 @@
   
   /* Dark mode glass effect */
   .dark-mode .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl;
+    @apply bg-white/5 border border-white/10 rounded-xl;
+    backdrop-filter: blur(16px);
   }
   
   /* Light mode glass effect */
   .light-mode .glass {
-    @apply bg-white backdrop-blur-lg border border-gray-200 rounded-xl shadow-sm;
+    @apply bg-white border border-gray-200 rounded-xl shadow-sm;
+    backdrop-filter: blur(16px);
   }
   
   /* Dark mode card effect */
   .dark-mode .glass-card {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300;
+    @apply bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300;
+    backdrop-filter: blur(16px);
   }
   
   /* Light mode card effect */
   .light-mode .glass-card {
-    @apply bg-white backdrop-blur-lg border border-gray-200 rounded-xl hover:bg-blue-50/50 transition-all duration-300 shadow-sm;
+    @apply bg-white border border-gray-200 rounded-xl hover:bg-blue-50/50 transition-all duration-300 shadow-sm;
+    backdrop-filter: blur(16px);
   }
   
   .text-gradient {
@@ -177,28 +181,29 @@
     @apply bg-white border-gray-200;
   }
   
-  /* Data box styling for light mode */
-  .light-mode .backdrop-blur-lg.bg-gray-800\/20.border.border-gray-700\/50 {
-    @apply bg-gradient-to-br from-white to-blue-50/80 border-gray-200 text-gray-800 shadow-sm;
+  /* Data box styling for light mode - Fixed to avoid circular dependency */
+  .light-mode .data-card {
+    background: linear-gradient(to bottom right, white, rgba(219, 234, 254, 0.8));
+    border-color: rgb(229, 231, 235);
+    color: rgb(31, 41, 55);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(16px);
   }
   
-  .light-mode .backdrop-blur-lg.bg-gray-800\/20.border.border-gray-700\/50 .text-gray-400 {
-    @apply text-gray-500;
+  .light-mode .data-card .text-gray-400,
+  .light-mode .data-card .text-gray-500 {
+    color: rgb(107, 114, 128);
   }
   
-  .light-mode .backdrop-blur-lg.bg-gray-800\/20.border.border-gray-700\/50 .text-gray-500 {
-    @apply text-gray-500;
-  }
-  
-  .light-mode .bg-gray-800\/40 {
+  .light-mode .bg-gray-800\\/40 {
     @apply bg-blue-50;
   }
   
-  .light-mode .hover\:bg-gray-700\/40:hover {
+  .light-mode .hover\\:bg-gray-700\\/40:hover {
     @apply hover:bg-blue-100;
   }
   
-  .light-mode .hover\:bg-gray-700\/30:hover {
+  .light-mode .hover\\:bg-gray-700\\/30:hover {
     @apply hover:bg-blue-50;
   }
   
