@@ -149,7 +149,7 @@
     @apply bg-gradient-to-r from-primary to-orange-300 bg-clip-text text-transparent;
   }
 
-  /* Light mode specific utility classes */
+  /* Light mode specific utility classes - IMPROVED COLORS */
   .light-mode .card-light {
     @apply bg-white shadow-sm border border-gray-200;
   }
@@ -181,22 +181,40 @@
     @apply bg-white border-gray-200;
   }
   
-  /* Data box styling for light mode - Fixed to avoid circular dependency */
+  /* Data box styling for light mode - Improved for better contrast */
   .light-mode .data-card {
-    background: linear-gradient(to bottom right, white, rgba(219, 234, 254, 0.8));
+    background: linear-gradient(to bottom right, white, rgba(243, 244, 246, 0.8));
     border-color: rgb(229, 231, 235);
     color: rgb(31, 41, 55);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(16px);
   }
   
   .light-mode .data-card .text-gray-400,
   .light-mode .data-card .text-gray-500 {
-    color: rgb(107, 114, 128);
+    color: rgb(75, 85, 99);
+  }
+
+  /* Fixed hover styles for nav items */
+  .light-mode .hover\:text-white:hover {
+    @apply text-gray-800;
   }
   
+  /* Background color fixes for light mode */
   .light-mode .bg-gray-800\/40 {
-    @apply bg-blue-50;
+    @apply bg-gray-100;
+  }
+  
+  .light-mode .bg-gray-800\/20 {
+    @apply bg-white;
+  }
+  
+  .light-mode .bg-black\/20 {
+    @apply bg-gray-50;
+  }
+  
+  .light-mode .hover\:bg-black\/30:hover {
+    @apply hover:bg-gray-100;
   }
   
   .light-mode .hover\:bg-gray-700\/40:hover {
@@ -207,7 +225,71 @@
     @apply hover:bg-blue-50;
   }
   
+  /* Text color fixes for light mode */
   .light-mode .text-gray-300 {
     @apply text-gray-600;
+  }
+  
+  .light-mode .text-gray-400 {
+    @apply text-gray-600;
+  }
+
+  /* Border color fixes */
+  .light-mode .border-gray-700\/50 {
+    @apply border-gray-200;
+  }
+  
+  .light-mode .border-gray-800\/50 {
+    @apply border-gray-200;
+  }
+  
+  .light-mode .border-white\/10 {
+    @apply border-gray-200;
+  }
+  
+  /* Background color for buttons */
+  .light-mode .bg-gray-700 {
+    @apply bg-gray-200;
+  }
+  
+  .light-mode .hover\:bg-gray-600:hover {
+    @apply hover:bg-gray-300;
+  }
+  
+  .light-mode .bg-gray-700\/50 {
+    @apply bg-gray-100;
+  }
+  
+  /* Status colors for light mode */
+  .light-mode .bg-red-900\/50 {
+    @apply bg-red-100;
+  }
+  
+  .light-mode .text-red-400 {
+    @apply text-red-600;
+  }
+  
+  .light-mode .bg-orange-900\/50 {
+    @apply bg-orange-100;
+  }
+  
+  .light-mode .text-orange-400 {
+    @apply text-orange-600;
+  }
+  
+  .light-mode .bg-yellow-900\/50 {
+    @apply bg-yellow-100;
+  }
+  
+  .light-mode .text-yellow-400 {
+    @apply text-yellow-600;
+  }
+  
+  .light-mode .bg-primary\/20 {
+    @apply bg-orange-100;
+  }
+  
+  .light-mode .hover\:bg-primary\/30:hover {
+    @apply hover:bg-orange-200;
   }
 }

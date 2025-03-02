@@ -43,7 +43,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
             cy={size / 2}
             r={radius}
             fill="transparent"
-            stroke="rgba(255,255,255,0.1)"
+            stroke="rgba(0,0,0,0.1)"
             strokeWidth={strokeWidth}
           />
           {/* Foreground circle */}
