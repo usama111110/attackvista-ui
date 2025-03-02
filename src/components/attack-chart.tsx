@@ -12,8 +12,8 @@ const data = [
 
 export function AttackChart() {
   return (
-    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px]">
-      <h3 className="text-lg font-semibold mb-6">Attack Distribution</h3>
+    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px] data-card hover-lift transition-all duration-300">
+      <h3 className="text-lg font-semibold mb-6 text-gradient">Attack Distribution</h3>
       <ResponsiveContainer width="100%" height="85%">
         <BarChart data={data} layout="vertical" margin={{ top: 5, right: 5, left: 20, bottom: 5 }}>
           <XAxis 
@@ -45,10 +45,11 @@ export function AttackChart() {
           />
           <Bar 
             dataKey="value" 
-            fill="#2DD4BF"
+            fill="#FF7B00"
             radius={[0, 4, 4, 0]}
             barSize={24}
             background={{ fill: 'rgba(255, 255, 255, 0.05)' }}
+            animationDuration={1500}
           />
         </BarChart>
       </ResponsiveContainer>

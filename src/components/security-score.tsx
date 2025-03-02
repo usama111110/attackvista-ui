@@ -1,4 +1,5 @@
 
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Shield, AlertTriangle } from "lucide-react";
 
@@ -7,6 +8,27 @@ interface SecurityScoreProps {
 }
 
 export function SecurityScore({ score }: SecurityScoreProps) {
+  const [animatedScore, setAnimatedScore] = useState(0);
+  
+  // Animate the score on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const interval = setInterval(() => {
+        setAnimatedScore(prev => {
+          if (prev >= score) {
+            clearInterval(interval);
+            return score;
+          }
+          return prev + 1;
+        });
+      }, 20);
+      
+      return () => clearInterval(interval);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [score]);
+
   // Calculate color based on score
   const getColor = () => {
     if (score >= 80) return "#10B981"; // Green
@@ -29,11 +51,11 @@ export function SecurityScore({ score }: SecurityScoreProps) {
   const strokeWidth = 12;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (score / 100) * circumference;
+  const strokeDashoffset = circumference - (animatedScore / 100) * circumference;
 
   return (
-    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px] flex flex-col items-center justify-center data-card">
-      <h3 className="text-lg font-semibold mb-4">Security Score</h3>
+    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 h-[400px] flex flex-col items-center justify-center data-card hover-lift transition-all duration-300">
+      <h3 className="text-lg font-semibold mb-4 text-gradient">Security Score</h3>
       
       <div className="relative">
         {/* Background circle */}
@@ -63,7 +85,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         
         {/* Score text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-4xl font-bold">{score}</div>
+          <div className="text-4xl font-bold">{animatedScore}</div>
           <div className="text-sm text-gray-400">out of 100</div>
         </div>
       </div>
@@ -76,7 +98,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         </div>
       </div>
       
-      <button className="mt-4 text-primary hover:underline text-sm">View details</button>
+      <button className="mt-4 text-primary hover:underline text-sm bg-primary/10 px-3 py-1 rounded-full hover:bg-primary/20 transition-colors">View details</button>
     </Card>
   );
 }

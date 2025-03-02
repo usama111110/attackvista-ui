@@ -40,13 +40,13 @@ const insightsData = [
 
 export function AttackInsights() {
   return (
-    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+    <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Shield className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-semibold">Attack Insights</h3>
+          <h3 className="text-lg font-semibold text-gradient">Attack Insights</h3>
         </div>
-        <div className="flex items-center gap-2 bg-gray-800/40 px-3 py-1 rounded-full border border-gray-700/50">
+        <div className="flex items-center gap-2 bg-gray-800/40 px-3 py-1 rounded-full border border-gray-700/50 animate-pulse">
           <Search className="h-4 w-4 text-gray-400" />
           <span className="text-xs text-gray-400">Real-time analysis</span>
         </div>
@@ -56,7 +56,8 @@ export function AttackInsights() {
         {insightsData.map((insight, index) => (
           <div 
             key={index} 
-            className="bg-gray-800/40 rounded-lg p-4 border border-gray-700/50"
+            className="bg-gray-800/40 rounded-lg p-4 border border-gray-700/50 hover:bg-gray-700/40 transition-all duration-300 hover-lift"
+            style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex items-start gap-3">
               <div className={`p-2 rounded-lg ${
