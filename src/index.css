@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -291,5 +290,18 @@
   
   .light-mode .hover\:bg-primary\/30:hover {
     @apply hover:bg-orange-200;
+  }
+
+  /* Fix missing text in light mode for specific components with dark backgrounds */
+  .light-mode .bg-gray-800\/20,
+  .light-mode .bg-gray-800\/50,
+  .light-mode .bg-gray-700\/50,
+  .light-mode .bg-gray-900\/50 {
+    @apply text-gray-800;
+  }
+
+  /* Fix font-mono backgrounds in light mode */
+  .light-mode .font-mono.bg-gray-800\/50 {
+    @apply bg-gray-100 text-gray-800;
   }
 }

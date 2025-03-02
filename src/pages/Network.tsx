@@ -48,7 +48,7 @@ const Network = () => {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
           <div className="flex items-center gap-4 mb-4">
             <div className="p-3 bg-primary/20 text-primary rounded-lg">
               <NetworkIcon size={24} />
@@ -63,7 +63,7 @@ const Network = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Globe size={18} className="text-gray-400" />
-                <span className="text-gray-300">Subnet</span>
+                <span>Subnet</span>
               </div>
               <span className="font-mono bg-gray-800/50 px-2 py-1 rounded text-primary">{networkInfo.subnet}</span>
             </div>
@@ -71,7 +71,7 @@ const Network = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Share2 size={18} className="text-gray-400" />
-                <span className="text-gray-300">Gateway</span>
+                <span>Gateway</span>
               </div>
               <span className="font-mono bg-gray-800/50 px-2 py-1 rounded text-green-400">{networkInfo.gateway}</span>
             </div>
@@ -79,7 +79,7 @@ const Network = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Laptop size={18} className="text-gray-400" />
-                <span className="text-gray-300">DHCP Range</span>
+                <span>DHCP Range</span>
               </div>
               <span className="font-mono bg-gray-800/50 px-2 py-1 rounded">{networkInfo.dhcpRange}</span>
             </div>
@@ -87,7 +87,7 @@ const Network = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Server size={18} className="text-gray-400" />
-                <span className="text-gray-300">DNS Servers</span>
+                <span>DNS Servers</span>
               </div>
               <div className="flex gap-2">
                 {networkInfo.dns.map((dns, index) => (
@@ -107,7 +107,7 @@ const Network = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Last Scan</span>
-                <span className="text-gray-300">{networkInfo.lastScan}</span>
+                <span>{networkInfo.lastScan}</span>
               </div>
             </div>
             
@@ -124,7 +124,7 @@ const Network = () => {
           </div>
         </Card>
         
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 data-card">
           <div className="flex items-center gap-4 mb-6">
             <div className="p-3 bg-primary/20 text-primary rounded-lg">
               <Shield size={24} />
@@ -173,12 +173,12 @@ const Network = () => {
         </Card>
       </div>
       
-      <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 mb-6">
+      <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50 mb-6 data-card">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold">Protected Systems</h3>
           <div className="flex items-center gap-2 text-sm bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-700/50">
             <Shield size={14} className="text-primary" />
-            <span className="text-gray-300">All systems secure</span>
+            <span>All systems secure</span>
           </div>
         </div>
         
