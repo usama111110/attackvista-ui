@@ -195,15 +195,15 @@
     color: rgb(107, 114, 128);
   }
   
-  .light-mode .bg-gray-800\\/40 {
+  .light-mode .bg-gray-800\/40 {
     @apply bg-blue-50;
   }
   
-  .light-mode .hover\\:bg-gray-700\\/40:hover {
+  .light-mode .hover\:bg-gray-700\/40:hover {
     @apply hover:bg-blue-100;
   }
   
-  .light-mode .hover\\:bg-gray-700\\/30:hover {
+  .light-mode .hover\:bg-gray-700\/30:hover {
     @apply hover:bg-blue-50;
   }
   
