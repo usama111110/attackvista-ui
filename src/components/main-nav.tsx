@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useUserStore } from "@/utils/userDatabase";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
+import { useTheme } from "@/providers/ThemeProvider";
 
 const navItems = [
   { icon: Shield, label: "Dashboard", path: "/" },
@@ -24,6 +25,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentUser, logout } = useUserStore();
+  const { isDarkMode } = useTheme();
   
   // Check if user is authenticated
   useEffect(() => {
@@ -81,7 +83,9 @@ export function MainNav({ collapsed = false }: MainNavProps) {
             collapsed ? "justify-center" : "",
             location.pathname === item.path
               ? "bg-primary/20 text-primary"
-              : "text-gray-400 hover:text-white hover:bg-white/10"
+              : isDarkMode 
+                ? "text-gray-400 hover:text-white hover:bg-white/10" 
+                : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
           )}
           title={collapsed ? item.label : undefined}
         >
@@ -94,9 +98,13 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         <Link
           to="/notifications"
           className={cn(
-            "flex items-center gap-3 px-3 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200",
+            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200",
             collapsed ? "justify-center" : "",
-            location.pathname === "/notifications" ? "bg-primary/20 text-primary" : ""
+            location.pathname === "/notifications" 
+              ? "bg-primary/20 text-primary" 
+              : isDarkMode 
+                ? "text-gray-400 hover:text-white hover:bg-white/10" 
+                : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
           )}
           title={collapsed ? "Notifications" : undefined}
         >
@@ -106,8 +114,11 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         <button
           onClick={handleLogout}
           className={cn(
-            "flex items-center gap-3 px-3 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 w-full",
-            collapsed ? "justify-center" : ""
+            "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 w-full",
+            collapsed ? "justify-center" : "",
+            isDarkMode 
+              ? "text-gray-400 hover:text-white hover:bg-white/10" 
+              : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
           )}
           title={collapsed ? "Logout" : undefined}
         >

@@ -20,8 +20,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         className={`${collapsed ? 'w-16' : 'w-64'} border-r transition-all duration-300 ease-in-out flex flex-col ${
           isDarkMode 
             ? 'border-gray-800/50 bg-gray-900/50' 
-            : 'border-gray-200 bg-white shadow-sm'
-        } backdrop-blur-md`}
+            : 'border-gray-200 bg-white/80 shadow-sm backdrop-blur-md'
+        }`}
       >
         <MainNav collapsed={collapsed} />
         <button 

@@ -170,4 +170,39 @@
   .light-mode .border-soft {
     @apply border border-blue-100;
   }
+  
+  /* Card styling for light mode */
+  .light-mode .Card, 
+  .light-mode .card {
+    @apply bg-white border-gray-200;
+  }
+  
+  /* Data box styling for light mode */
+  .light-mode .backdrop-blur-lg.bg-gray-800\/20.border.border-gray-700\/50 {
+    @apply bg-gradient-to-br from-white to-blue-50/80 border-gray-200 text-gray-800 shadow-sm;
+  }
+  
+  .light-mode .backdrop-blur-lg.bg-gray-800\/20.border.border-gray-700\/50 .text-gray-400 {
+    @apply text-gray-500;
+  }
+  
+  .light-mode .backdrop-blur-lg.bg-gray-800\/20.border.border-gray-700\/50 .text-gray-500 {
+    @apply text-gray-500;
+  }
+  
+  .light-mode .bg-gray-800\/40 {
+    @apply bg-blue-50;
+  }
+  
+  .light-mode .hover\:bg-gray-700\/40:hover {
+    @apply hover:bg-blue-100;
+  }
+  
+  .light-mode .hover\:bg-gray-700\/30:hover {
+    @apply hover:bg-blue-50;
+  }
+  
+  .light-mode .text-gray-300 {
+    @apply text-gray-600;
+  }
 }

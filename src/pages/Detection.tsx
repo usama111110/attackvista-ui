@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { DNSDataVisualization } from "@/components/dns-data-visualization";
 import { AttackTypesVisualization } from "@/components/attack-types-visualization";
 import { AttackInsights } from "@/components/attack-insights";
 import { AttackChart } from "@/components/attack-chart";
@@ -132,23 +131,9 @@ const Detection = () => {
         </>
       )}
 
-      {/* Attack insights and DNS analysis */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+      {/* Attack insights section */}
+      <div className="mt-6">
         <AttackInsights />
-        <Card className="p-6 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
-          <div className="flex items-center gap-2 mb-4">
-            <Shield className="h-5 w-5 text-primary" />
-            <h3 className="text-lg font-semibold">DNS Attack Investigation</h3>
-          </div>
-          <div className="bg-gray-800/40 rounded-lg p-4 border border-gray-700/50 mb-4">
-            <p className="text-sm text-gray-300">
-              The DNS analysis shows suspicious patterns with high rates of requests to domain names
-              that appear to be randomly generated. This is a common sign of DNS exfiltration or
-              communication with command and control servers.
-            </p>
-          </div>
-          <DNSDataVisualization />
-        </Card>
       </div>
     </DashboardLayout>
   );

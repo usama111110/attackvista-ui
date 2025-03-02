@@ -1,69 +1,190 @@
-# Welcome to your Lovable project
 
-## Project info
+# NetworkFort - Network Security Monitoring Dashboard
 
-**URL**: https://lovable.dev/projects/5a135d50-8b2f-4518-8223-36a4be4055a2
+NetworkFort is a comprehensive network security monitoring dashboard that helps security professionals detect, analyze, and respond to cyber threats in real-time.
 
-## How can I edit this code?
+![NetworkFort Logo](/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png)
 
-There are several ways of editing your application.
+## 📚 Table of Contents
 
-**Use Lovable**
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Components Overview](#components-overview)
+- [Pages Overview](#pages-overview)
+- [Authentication](#authentication)
+- [Theming](#theming)
+- [Development Guidelines](#development-guidelines)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5a135d50-8b2f-4518-8223-36a4be4055a2) and start prompting.
+## 🌟 Introduction
 
-Changes made via Lovable will be committed automatically to this repo.
+NetworkFort is a modern web application built with React, TypeScript, and Tailwind CSS to provide network administrators and security professionals with a powerful dashboard for monitoring and responding to security threats.
 
-**Use your preferred IDE**
+The application offers real-time visibility into network traffic, attack detection, user activity, and system health, helping organizations enhance their security posture and respond quickly to potential threats.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🚀 Features
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **Dashboard Overview**: Get a quick snapshot of your network security status
+- **Attack Detection**: Identify and analyze different types of attacks
+- **Live Traffic Monitoring**: Watch network traffic in real-time
+- **Network Visualization**: See your network topology and connections
+- **User Management**: Monitor and manage user activities
+- **Dark/Light Mode**: Toggle between dark and light themes for better visibility
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
 
-Follow these steps:
+## 🏁 Getting Started
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Prerequisites
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Node.js (v14 or higher)
+- npm or yarn
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Installation
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+
+4. Open your browser and navigate to:
+   ```
+   http://localhost:5173
+   ```
+
+### Default Login
+
+Use the following credentials to log in:
+- **Email**: admin@networkfort.com
+- **Password**: password123
+
+## 📂 Project Structure
+
+```
+src/
+│
+├── components/       # Reusable UI components
+│   ├── ui/           # Basic UI elements (buttons, cards, etc.)
+│   └── ...           # Feature-specific components
+│
+├── hooks/            # Custom React hooks
+│
+├── lib/              # Utility functions and libraries
+│
+├── pages/            # Application pages/routes
+│
+├── providers/        # Context providers
+│
+├── utils/            # Helper functions
+│
+├── App.tsx           # Main application component
+│
+└── main.tsx          # Application entry point
 ```
 
-**Edit a file directly in GitHub**
+## 🧩 Components Overview
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### UI Components
 
-**Use GitHub Codespaces**
+- **Card**: Container for displaying grouped information
+- **Button**: Interactive button elements
+- **Dashboard Layout**: Main layout structure for the application
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Feature Components
 
-## What technologies are used for this project?
+- **AttackChart**: Visualizes attack metrics over time
+- **AttackTypesVisualization**: Shows distribution of different attack types
+- **AttackInsights**: Provides analysis of detected attacks
+- **LiveTrafficGraph**: Displays real-time network traffic
+- **ThreatMap**: Geographical visualization of attack sources
+- **SecurityScore**: Summary of overall security health
 
-This project is built with .
+## 📄 Pages Overview
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Dashboard (/)**: Overview of security metrics and alerts
+- **Detection (/detection)**: Detailed view of detected attacks 
+- **Live Traffic (/live-traffic)**: Real-time monitoring of network traffic
+- **Network (/network)**: Network topology and connections
+- **Users (/users)**: User management and activities
+- **Settings (/settings)**: Application configuration
+- **Notifications (/notifications)**: System and security notifications
+- **Login (/login)**: Authentication page
 
-## How can I deploy this project?
+## 🔐 Authentication
 
-Simply open [Lovable](https://lovable.dev/projects/5a135d50-8b2f-4518-8223-36a4be4055a2) and click on Share -> Publish.
+NetworkFort uses a simple authentication system with JWT tokens. User credentials are validated and upon successful authentication, a token is stored in the application state using the `useUserStore` hook.
 
-## I want to use a custom domain - is that possible?
+The authentication flow is handled in the Login page and MainNav component, which checks for user authentication status on protected routes.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## 🎨 Theming
+
+The application supports both dark and light modes, controlled by the ThemeProvider. 
+
+### Theme Switching
+
+The theme can be toggled in the Settings page. The ThemeProvider manages the current theme state and applies the appropriate CSS classes to the application.
+
+### CSS Variables
+
+The theme is implemented using CSS variables defined in `index.css`. These variables control colors, spacing, and other visual aspects of the application.
+
+## 💻 Development Guidelines
+
+### Adding New Components
+
+1. Create a new file in the appropriate directory
+2. Export the component as the default export
+3. Use TypeScript interfaces for props
+4. Follow the existing styling patterns using Tailwind CSS
+
+### Adding New Pages
+
+1. Create a new file in the `pages` directory
+2. Use the DashboardLayout component for consistency
+3. Add the route to the main navigation in `main-nav.tsx`
+
+### State Management
+
+- Use React's built-in state management (useState, useContext) for component-level state
+- Use zustand (via custom stores like useUserStore) for application-wide state
+
+## ❓ Troubleshooting
+
+### Common Issues
+
+- **Authentication Problems**: Check if the user token is valid and not expired
+- **Visualization Issues**: Ensure data is properly formatted for chart components
+- **Styling Inconsistencies**: Verify that the correct theme classes are applied
+
+### Debugging
+
+- Check browser console for errors
+- Use React DevTools to inspect component state
+- Review network requests for API issues
+
+## 🤝 Contributing
+
+We welcome contributions to NetworkFort! To contribute:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+Please follow the existing code style and include appropriate tests for new features.
+
+---
+
+This project was created with [Lovable](https://lovable.dev).
