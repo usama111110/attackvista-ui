@@ -123,62 +123,89 @@
   
   /* Dark mode glass effect */
   .dark-mode .glass {
-    @apply bg-gray-900/50 border border-white/10 rounded-xl;
+    background-color: rgba(17, 24, 39, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
     backdrop-filter: blur(16px);
   }
   
   /* Light mode glass effect */
   .light-mode .glass {
-    @apply bg-white/90 border border-gray-200 rounded-xl shadow-sm;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgb(229, 231, 235);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(16px);
   }
   
   /* Dark mode card effect */
   .dark-mode .glass-card {
-    @apply bg-gray-900/50 border border-white/10 rounded-xl hover:bg-gray-800/40 transition-all duration-300;
+    background-color: rgba(17, 24, 39, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    transition-property: all;
+    transition-duration: 300ms;
     backdrop-filter: blur(16px);
+  }
+  
+  .dark-mode .glass-card:hover {
+    background-color: rgba(31, 41, 55, 0.4);
   }
   
   /* Light mode card effect */
   .light-mode .glass-card {
-    @apply bg-white/90 border border-gray-200 rounded-xl hover:bg-blue-50/50 transition-all duration-300 shadow-sm;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgb(229, 231, 235);
+    border-radius: 0.75rem;
+    transition-property: all;
+    transition-duration: 300ms;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(16px);
   }
   
+  .light-mode .glass-card:hover {
+    background-color: rgba(219, 234, 254, 0.5);
+  }
+  
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-orange-300 bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, #FF7B00, #FFA500);
+    background-clip: text;
+    color: transparent;
   }
 
   /* Light mode specific utility classes - IMPROVED COLORS */
   .light-mode .card-light {
-    @apply bg-white/90 shadow-sm border border-gray-200;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid rgb(229, 231, 235);
   }
   
   .light-mode .text-light-primary {
-    @apply text-gray-800;
+    color: rgb(31, 41, 55);
   }
   
   .light-mode .text-light-secondary {
-    @apply text-gray-600;
+    color: rgb(75, 85, 99);
   }
   
-  .light-mode .bg-light-hover {
-    @apply hover:bg-blue-50;
+  .light-mode .bg-light-hover:hover {
+    background-color: rgb(239, 246, 255);
   }
   
   /* Additional light mode utility classes for better visuals */
   .light-mode .shadow-soft {
-    @apply shadow-md shadow-blue-100/50;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
   }
   
   .light-mode .border-soft {
-    @apply border border-blue-100;
+    border: 1px solid rgb(219, 234, 254);
   }
   
   /* Card styling for light mode */
   .light-mode .Card, 
   .light-mode .card {
-    @apply bg-white/90 border-gray-200;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: rgb(229, 231, 235);
   }
   
   /* Data box styling for light mode - Improved for better contrast */
@@ -197,19 +224,19 @@
 
   /* Fixed hover styles for nav items */
   .light-mode .hover\:text-white:hover {
-    @apply text-gray-800;
+    color: rgb(31, 41, 55);
   }
   
   /* Background color fixes for light mode */
   .light-mode .bg-gray-800\/40 {
-    @apply bg-gray-100;
+    background-color: rgb(243, 244, 246);
   }
   
   .light-mode .bg-gray-800\/20 {
     background-color: rgba(255, 255, 255, 0.9);
   }
   
-  /* Fix for the circular dependency */
+  /* Fix for circular dependencies - replace all @apply with direct CSS */
   .light-mode .bg-white\/90 {
     background-color: rgba(255, 255, 255, 0.9);
   }
@@ -245,70 +272,70 @@
   
   /* Text color fixes for light mode */
   .light-mode .text-gray-300 {
-    @apply text-gray-600;
+    color: rgb(75, 85, 99);
   }
   
   .light-mode .text-gray-400 {
-    @apply text-gray-600;
+    color: rgb(75, 85, 99);
   }
 
   /* Border color fixes */
   .light-mode .border-gray-700\/50 {
-    @apply border-gray-200;
+    border-color: rgb(229, 231, 235);
   }
   
   .light-mode .border-gray-800\/50 {
-    @apply border-gray-200;
+    border-color: rgb(229, 231, 235);
   }
   
   .light-mode .border-white\/10 {
-    @apply border-gray-200;
+    border-color: rgb(229, 231, 235);
   }
   
   /* Background color for buttons */
   .light-mode .bg-gray-700 {
-    @apply bg-gray-200;
+    background-color: rgb(229, 231, 235);
   }
   
   .light-mode .hover\:bg-gray-600:hover {
-    @apply hover:bg-gray-300;
+    background-color: rgb(209, 213, 219);
   }
   
   .light-mode .bg-gray-700\/50 {
-    @apply bg-gray-100;
+    background-color: rgb(243, 244, 246);
   }
   
   /* Status colors for light mode */
   .light-mode .bg-red-900\/50 {
-    @apply bg-red-100;
+    background-color: rgb(254, 226, 226);
   }
   
   .light-mode .text-red-400 {
-    @apply text-red-600;
+    color: rgb(220, 38, 38);
   }
   
   .light-mode .bg-orange-900\/50 {
-    @apply bg-orange-100;
+    background-color: rgb(255, 237, 213);
   }
   
   .light-mode .text-orange-400 {
-    @apply text-orange-600;
+    color: rgb(234, 88, 12);
   }
   
   .light-mode .bg-yellow-900\/50 {
-    @apply bg-yellow-100;
+    background-color: rgb(254, 249, 195);
   }
   
   .light-mode .text-yellow-400 {
-    @apply text-yellow-600;
+    color: rgb(202, 138, 4);
   }
   
   .light-mode .bg-primary\/20 {
-    @apply bg-orange-100;
+    background-color: rgb(255, 237, 213);
   }
   
   .light-mode .hover\:bg-primary\/30:hover {
-    @apply hover:bg-orange-200;
+    background-color: rgb(254, 215, 170);
   }
 
   /* Fix missing text in light mode for specific components with dark backgrounds */
