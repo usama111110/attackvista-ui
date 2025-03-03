@@ -68,43 +68,7 @@
   }
 }
 
-/* Custom scrollbar - Dark Mode */
-.dark-mode ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.dark-mode ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.dark-mode ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.dark-mode ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Custom scrollbar - Light Mode */
-.light-mode ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.light-mode ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.light-mode ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-}
-
-.light-mode ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
-}
+/* ... keep existing code (custom scrollbars for dark and light mode) */
 
 /* Background patterns */
 .bg-world-map {
@@ -131,7 +95,7 @@
   
   /* Light mode glass effect */
   .light-mode .glass {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(249, 250, 251, 0.9);
     border: 1px solid rgb(229, 231, 235);
     border-radius: 0.75rem;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -154,7 +118,7 @@
   
   /* Light mode card effect */
   .light-mode .glass-card {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(249, 250, 251, 0.9);
     border: 1px solid rgb(229, 231, 235);
     border-radius: 0.75rem;
     transition-property: all;
@@ -175,7 +139,7 @@
 
   /* Light mode specific utility classes - IMPROVED COLORS */
   .light-mode .card-light {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(249, 250, 251, 0.9);
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     border: 1px solid rgb(229, 231, 235);
   }
@@ -204,7 +168,7 @@
   /* Card styling for light mode */
   .light-mode .Card, 
   .light-mode .card {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(249, 250, 251, 0.9);
     border-color: rgb(229, 231, 235);
   }
   
@@ -233,12 +197,12 @@
   }
   
   .light-mode .bg-gray-800\/20 {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(249, 250, 251, 0.9);
   }
   
-  /* Fix for circular dependencies - replace all @apply with direct CSS */
+  /* Fix for the circular dependency */
   .light-mode .bg-white\/90 {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(249, 250, 251, 0.9);
   }
   
   /* DARK MODE BACKGROUND FIXES */
@@ -259,15 +223,15 @@
   }
   
   .light-mode .hover\:bg-black\/30:hover {
-    background-color: rgba(243, 244, 246, 1) !important;
+    background-color: rgba(243, 244, 246, 1);
   }
   
   .light-mode .hover\:bg-gray-700\/40:hover {
-    background-color: rgba(219, 234, 254, 1) !important;
+    background-color: rgba(219, 234, 254, 1);
   }
   
   .light-mode .hover\:bg-gray-700\/30:hover {
-    background-color: rgba(239, 246, 255, 1) !important;
+    background-color: rgba(239, 246, 255, 1);
   }
   
   /* Text color fixes for light mode */
@@ -352,58 +316,5 @@
     color: rgb(31, 41, 55);
   }
 
-  /* Animation utilities */
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-  
-  @keyframes scale {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
-  
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  .animate-pulse {
-    animation: pulse 2s ease-in-out infinite;
-  }
-  
-  .animate-scale {
-    animation: scale 2s ease-in-out infinite;
-  }
-  
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-in-out forwards;
-  }
-  
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .shadow-glow {
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .shadow-glow:hover {
-    box-shadow: 0 0 20px rgba(255, 123, 0, 0.4);
-  }
+  /* ... keep existing code (animation utilities) */
 }

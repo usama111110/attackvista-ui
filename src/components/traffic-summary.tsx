@@ -37,7 +37,7 @@ export function TrafficSummary() {
 
   const cardClassName = isDarkMode
     ? "p-4 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50"
-    : "p-4 backdrop-blur-lg bg-white/90 border border-gray-200";
+    : "p-4 backdrop-blur-lg bg-gray-50 border border-gray-200";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

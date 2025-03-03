@@ -37,7 +37,7 @@ const LiveTraffic = () => {
       <Card className={`p-6 backdrop-blur-lg border hover-lift animate-fade-in ${
         isDarkMode 
           ? "bg-gray-900/50 border-gray-700/50" 
-          : "bg-white/90 border-gray-200"
+          : "bg-gray-50 border-gray-200"
       }`}>
         <div className="flex items-center gap-2 mb-4">
           <Activity className="h-5 w-5 text-primary" />

@@ -8,8 +8,11 @@ import { Card } from "@/components/ui/card";
 import { SecurityScore } from "@/components/security-score";
 import { ThreatMap } from "@/components/threat-map";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/providers/ThemeProvider";
 
 const Index = () => {
+  const { isDarkMode } = useTheme();
+  
   return (
     <DashboardLayout>
       <header className="mb-8 animate-fade-in">
@@ -58,7 +61,9 @@ const Index = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-2">
-          <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 h-[400px] hover-lift animate-fade-in">
+          <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 h-[400px] hover-lift animate-fade-in ${
+            isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
+          }`}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Global Threat Map</h3>
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
@@ -73,7 +78,9 @@ const Index = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in">
+        <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in ${
+            isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
+          }`}>
           <h3 className="text-lg font-semibold mb-4">Network Performance</h3>
           <div className="space-y-4">
             {[
@@ -83,13 +90,13 @@ const Index = () => {
             ].map((item, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg">
+                  <div className={`p-2 rounded-lg ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
                     {item.icon}
                   </div>
                   <span>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-36 h-2 bg-gray-200 dark:bg-gray-700/50 rounded-full overflow-hidden">
+                  <div className={`w-36 h-2 rounded-full overflow-hidden ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
                     <div 
                       className="h-full bg-primary rounded-full" 
                       style={{ width: `${item.value}%` }}
@@ -102,7 +109,9 @@ const Index = () => {
           </div>
         </Card>
 
-        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in">
+        <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in ${
+            isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
+          }`}>
           <h3 className="text-lg font-semibold mb-4">System Health</h3>
           <div className="space-y-4">
             {[
@@ -112,13 +121,13 @@ const Index = () => {
             ].map((item, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg">
+                  <div className={`p-2 rounded-lg ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
                     {item.icon}
                   </div>
                   <span>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-36 h-2 bg-gray-200 dark:bg-gray-700/50 rounded-full overflow-hidden">
+                  <div className={`w-36 h-2 rounded-full overflow-hidden ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
                     <div 
                       className={`h-full rounded-full ${
                         item.value > 80 ? 'bg-red-500' : 
@@ -136,7 +145,9 @@ const Index = () => {
         </Card>
       </div>
 
-      <div className="bg-white/90 dark:bg-gray-800/20 p-6 rounded-lg backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 mb-6 hover-lift animate-fade-in">
+      <div className={`p-6 rounded-lg backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 mb-6 hover-lift animate-fade-in ${
+        isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
+      }`}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Recent Attacks</h3>
           <Link to="/live-traffic" className="text-xs text-primary hover:underline">View all</Link>
@@ -147,7 +158,11 @@ const Index = () => {
             { type: "SQL Injection", ip: "192.168.1.45", time: "15 min ago", severity: "Critical" },
             { type: "Brute Force", ip: "192.168.2.12", time: "1 hour ago", severity: "Medium" }
           ].map((attack, i) => (
-            <div key={i} className="flex items-center justify-between p-4 bg-gray-100/70 dark:bg-black/20 rounded-lg hover:bg-gray-200/70 dark:hover:bg-black/30 transition-colors">
+            <div key={i} className={`flex items-center justify-between p-4 rounded-lg transition-colors ${
+              isDarkMode 
+                ? "bg-black/20 hover:bg-black/30" 
+                : "bg-gray-100/70 hover:bg-gray-200/70"
+            }`}>
               <div className="flex items-center gap-4">
                 <Network className="text-primary" />
                 <div>
