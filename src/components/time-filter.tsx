@@ -1,6 +1,7 @@
 
 import { Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useTheme } from "@/providers/ThemeProvider";
 
 type TimeFilterProps = {
   value: string;
@@ -8,6 +9,7 @@ type TimeFilterProps = {
 };
 
 export function TimeFilter({ value, onChange }: TimeFilterProps) {
+  const { isDarkMode } = useTheme();
   const timeOptions = [
     { value: "1h", label: "Last hour" },
     { value: "6h", label: "Last 6 hours" },
@@ -17,7 +19,11 @@ export function TimeFilter({ value, onChange }: TimeFilterProps) {
   ];
 
   return (
-    <Card className="p-4 backdrop-blur-lg bg-gray-800/20 border border-gray-700/50">
+    <Card className={`p-4 backdrop-blur-lg border ${
+      isDarkMode 
+        ? "bg-gray-900/50 border-gray-700/50" 
+        : "bg-white border-gray-200"
+    }`}>
       <div className="flex items-center flex-wrap gap-3">
         <div className="flex items-center gap-2 mr-2">
           <Clock className="h-4 w-4 text-primary" />
@@ -30,7 +36,9 @@ export function TimeFilter({ value, onChange }: TimeFilterProps) {
             className={`px-3 py-1.5 rounded-md text-sm ${
               value === option.value
                 ? "bg-primary text-primary-foreground"
-                : "bg-gray-800/40 hover:bg-gray-700/40 text-gray-300"
+                : isDarkMode
+                  ? "bg-gray-800/60 hover:bg-gray-700/60 text-gray-300"
+                  : "bg-gray-100 hover:bg-gray-200 text-gray-700"
             }`}
           >
             {option.label}
