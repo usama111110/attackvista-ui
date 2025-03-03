@@ -57,7 +57,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
 
   const cardClassName = isDarkMode
     ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[400px]"
-    : "p-6 backdrop-blur-lg bg-white border border-gray-200 h-[400px]";
+    : "p-6 backdrop-blur-lg bg-white/90 border border-gray-200 h-[400px]";
 
   return (
     <Card className={`${cardClassName} flex flex-col items-center justify-center data-card hover-lift transition-all duration-300 animate-fade-in`}>
@@ -71,7 +71,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
             cy={size / 2}
             r={radius}
             fill="transparent"
-            stroke={isDarkMode ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.1)"}
+            stroke={isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}
             strokeWidth={strokeWidth}
           />
           {/* Foreground circle */}
@@ -91,12 +91,12 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         
         {/* Score text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-4xl font-bold">{animatedScore}</div>
+          <div className={`text-4xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}>{animatedScore}</div>
           <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>out of 100</div>
         </div>
       </div>
       
-      <div className="flex items-center gap-2 mt-6 text-lg font-medium">
+      <div className={`flex items-center gap-2 mt-6 text-lg font-medium ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
         <span>Rating:</span> 
         <div className="flex items-center gap-1">
           {icon}

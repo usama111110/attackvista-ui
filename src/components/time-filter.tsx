@@ -22,22 +22,22 @@ export function TimeFilter({ value, onChange }: TimeFilterProps) {
     <Card className={`p-4 backdrop-blur-lg border ${
       isDarkMode 
         ? "bg-gray-900/50 border-gray-700/50" 
-        : "bg-white border-gray-200"
+        : "bg-white/90 border-gray-200"
     }`}>
       <div className="flex items-center flex-wrap gap-3">
         <div className="flex items-center gap-2 mr-2">
           <Clock className="h-4 w-4 text-primary" />
-          <span className="text-sm font-medium">Time Range:</span>
+          <span className={`text-sm font-medium ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>Time Range:</span>
         </div>
         {timeOptions.map((option) => (
           <button
             key={option.value}
             onClick={() => onChange(option.value)}
-            className={`px-3 py-1.5 rounded-md text-sm ${
+            className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
               value === option.value
                 ? "bg-primary text-primary-foreground"
                 : isDarkMode
-                  ? "bg-gray-800/60 hover:bg-gray-700/60 text-gray-300"
+                  ? "bg-gray-800/80 hover:bg-gray-700/80 text-gray-300"
                   : "bg-gray-100 hover:bg-gray-200 text-gray-700"
             }`}
           >

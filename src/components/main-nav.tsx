@@ -84,7 +84,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
             location.pathname === item.path
               ? "bg-primary/20 text-primary"
               : isDarkMode 
-                ? "text-gray-400 hover:text-white hover:bg-white/10" 
+                ? "text-gray-300 hover:text-white hover:bg-white/10" 
                 : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
           )}
           title={collapsed ? item.label : undefined}
@@ -103,7 +103,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
             location.pathname === "/notifications" 
               ? "bg-primary/20 text-primary" 
               : isDarkMode 
-                ? "text-gray-400 hover:text-white hover:bg-white/10" 
+                ? "text-gray-300 hover:text-white hover:bg-white/10" 
                 : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
           )}
           title={collapsed ? "Notifications" : undefined}
@@ -117,7 +117,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
             "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 w-full hover-lift",
             collapsed ? "justify-center" : "",
             isDarkMode 
-              ? "text-gray-400 hover:text-white hover:bg-white/10" 
+              ? "text-gray-300 hover:text-white hover:bg-white/10" 
               : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
           )}
           title={collapsed ? "Logout" : undefined}

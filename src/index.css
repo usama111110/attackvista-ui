@@ -75,7 +75,7 @@
 }
 
 .dark-mode ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .dark-mode ::-webkit-scrollbar-thumb {
@@ -123,25 +123,25 @@
   
   /* Dark mode glass effect */
   .dark-mode .glass {
-    @apply bg-gray-900/30 border border-white/10 rounded-xl;
+    @apply bg-gray-900/50 border border-white/10 rounded-xl;
     backdrop-filter: blur(16px);
   }
   
   /* Light mode glass effect */
   .light-mode .glass {
-    @apply bg-white border border-gray-200 rounded-xl shadow-sm;
+    @apply bg-white/90 border border-gray-200 rounded-xl shadow-sm;
     backdrop-filter: blur(16px);
   }
   
   /* Dark mode card effect */
   .dark-mode .glass-card {
-    @apply bg-gray-900/30 border border-white/10 rounded-xl hover:bg-gray-800/40 transition-all duration-300;
+    @apply bg-gray-900/50 border border-white/10 rounded-xl hover:bg-gray-800/40 transition-all duration-300;
     backdrop-filter: blur(16px);
   }
   
   /* Light mode card effect */
   .light-mode .glass-card {
-    @apply bg-white border border-gray-200 rounded-xl hover:bg-blue-50/50 transition-all duration-300 shadow-sm;
+    @apply bg-white/90 border border-gray-200 rounded-xl hover:bg-blue-50/50 transition-all duration-300 shadow-sm;
     backdrop-filter: blur(16px);
   }
   
@@ -151,7 +151,7 @@
 
   /* Light mode specific utility classes - IMPROVED COLORS */
   .light-mode .card-light {
-    @apply bg-white shadow-sm border border-gray-200;
+    @apply bg-white/90 shadow-sm border border-gray-200;
   }
   
   .light-mode .text-light-primary {
@@ -178,7 +178,7 @@
   /* Card styling for light mode */
   .light-mode .Card, 
   .light-mode .card {
-    @apply bg-white border-gray-200;
+    @apply bg-white/90 border-gray-200;
   }
   
   /* Data box styling for light mode - Improved for better contrast */
@@ -206,16 +206,16 @@
   }
   
   .light-mode .bg-gray-800\/20 {
-    @apply bg-white;
+    @apply bg-white/90;
   }
   
   .light-mode .bg-white\/90 {
-    @apply bg-white;
+    @apply bg-white/90;
   }
   
   /* DARK MODE BACKGROUND FIXES */
   .dark-mode .bg-white\/90 {
-    @apply bg-gray-900/30;
+    @apply bg-gray-900/50;
   }
   
   .dark-mode .bg-white\/5 {
@@ -223,7 +223,7 @@
   }
   
   .dark-mode .bg-gray-800\/20 {
-    @apply bg-gray-900/30;
+    @apply bg-gray-900/50;
   }
   
   .light-mode .bg-black\/20 {

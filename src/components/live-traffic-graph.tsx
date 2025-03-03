@@ -54,12 +54,12 @@ export function LiveTrafficGraph() {
 
   const cardClassName = isDarkMode
     ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[400px]"
-    : "p-6 backdrop-blur-lg bg-white border border-gray-200 h-[400px]";
+    : "p-6 backdrop-blur-lg bg-white/90 border border-gray-200 h-[400px]";
 
   return (
     <Card className={cardClassName + " animate-fade-in hover-lift"}>
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold">Live Network Traffic</h3>
+        <h3 className={`text-lg font-semibold ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}>Live Network Traffic</h3>
         <div className="flex gap-4 mt-2 md:mt-0">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-primary/80"></div>

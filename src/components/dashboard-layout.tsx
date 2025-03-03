@@ -14,7 +14,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className={`min-h-screen flex animate-fade-in ${isDarkMode 
-      ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 animated-gradient' 
+      ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100' 
       : 'bg-gradient-to-br from-blue-50 via-white to-slate-50 text-gray-800'}`}>
       <aside 
         className={`${collapsed ? 'w-16' : 'w-64'} border-r transition-all duration-300 ease-in-out flex flex-col ${
