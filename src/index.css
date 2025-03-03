@@ -206,40 +206,41 @@
   }
   
   .light-mode .bg-gray-800\/20 {
-    @apply bg-white/90;
+    background-color: rgba(255, 255, 255, 0.9);
   }
   
+  /* Fix for the circular dependency */
   .light-mode .bg-white\/90 {
-    @apply bg-white/90;
+    background-color: rgba(255, 255, 255, 0.9);
   }
   
   /* DARK MODE BACKGROUND FIXES */
   .dark-mode .bg-white\/90 {
-    @apply bg-gray-900/50;
+    background-color: rgba(17, 24, 39, 0.5);
   }
   
   .dark-mode .bg-white\/5 {
-    @apply bg-gray-900/50;
+    background-color: rgba(17, 24, 39, 0.5);
   }
   
   .dark-mode .bg-gray-800\/20 {
-    @apply bg-gray-900/50;
+    background-color: rgba(17, 24, 39, 0.5);
   }
   
   .light-mode .bg-black\/20 {
-    @apply bg-gray-50;
+    background-color: rgba(249, 250, 251, 1);
   }
   
   .light-mode .hover\:bg-black\/30:hover {
-    @apply hover:bg-gray-100;
+    background-color: rgba(243, 244, 246, 1) !important;
   }
   
   .light-mode .hover\:bg-gray-700\/40:hover {
-    @apply hover:bg-blue-100;
+    background-color: rgba(219, 234, 254, 1) !important;
   }
   
   .light-mode .hover\:bg-gray-700\/30:hover {
-    @apply hover:bg-blue-50;
+    background-color: rgba(239, 246, 255, 1) !important;
   }
   
   /* Text color fixes for light mode */
@@ -315,12 +316,13 @@
   .light-mode .bg-gray-800\/50,
   .light-mode .bg-gray-700\/50,
   .light-mode .bg-gray-900\/50 {
-    @apply text-gray-800;
+    color: rgb(31, 41, 55);
   }
 
   /* Fix font-mono backgrounds in light mode */
   .light-mode .font-mono.bg-gray-800\/50 {
-    @apply bg-gray-100 text-gray-800;
+    background-color: rgba(243, 244, 246, 1);
+    color: rgb(31, 41, 55);
   }
 
   /* Animation utilities */
