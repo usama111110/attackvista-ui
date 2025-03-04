@@ -1,4 +1,3 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Shield, Activity, Users, Settings, Bell, LogOut, AlertTriangle, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -6,7 +5,6 @@ import { useUserStore } from "@/utils/userDatabase";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 import { useTheme } from "@/providers/ThemeProvider";
-import { Logo } from "@/components/Logo";
 
 const navItems = [
   { icon: Shield, label: "Dashboard", path: "/" },
@@ -52,13 +50,11 @@ export function MainNav({ collapsed = false }: MainNavProps) {
   return (
     <nav className="py-4 px-2 space-y-1 flex-1 animate-fade-in">
       <div className={`mb-8 ${collapsed ? 'px-2 justify-center' : 'px-4'} flex items-center`}>
-        {collapsed ? (
-          <div className="flex items-center justify-center">
-            <Logo showText={false} size="sm" />
-          </div>
-        ) : (
-          <Logo />
-        )}
+        <div className={`flex items-center gap-2 text-primary font-bold ${collapsed ? 'justify-center' : 'text-xl'}`}>
+          {!collapsed && (
+            <span>NetworkFort</span>
+          )}
+        </div>
       </div>
       
       {navItems.map((item) => (
