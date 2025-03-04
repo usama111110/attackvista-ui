@@ -1,9 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Shield, Mail, Lock, AlertTriangle } from "lucide-react";
+import { Mail, Lock, AlertTriangle } from "lucide-react";
 import { useUserStore } from "@/utils/userDatabase";
 import { useToast } from "@/hooks/use-toast";
+import { Logo } from "@/components/Logo";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,16 +16,13 @@ const Login = () => {
   const { toast } = useToast();
   const { login, currentUser } = useUserStore();
   
-  // Redirect if already logged in
   useEffect(() => {
     if (currentUser) {
       navigate("/");
     }
   }, [currentUser, navigate]);
   
-  // Check if we were redirected here
   useEffect(() => {
-    // Check if we have a message in the state (e.g., "You need to login first")
     if (location.state?.message) {
       toast({
         title: "Authentication Required",
@@ -40,14 +37,12 @@ const Login = () => {
     setError("");
     setIsLoading(true);
     
-    // Basic validation
     if (!email || !password) {
       setError("Please enter both email and password");
       setIsLoading(false);
       return;
     }
     
-    // Simulate authentication delay
     setTimeout(() => {
       const user = login(email, password);
       
@@ -74,14 +69,9 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4">
-            <img 
-              src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
-              alt="NetworkFort Logo" 
-              className="h-10 w-10 object-contain"
-            />
+          <div className="flex justify-center mb-4">
+            <Logo size="lg" />
           </div>
-          <h1 className="text-3xl font-bold text-white">NetworkFort</h1>
           <p className="text-gray-400 mt-2">Network Security Dashboard</p>
         </div>
 
