@@ -75,9 +75,13 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4">
-            <Shield className="h-10 w-10 text-primary" />
+            <img 
+              src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
+              alt="NetworkFort Logo" 
+              className="h-10 w-10 object-contain"
+            />
           </div>
-          <h1 className="text-3xl font-bold text-white">AttackVista</h1>
+          <h1 className="text-3xl font-bold text-white">NetworkFort</h1>
           <p className="text-gray-400 mt-2">Network Security Dashboard</p>
         </div>
 

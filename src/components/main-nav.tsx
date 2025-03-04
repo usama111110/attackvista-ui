@@ -1,4 +1,3 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Shield, Activity, Users, Settings, Bell, LogOut, AlertTriangle, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,12 +26,9 @@ export function MainNav({ collapsed = false }: MainNavProps) {
   const { currentUser, logout } = useUserStore();
   const { isDarkMode } = useTheme();
   
-  // Check if user is authenticated
   useEffect(() => {
-    // Skip authentication check for login page
     if (location.pathname === "/login") return;
     
-    // If no user is logged in, redirect to login
     if (!currentUser) {
       navigate("/login", { 
         state: { 
@@ -55,21 +51,8 @@ export function MainNav({ collapsed = false }: MainNavProps) {
     <nav className="py-4 px-2 space-y-1 flex-1 animate-fade-in">
       <div className={`mb-8 ${collapsed ? 'px-2 justify-center' : 'px-4'} flex items-center`}>
         <div className={`flex items-center gap-2 text-primary font-bold ${collapsed ? 'justify-center' : 'text-xl'}`}>
-          {collapsed ? (
-            <img 
-              src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
-              alt="NetworkFort Logo" 
-              className="h-8 w-8 object-contain hover-lift transition-all duration-300"
-            />
-          ) : (
-            <>
-              <img 
-                src="/lovable-uploads/0b1a2317-fbf9-4d89-966f-576b38323114.png" 
-                alt="NetworkFort Logo" 
-                className="h-6 w-6 object-contain"
-              />
-              <span>NetworkFort</span>
-            </>
+          {!collapsed && (
+            <span>NetworkFort</span>
           )}
         </div>
       </div>

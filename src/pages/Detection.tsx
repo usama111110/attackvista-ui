@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { AttackTypesVisualization } from "@/components/attack-types-visualization";
@@ -21,6 +20,10 @@ export const attackTypes = [
   { id: "mitre", name: "MITRE Attack", value: 12, description: "Attacks documented in the MITRE ATT&CK framework" },
   { id: "anomaly", name: "Anomaly", value: 10, description: "Unusual behavior detected that may indicate a security threat" },
   { id: "worm", name: "Network Worm", value: 8, description: "Self-replicating malware that spreads across networks" },
+  { id: "apt", name: "APT", value: 17, description: "Advanced Persistent Threat - sophisticated, targeted cyber attacks" },
+  { id: "arp", name: "ARP Poisoning", value: 14, description: "Address Resolution Protocol attacks that redirect network traffic" },
+  { id: "xss", name: "XSS", value: 25, description: "Cross-Site Scripting attacks that inject malicious code into websites" },
+  { id: "sql", name: "SQL Injection", value: 30, description: "Attacks that insert malicious SQL code into database queries" },
 ];
 
 // Generate mock data for the attack metrics cards
