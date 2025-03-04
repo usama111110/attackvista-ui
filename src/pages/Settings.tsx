@@ -2,10 +2,11 @@
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning } from "lucide-react";
+import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSettingsStore } from "@/utils/notificationUtils";
 import { useTheme } from "@/providers/ThemeProvider";
+import { EmailSettings } from "@/components/email-settings";
 
 const Settings = () => {
   const settings = useSettingsStore();
@@ -18,7 +19,7 @@ const Settings = () => {
     setMounted(true);
   }, []);
   
-  const handleToggle = (setting: keyof Omit<typeof settings, "toggleSetting">) => {
+  const handleToggle = (setting: keyof Omit<typeof settings, "toggleSetting" | "emailAddress" | "emailFrequency" | "updateEmailAddress" | "updateEmailFrequency">) => {
     settings.toggleSetting(setting);
     
     toast({
@@ -167,6 +168,32 @@ const Settings = () => {
                 <div className={`w-11 h-6 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary`}></div>
               </label>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* New Email Configuration Card */}
+        <Card className={`${isDarkMode 
+          ? 'bg-card backdrop-blur-sm border-gray-700/50' 
+          : 'bg-white border-gray-200 shadow-sm'}`}
+        >
+          <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Mail className="h-5 w-5 text-primary" /> 
+              Email Configuration
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-6">
+            {settings.emailAlerts ? (
+              <EmailSettings />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <Mail className={`h-12 w-12 mb-3 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
+                <p className="text-sm font-medium mb-1">Email Notifications Disabled</p>
+                <p className={`text-xs max-w-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Enable Email Alerts in the Notification Settings to configure email delivery options.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
         

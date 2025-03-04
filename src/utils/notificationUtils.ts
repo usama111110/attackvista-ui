@@ -122,6 +122,9 @@ export const useNotificationStore = create<NotificationStore>()(
   )
 );
 
+// Email notification frequency options
+export type EmailFrequency = "realtime" | "hourly" | "daily" | "weekly" | "never";
+
 // Create settings store
 export interface SettingsState {
   attackNotifications: boolean;
@@ -132,7 +135,11 @@ export interface SettingsState {
   anonymousUsageData: boolean;
   networkMonitoring: boolean;
   emailAlerts: boolean;
-  toggleSetting: (setting: keyof Omit<SettingsState, "toggleSetting">) => void;
+  emailAddress: string;
+  emailFrequency: EmailFrequency;
+  toggleSetting: (setting: keyof Omit<SettingsState, "toggleSetting" | "emailAddress" | "emailFrequency">) => void;
+  updateEmailAddress: (email: string) => void;
+  updateEmailFrequency: (frequency: EmailFrequency) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -146,8 +153,14 @@ export const useSettingsStore = create<SettingsState>()(
       anonymousUsageData: true,
       networkMonitoring: true,
       emailAlerts: false,
+      emailAddress: "",
+      emailFrequency: "daily",
       toggleSetting: (setting) => 
         set((state) => ({ [setting]: !state[setting] })),
+      updateEmailAddress: (email) =>
+        set({ emailAddress: email }),
+      updateEmailFrequency: (frequency) =>
+        set({ emailFrequency: frequency }),
     }),
     {
       name: "settings-storage",
