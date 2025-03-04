@@ -21,8 +21,8 @@ export function TimeFilter({ value, onChange }: TimeFilterProps) {
   return (
     <Card className={`p-4 backdrop-blur-lg border ${
       isDarkMode 
-        ? "bg-gray-900/50 border-gray-700/50" 
-        : "bg-white/90 border-gray-200"
+        ? "bg-gray-900/50 border-gray-700/50 text-gray-200" 
+        : "bg-white/90 border-gray-200 text-gray-800"
     }`}>
       <div className="flex items-center flex-wrap gap-3">
         <div className="flex items-center gap-2 mr-2">

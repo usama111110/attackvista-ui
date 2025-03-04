@@ -20,7 +20,7 @@ export function MetricsCard({ title, value, icon, className, trend }: MetricsCar
   return (
     <Card className={cn(
       "p-6 backdrop-blur-lg border hover:bg-opacity-30 transition-all duration-300 overflow-hidden relative group data-card shadow-glow animate-fade-in", 
-      isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200",
+      isDarkMode ? "bg-gray-900/50 border-gray-700/50 text-gray-100" : "bg-white/90 border-gray-200 text-gray-800",
       className
     )}>
       <div className="absolute -right-12 -top-12 w-24 h-24 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-all duration-300"></div>

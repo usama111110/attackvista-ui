@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -68,7 +67,35 @@
   }
 }
 
-/* ... keep existing code (custom scrollbars for dark and light mode) */
+/* Custom scrollbars for dark and light mode */
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.3); /* Gray-500 with opacity */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Hover effect for scrollbar thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(107, 114, 128, 0.5); /* Gray-600 with opacity */
+}
+
+/* For Firefox */
+/* Note: Firefox scrollbar styling is limited */
+/* You can change the color, but advanced styling is not supported */
+/* For more advanced styling, you might need to use JavaScript libraries */
+/* Example (you might need to adjust colors): */
+/*
+  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+*/
 
 /* Background patterns */
 .bg-world-map {
@@ -242,6 +269,10 @@
   .light-mode .text-gray-400 {
     color: rgb(75, 85, 99);
   }
+  
+  .light-mode .text-white {
+    color: rgb(31, 41, 55);
+  }
 
   /* Border color fixes */
   .light-mode .border-gray-700\/50 {
@@ -316,5 +347,22 @@
     color: rgb(31, 41, 55);
   }
 
-  /* ... keep existing code (animation utilities) */
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-in-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
 }

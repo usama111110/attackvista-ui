@@ -63,7 +63,7 @@ export const EmailSettings = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col space-y-2">
-        <label htmlFor="email" className="text-sm font-medium">Email Address</label>
+        <label htmlFor="email" className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Email Address</label>
         <div className="flex">
           <input
             id="email"
@@ -72,7 +72,7 @@ export const EmailSettings = () => {
             onChange={handleEmailChange}
             disabled={!settings.emailAlerts}
             placeholder="Enter your email address"
-            className={`flex-1 px-3 py-2 rounded-l-md bg-background border ${
+            className={`flex-1 px-3 py-2 rounded-l-md ${
               emailError 
                 ? "border-red-500" 
                 : isDarkMode 
@@ -83,7 +83,9 @@ export const EmailSettings = () => {
                 ? isDarkMode 
                   ? "bg-gray-800 text-gray-500" 
                   : "bg-gray-100 text-gray-500" 
-                : ""
+                : isDarkMode 
+                  ? "bg-gray-800 text-gray-200" 
+                  : "bg-white text-gray-800"
             }`}
           />
           <button
@@ -109,16 +111,16 @@ export const EmailSettings = () => {
       </div>
       
       <div className="flex flex-col space-y-2">
-        <label htmlFor="frequency" className="text-sm font-medium">Notification Frequency</label>
+        <label htmlFor="frequency" className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Notification Frequency</label>
         <select
           id="frequency"
           value={settings.emailFrequency}
           onChange={handleFrequencyChange}
           disabled={!settings.emailAlerts}
-          className={`px-3 py-2 rounded-md bg-background border ${
+          className={`px-3 py-2 rounded-md ${
             isDarkMode 
-              ? "border-gray-700" 
-              : "border-gray-300"
+              ? "border-gray-700 bg-gray-800 text-gray-200" 
+              : "border-gray-300 bg-white text-gray-800"
           } ${
             !settings.emailAlerts 
               ? isDarkMode 
