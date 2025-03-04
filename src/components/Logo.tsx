@@ -1,5 +1,6 @@
 
 import { Shield } from "lucide-react";
+import { useTheme } from "@/providers/ThemeProvider";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
@@ -7,6 +8,8 @@ interface LogoProps {
 }
 
 export const Logo = ({ size = "md", showText = true }: LogoProps) => {
+  const { isDarkMode } = useTheme();
+  
   const sizeClasses = {
     sm: "h-8 w-8",
     md: "h-10 w-10",
@@ -25,7 +28,7 @@ export const Logo = ({ size = "md", showText = true }: LogoProps) => {
       </div>
       
       {showText && (
-        <div className="font-bold text-xl text-foreground dark:text-white">
+        <div className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           NetworkFort
         </div>
       )}

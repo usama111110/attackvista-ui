@@ -72,7 +72,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
               ? "bg-primary/20 text-primary"
               : isDarkMode 
                 ? "text-gray-300 hover:text-white hover:bg-white/10" 
-                : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/80"
           )}
           title={collapsed ? item.label : undefined}
         >
@@ -91,7 +91,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
               ? "bg-primary/20 text-primary" 
               : isDarkMode 
                 ? "text-gray-300 hover:text-white hover:bg-white/10" 
-                : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/80"
           )}
           title={collapsed ? "Notifications" : undefined}
         >
@@ -105,7 +105,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
             collapsed ? "justify-center" : "",
             isDarkMode 
               ? "text-gray-300 hover:text-white hover:bg-white/10" 
-              : "text-gray-600 hover:text-gray-800 hover:bg-gray-100/80"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/80"
           )}
           title={collapsed ? "Logout" : undefined}
         >
