@@ -1,4 +1,0 @@
-
-// This would be a binary file, but since we can't directly create binary files,
-// we're going to create a base64-encoded version of the image
-// The user should check if this file exists and is correctly placed in the public directory
