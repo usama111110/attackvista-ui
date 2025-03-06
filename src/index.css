@@ -1,368 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Add these import rules at the top if they don't already exist */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
-@layer base {
-  /* Dark mode (default) */
-  :root, .dark-mode {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 24 100% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 39%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 24 100% 50%;
-    --radius: 0.75rem;
-  }
 
-  /* Light mode - updated with fresh, airy colors */
-  .light-mode {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 24 100% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 24 100% 50%;
-  }
-
-  * {
-    @apply border-border selection:bg-primary/10 selection:text-primary;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-  }
+:root {
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Custom scrollbars for dark and light mode */
-/* For WebKit browsers (Chrome, Safari) */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Add custom styles for the map background fallback */
+.map-region {
+  stroke: #3b82f680;
+  fill: #3b82f610;
+  rx: 2px;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.3); /* Gray-500 with opacity */
-  border-radius: 4px;
+/* Ensure background images are properly loaded */
+.bg-map-dark {
+  background-image: url('/world-map-dark.png');
 }
 
-::-webkit-scrollbar-track {
-  background-color: transparent;
+.bg-map-light {
+  background-image: url('/world-map-light.png');
 }
 
-/* Hover effect for scrollbar thumb */
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(107, 114, 128, 0.5); /* Gray-600 with opacity */
+/* Add these rules to ensure attack points are visible */
+.attack-point {
+  filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));
 }
 
-/* For Firefox */
-/* Note: Firefox scrollbar styling is limited */
-/* You can change the color, but advanced styling is not supported */
-/* For more advanced styling, you might need to use JavaScript libraries */
-/* Example (you might need to adjust colors): */
-/*
-  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
-*/
-
-/* Background patterns */
-.bg-world-map {
-  background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M362,81c-19-13-39-24-65-24c-55,0-111,44-111,102c0,28,26,64,26,64c26-32,40-36,40-36c-14,0-31,23-31,50c0,65,64,114,64,114c-14-10-31-32-31-64c0-43,43-61,43-61c-5,14-7,28-7,40c0,47,38,100,89,127c51-27,89-80,89-127c0-12-2-26-7-40c0,0,43,18,43,61c0,32-17,54-31,64c0,0,64-49,64-114c0-27-17-50-31-50c0,0,14,4,40,36c0,0,26-36,26-64c0-58-56-102-111-102c-26,0-46,11-65,24c-19-28-51-47-87-47C394,34,362,53,362,81z' fill='rgba(100, 100, 100, 0.05)'/%3E%3C/svg%3E");
-}
-
-/* Utility classes */
-@layer utilities {
-  .backdrop-blur-md {
-    backdrop-filter: blur(12px);
-  }
-  
-  .backdrop-blur-lg {
-    backdrop-filter: blur(16px);
-  }
-  
-  /* Dark mode glass effect */
-  .dark-mode .glass {
-    background-color: rgba(17, 24, 39, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.75rem;
-    backdrop-filter: blur(16px);
-  }
-  
-  /* Light mode glass effect */
-  .light-mode .glass {
-    background-color: rgba(249, 250, 251, 0.9);
-    border: 1px solid rgb(229, 231, 235);
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(16px);
-  }
-  
-  /* Dark mode card effect */
-  .dark-mode .glass-card {
-    background-color: rgba(17, 24, 39, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.75rem;
-    transition-property: all;
-    transition-duration: 300ms;
-    backdrop-filter: blur(16px);
-  }
-  
-  .dark-mode .glass-card:hover {
-    background-color: rgba(31, 41, 55, 0.4);
-  }
-  
-  /* Light mode card effect */
-  .light-mode .glass-card {
-    background-color: rgba(249, 250, 251, 0.9);
-    border: 1px solid rgb(229, 231, 235);
-    border-radius: 0.75rem;
-    transition-property: all;
-    transition-duration: 300ms;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(16px);
-  }
-  
-  .light-mode .glass-card:hover {
-    background-color: rgba(219, 234, 254, 0.5);
-  }
-  
-  .text-gradient {
-    background-image: linear-gradient(to right, #FF7B00, #FFA500);
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Light mode specific utility classes - IMPROVED COLORS */
-  .light-mode .card-light {
-    background-color: rgba(249, 250, 251, 0.9);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    border: 1px solid rgb(229, 231, 235);
-  }
-  
-  .light-mode .text-light-primary {
-    color: rgb(31, 41, 55);
-  }
-  
-  .light-mode .text-light-secondary {
-    color: rgb(75, 85, 99);
-  }
-  
-  .light-mode .bg-light-hover:hover {
-    background-color: rgb(239, 246, 255);
-  }
-  
-  /* Additional light mode utility classes for better visuals */
-  .light-mode .shadow-soft {
-    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
-  }
-  
-  .light-mode .border-soft {
-    border: 1px solid rgb(219, 234, 254);
-  }
-  
-  /* Card styling for light mode */
-  .light-mode .Card, 
-  .light-mode .card {
-    background-color: rgba(249, 250, 251, 0.9);
-    border-color: rgb(229, 231, 235);
-  }
-  
-  /* Data box styling for light mode - Improved for better contrast */
-  .light-mode .data-card {
-    background: linear-gradient(to bottom right, white, rgba(243, 244, 246, 0.8));
-    border-color: rgb(229, 231, 235);
-    color: rgb(31, 41, 55);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(16px);
-  }
-  
-  .light-mode .data-card .text-gray-400,
-  .light-mode .data-card .text-gray-500 {
-    color: rgb(75, 85, 99);
-  }
-
-  /* Fixed hover styles for nav items */
-  .light-mode .hover\:text-white:hover {
-    color: rgb(31, 41, 55);
-  }
-  
-  /* Background color fixes for light mode */
-  .light-mode .bg-gray-800\/40 {
-    background-color: rgb(243, 244, 246);
-  }
-  
-  .light-mode .bg-gray-800\/20 {
-    background-color: rgba(249, 250, 251, 0.9);
-  }
-  
-  /* Fix for the circular dependency */
-  .light-mode .bg-white\/90 {
-    background-color: rgba(249, 250, 251, 0.9);
-  }
-  
-  /* DARK MODE BACKGROUND FIXES */
-  .dark-mode .bg-white\/90 {
-    background-color: rgba(17, 24, 39, 0.5);
-  }
-  
-  .dark-mode .bg-white\/5 {
-    background-color: rgba(17, 24, 39, 0.5);
-  }
-  
-  .dark-mode .bg-gray-800\/20 {
-    background-color: rgba(17, 24, 39, 0.5);
-  }
-  
-  .light-mode .bg-black\/20 {
-    background-color: rgba(249, 250, 251, 1);
-  }
-  
-  .light-mode .hover\:bg-black\/30:hover {
-    background-color: rgba(243, 244, 246, 1);
-  }
-  
-  .light-mode .hover\:bg-gray-700\/40:hover {
-    background-color: rgba(219, 234, 254, 1);
-  }
-  
-  .light-mode .hover\:bg-gray-700\/30:hover {
-    background-color: rgba(239, 246, 255, 1);
-  }
-  
-  /* Text color fixes for light mode */
-  .light-mode .text-gray-300 {
-    color: rgb(75, 85, 99);
-  }
-  
-  .light-mode .text-gray-400 {
-    color: rgb(75, 85, 99);
-  }
-  
-  .light-mode .text-white {
-    color: rgb(31, 41, 55);
-  }
-
-  /* Border color fixes */
-  .light-mode .border-gray-700\/50 {
-    border-color: rgb(229, 231, 235);
-  }
-  
-  .light-mode .border-gray-800\/50 {
-    border-color: rgb(229, 231, 235);
-  }
-  
-  .light-mode .border-white\/10 {
-    border-color: rgb(229, 231, 235);
-  }
-  
-  /* Background color for buttons */
-  .light-mode .bg-gray-700 {
-    background-color: rgb(229, 231, 235);
-  }
-  
-  .light-mode .hover\:bg-gray-600:hover {
-    background-color: rgb(209, 213, 219);
-  }
-  
-  .light-mode .bg-gray-700\/50 {
-    background-color: rgb(243, 244, 246);
-  }
-  
-  /* Status colors for light mode */
-  .light-mode .bg-red-900\/50 {
-    background-color: rgb(254, 226, 226);
-  }
-  
-  .light-mode .text-red-400 {
-    color: rgb(220, 38, 38);
-  }
-  
-  .light-mode .bg-orange-900\/50 {
-    background-color: rgb(255, 237, 213);
-  }
-  
-  .light-mode .text-orange-400 {
-    color: rgb(234, 88, 12);
-  }
-  
-  .light-mode .bg-yellow-900\/50 {
-    background-color: rgb(254, 249, 195);
-  }
-  
-  .light-mode .text-yellow-400 {
-    color: rgb(202, 138, 4);
-  }
-  
-  .light-mode .bg-primary\/20 {
-    background-color: rgb(255, 237, 213);
-  }
-  
-  .light-mode .hover\:bg-primary\/30:hover {
-    background-color: rgb(254, 215, 170);
-  }
-
-  /* Fix missing text in light mode for specific components with dark backgrounds */
-  .light-mode .bg-gray-800\/20,
-  .light-mode .bg-gray-800\/50,
-  .light-mode .bg-gray-700\/50,
-  .light-mode .bg-gray-900\/50 {
-    color: rgb(31, 41, 55);
-  }
-
-  /* Fix font-mono backgrounds in light mode */
-  .light-mode .font-mono.bg-gray-800\/50 {
-    background-color: rgba(243, 244, 246, 1);
-    color: rgb(31, 41, 55);
-  }
-
-  /* Animation utilities */
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-in-out forwards;
-  }
-  
-  .animate-slide-up {
-    animation: slide-up 0.5s ease-in-out forwards;
-  }
-  
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slide-up {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
+/* Make sure the build includes the images */
+body::after {
+  content: '';
+  display: none;
+  background-image: 
+    url('/world-map-dark.png'),
+    url('/world-map-light.png');
 }

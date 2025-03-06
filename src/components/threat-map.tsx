@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useMemo } from "react";
 import { Globe, Loader2 } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -112,6 +113,30 @@ export function ThreatMap() {
     { name: "Australia", x: 80, y: 60, width: 15, height: 10 },
   ], []);
   
+  // Create a simple world map background if images are not loading
+  const fallbackMapBackground = (
+    <svg 
+      width="100%" 
+      height="100%" 
+      viewBox="0 0 100 100" 
+      className="absolute inset-0 z-0 opacity-40"
+    >
+      {worldRegions.map((region, i) => (
+        <rect
+          key={i}
+          x={region.x}
+          y={region.y}
+          width={region.width}
+          height={region.height}
+          fill="none"
+          stroke={isDarkMode ? "#3b82f6" : "#2563eb"}
+          strokeWidth="0.5"
+          rx="1"
+        />
+      ))}
+    </svg>
+  );
+  
   return (
     <div className="relative w-full h-[300px] overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700/40 bg-white/10 dark:bg-gray-800/30 backdrop-blur-sm">
       {loading ? (
@@ -120,8 +145,18 @@ export function ThreatMap() {
         </div>
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
-          {/* Map background */}
-          <div className="relative w-full h-full bg-[url('/world-map-light.png')] dark:bg-[url('/world-map-dark.png')] bg-no-repeat bg-center bg-contain">
+          {/* Fallback map background */}
+          {fallbackMapBackground}
+          
+          {/* Map background with image */}
+          <div 
+            className="relative w-full h-full bg-no-repeat bg-center bg-contain"
+            style={{
+              backgroundImage: isDarkMode 
+                ? "url('/world-map-dark.png')" 
+                : "url('/world-map-light.png')"
+            }}
+          >
             {/* World regions overlay */}
             {worldRegions.map((region, i) => (
               <div 
