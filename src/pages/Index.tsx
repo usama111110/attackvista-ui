@@ -61,13 +61,13 @@ const Index = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-2">
-          <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 h-[400px] hover-lift animate-fade-in ${
+          <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in ${
             isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
           }`}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Global Threat Map</h3>
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 <span>Live attacks</span>
               </div>
             </div>

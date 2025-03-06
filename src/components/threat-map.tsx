@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Globe, Loader2 } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
+import { toast } from "@/components/ui/use-toast";
 
 interface AttackPoint {
   id: string;
@@ -39,10 +40,11 @@ export function ThreatMap() {
   const { isDarkMode } = useTheme();
   const [attackPoints, setAttackPoints] = useState<AttackPoint[]>([]);
   const [loading, setLoading] = useState(true);
+  const [attackCount, setAttackCount] = useState(0);
   
   // Creates threat marker points with randomization
   const generateRandomAttackPoints = (count: number) => {
-    return Array.from({ length: count }, (_, i) => {
+    const newPoints = Array.from({ length: count }, (_, i) => {
       const randomCountry = COUNTRY_COORDINATES[Math.floor(Math.random() * COUNTRY_COORDINATES.length)];
       // Add some randomness to the coordinates to spread attacks
       const latVariance = (Math.random() - 0.5) * 10;
@@ -57,6 +59,18 @@ export function ThreatMap() {
         country: randomCountry.country
       };
     });
+    
+    // Show a toast notification for new attacks occasionally
+    if (count > 1 && Math.random() > 0.7) {
+      const randomPoint = newPoints[Math.floor(Math.random() * newPoints.length)];
+      toast({
+        title: `Attack Detected!`,
+        description: `New threat detected from ${randomPoint.country}`,
+        variant: "destructive",
+      });
+    }
+    
+    return newPoints;
   };
   
   // Convert geo coordinates to x,y position in the map container
@@ -72,19 +86,23 @@ export function ThreatMap() {
   // Simulate random attack points
   useEffect(() => {
     // Initial points
-    const initialPoints = generateRandomAttackPoints(10);
+    const initialPoints = generateRandomAttackPoints(15);
     setAttackPoints(initialPoints);
+    setAttackCount(initialPoints.length);
     setLoading(false);
+    
+    console.log("Initial threat points generated:", initialPoints.length);
     
     // Add new points periodically
     const interval = setInterval(() => {
       setAttackPoints(prev => {
         // Remove some old points to keep the visualization clean
-        const filtered = prev.filter(() => Math.random() > 0.3).slice(-15);
+        const filtered = prev.filter(() => Math.random() > 0.3).slice(-20);
         
         // Add new points with varying probability
         if (Math.random() > 0.4) {
           const newPoints = generateRandomAttackPoints(Math.floor(Math.random() * 3) + 1);
+          setAttackCount(count => count + newPoints.length);
           return [...filtered, ...newPoints];
         }
         
@@ -114,7 +132,7 @@ export function ThreatMap() {
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Map background */}
-          <div className="relative w-full h-full bg-world-map bg-no-repeat bg-center bg-contain">
+          <div className="relative w-full h-full bg-[url('/world-map-light.png')] dark:bg-[url('/world-map-dark.png')] bg-no-repeat bg-center bg-contain">
             {/* World regions overlay */}
             {worldRegions.map((region, i) => (
               <div 
@@ -132,7 +150,7 @@ export function ThreatMap() {
             ))}
             
             {/* Attack points with animation */}
-            {attackPoints.map((point, i) => {
+            {attackPoints.map((point) => {
               const pos = geoToPixel(point.lat, point.lng, 100, 100);
               return (
                 <div 
@@ -149,8 +167,8 @@ export function ThreatMap() {
                       className="absolute rounded-full animate-ping"
                       style={{
                         backgroundColor: `rgba(239, 68, 68, ${0.2 + point.intensity * 0.6})`,
-                        width: `${8 + point.size * 6}px`,
-                        height: `${8 + point.size * 6}px`,
+                        width: `${8 + point.size * 8}px`,
+                        height: `${8 + point.size * 8}px`,
                         opacity: 0.7,
                         transform: `translate(-50%, -50%)`,
                         boxShadow: `0 0 10px rgba(239, 68, 68, ${0.3 + point.intensity * 0.3})`,
@@ -160,8 +178,8 @@ export function ThreatMap() {
                       className="absolute rounded-full"
                       style={{
                         backgroundColor: `rgba(239, 68, 68, ${0.5 + point.intensity * 0.5})`,
-                        width: `${4 + point.size * 3}px`,
-                        height: `${4 + point.size * 3}px`,
+                        width: `${4 + point.size * 4}px`,
+                        height: `${4 + point.size * 4}px`,
                         transform: `translate(-50%, -50%)`,
                       }}
                     />
@@ -177,10 +195,15 @@ export function ThreatMap() {
               ))}
             </div>
             
-            {/* Decorative globe icon */}
-            <div className="absolute left-4 top-4 flex items-center gap-2 text-primary/70">
-              <Globe size={18} />
-              <span className="text-xs font-medium">Global Threat Activity</span>
+            {/* Map UI elements */}
+            <div className="absolute inset-x-0 bottom-0 flex items-center justify-between px-4 py-2 bg-gradient-to-t from-black/20 to-transparent">
+              <div className="flex items-center gap-2 text-primary/90">
+                <Globe size={18} className="animate-pulse" />
+                <span className="text-xs font-medium">Global Threat Activity</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-red-500 font-medium">{attackCount} attacks detected</span>
+              </div>
             </div>
           </div>
         </div>
