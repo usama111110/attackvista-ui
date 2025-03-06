@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Globe, Loader2 } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
-import { toast } from "@/components/ui/use-toast";
 
 interface AttackPoint {
   id: string;
@@ -59,16 +58,6 @@ export function ThreatMap() {
         country: randomCountry.country
       };
     });
-    
-    // Show a toast notification for new attacks occasionally
-    if (count > 1 && Math.random() > 0.7) {
-      const randomPoint = newPoints[Math.floor(Math.random() * newPoints.length)];
-      toast({
-        title: `Attack Detected!`,
-        description: `New threat detected from ${randomPoint.country}`,
-        variant: "destructive",
-      });
-    }
     
     return newPoints;
   };
