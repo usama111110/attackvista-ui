@@ -1,25 +1,28 @@
-
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning, Mail } from "lucide-react";
+import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning, Mail, Database } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSettingsStore } from "@/utils/notificationUtils";
 import { useTheme } from "@/providers/ThemeProvider";
 import { EmailSettings } from "@/components/email-settings";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const Settings = () => {
   const settings = useSettingsStore();
   const { toast } = useToast();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [retentionDays, setRetentionDays] = useState(settings.dataRetentionDays.toString());
   
   // Wait for client-side hydration to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
-  }, []);
+    setRetentionDays(settings.dataRetentionDays.toString());
+  }, [settings.dataRetentionDays]);
   
-  const handleToggle = (setting: keyof Omit<typeof settings, "toggleSetting" | "emailAddress" | "emailFrequency" | "updateEmailAddress" | "updateEmailFrequency">) => {
+  const handleToggle = (setting: keyof Omit<typeof settings, "toggleSetting" | "emailAddress" | "emailFrequency" | "dataRetentionDays" | "updateEmailAddress" | "updateEmailFrequency" | "updateDataRetention">) => {
     settings.toggleSetting(setting);
     
     toast({
@@ -35,6 +38,28 @@ const Settings = () => {
     toast({
       title: "Theme Updated",
       description: `${isDarkMode ? 'Light' : 'Dark'} mode has been enabled.`,
+    });
+  };
+
+  // Handle data retention days update
+  const handleRetentionUpdate = () => {
+    const days = parseInt(retentionDays);
+    
+    if (isNaN(days) || days < 1) {
+      toast({
+        title: "Invalid Input",
+        description: "Please enter a valid number of days (minimum 1).",
+        variant: "destructive",
+      });
+      setRetentionDays(settings.dataRetentionDays.toString());
+      return;
+    }
+    
+    settings.updateDataRetention(days);
+    
+    toast({
+      title: "Data Retention Updated",
+      description: `Data will now be retained for ${days} days.`,
     });
   };
 
@@ -171,7 +196,6 @@ const Settings = () => {
           </CardContent>
         </Card>
 
-        {/* New Email Configuration Card */}
         <Card className={`${isDarkMode 
           ? 'bg-card backdrop-blur-sm border-gray-700/50' 
           : 'bg-white border-gray-200 shadow-sm'}`}
@@ -194,6 +218,49 @@ const Settings = () => {
                 </p>
               </div>
             )}
+          </CardContent>
+        </Card>
+        
+        <Card className={`${isDarkMode 
+          ? 'bg-card backdrop-blur-sm border-gray-700/50' 
+          : 'bg-white border-gray-200 shadow-sm'}`}
+        >
+          <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Database className="h-5 w-5 text-primary" /> 
+              Data Retention Policy
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm font-medium mb-1">Retention Period</p>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-3`}>
+                  Specify how many days to keep data in the database before automatic deletion
+                </p>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    min="1"
+                    value={retentionDays}
+                    onChange={(e) => setRetentionDays(e.target.value)}
+                    className={`w-24 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white'}`}
+                  />
+                  <span className="flex items-center">days</span>
+                  <Button 
+                    onClick={handleRetentionUpdate}
+                    className="ml-2"
+                  >
+                    Save
+                  </Button>
+                </div>
+              </div>
+              
+              <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-4 p-3 rounded-md border ${isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'}`}>
+                <p className="font-medium mb-1">Note:</p>
+                <p>Setting a shorter retention period can help reduce storage requirements and improve system performance, but may limit historical data analysis.</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
         

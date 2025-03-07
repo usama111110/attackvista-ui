@@ -137,9 +137,11 @@ export interface SettingsState {
   emailAlerts: boolean;
   emailAddress: string;
   emailFrequency: EmailFrequency;
-  toggleSetting: (setting: keyof Omit<SettingsState, "toggleSetting" | "emailAddress" | "emailFrequency">) => void;
+  dataRetentionDays: number;
+  toggleSetting: (setting: keyof Omit<SettingsState, "toggleSetting" | "emailAddress" | "emailFrequency" | "dataRetentionDays" | "updateDataRetention" | "updateEmailAddress" | "updateEmailFrequency">) => void;
   updateEmailAddress: (email: string) => void;
   updateEmailFrequency: (frequency: EmailFrequency) => void;
+  updateDataRetention: (days: number) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -155,12 +157,15 @@ export const useSettingsStore = create<SettingsState>()(
       emailAlerts: false,
       emailAddress: "",
       emailFrequency: "daily",
+      dataRetentionDays: 30, // Default to 30 days
       toggleSetting: (setting) => 
         set((state) => ({ [setting]: !state[setting] })),
       updateEmailAddress: (email) =>
         set({ emailAddress: email }),
       updateEmailFrequency: (frequency) =>
         set({ emailFrequency: frequency }),
+      updateDataRetention: (days) =>
+        set({ dataRetentionDays: days }),
     }),
     {
       name: "settings-storage",
