@@ -137,11 +137,13 @@ export interface SettingsState {
   emailAlerts: boolean;
   emailAddress: string;
   emailFrequency: EmailFrequency;
-  dataRetentionDays: number;
-  toggleSetting: (setting: keyof Omit<SettingsState, "toggleSetting" | "emailAddress" | "emailFrequency" | "dataRetentionDays" | "updateDataRetention" | "updateEmailAddress" | "updateEmailFrequency">) => void;
+  networkDataRetentionDays: number;
+  attackDataRetentionDays: number;
+  toggleSetting: (setting: keyof Omit<SettingsState, "toggleSetting" | "emailAddress" | "emailFrequency" | "networkDataRetentionDays" | "attackDataRetentionDays" | "updateNetworkDataRetention" | "updateAttackDataRetention" | "updateEmailAddress" | "updateEmailFrequency">) => void;
   updateEmailAddress: (email: string) => void;
   updateEmailFrequency: (frequency: EmailFrequency) => void;
-  updateDataRetention: (days: number) => void;
+  updateNetworkDataRetention: (days: number) => void;
+  updateAttackDataRetention: (days: number) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -157,15 +159,18 @@ export const useSettingsStore = create<SettingsState>()(
       emailAlerts: false,
       emailAddress: "",
       emailFrequency: "daily",
-      dataRetentionDays: 30, // Default to 30 days
+      networkDataRetentionDays: 30, // Default to 30 days for normal traffic
+      attackDataRetentionDays: 90, // Default to 90 days for attack traffic
       toggleSetting: (setting) => 
         set((state) => ({ [setting]: !state[setting] })),
       updateEmailAddress: (email) =>
         set({ emailAddress: email }),
       updateEmailFrequency: (frequency) =>
         set({ emailFrequency: frequency }),
-      updateDataRetention: (days) =>
-        set({ dataRetentionDays: days }),
+      updateNetworkDataRetention: (days) =>
+        set({ networkDataRetentionDays: days }),
+      updateAttackDataRetention: (days) =>
+        set({ attackDataRetentionDays: days }),
     }),
     {
       name: "settings-storage",

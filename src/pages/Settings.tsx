@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning, Mail, Database } from "lucide-react";
+import { BellRing, Shield, Bell, Zap, Globe, EyeOff, Wifi, Moon, Sun, MailWarning, Mail, Database, ActivitySquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSettingsStore } from "@/utils/notificationUtils";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -14,15 +14,17 @@ const Settings = () => {
   const { toast } = useToast();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [retentionDays, setRetentionDays] = useState(settings.dataRetentionDays.toString());
+  const [networkRetentionDays, setNetworkRetentionDays] = useState('30');
+  const [attackRetentionDays, setAttackRetentionDays] = useState('90');
   
   // Wait for client-side hydration to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
-    setRetentionDays(settings.dataRetentionDays.toString());
-  }, [settings.dataRetentionDays]);
+    setNetworkRetentionDays(settings.networkDataRetentionDays.toString());
+    setAttackRetentionDays(settings.attackDataRetentionDays.toString());
+  }, [settings.networkDataRetentionDays, settings.attackDataRetentionDays]);
   
-  const handleToggle = (setting: keyof Omit<typeof settings, "toggleSetting" | "emailAddress" | "emailFrequency" | "dataRetentionDays" | "updateEmailAddress" | "updateEmailFrequency" | "updateDataRetention">) => {
+  const handleToggle = (setting: keyof Omit<typeof settings, "toggleSetting" | "emailAddress" | "emailFrequency" | "networkDataRetentionDays" | "attackDataRetentionDays" | "updateEmailAddress" | "updateEmailFrequency" | "updateNetworkDataRetention" | "updateAttackDataRetention">) => {
     settings.toggleSetting(setting);
     
     toast({
@@ -41,9 +43,9 @@ const Settings = () => {
     });
   };
 
-  // Handle data retention days update
-  const handleRetentionUpdate = () => {
-    const days = parseInt(retentionDays);
+  // Handle network data retention days update
+  const handleNetworkRetentionUpdate = () => {
+    const days = parseInt(networkRetentionDays);
     
     if (isNaN(days) || days < 1) {
       toast({
@@ -51,15 +53,37 @@ const Settings = () => {
         description: "Please enter a valid number of days (minimum 1).",
         variant: "destructive",
       });
-      setRetentionDays(settings.dataRetentionDays.toString());
+      setNetworkRetentionDays(settings.networkDataRetentionDays.toString());
       return;
     }
     
-    settings.updateDataRetention(days);
+    settings.updateNetworkDataRetention(days);
     
     toast({
-      title: "Data Retention Updated",
-      description: `Data will now be retained for ${days} days.`,
+      title: "Network Data Retention Updated",
+      description: `Normal network traffic data will now be retained for ${days} days.`,
+    });
+  };
+
+  // Handle attack data retention days update
+  const handleAttackRetentionUpdate = () => {
+    const days = parseInt(attackRetentionDays);
+    
+    if (isNaN(days) || days < 1) {
+      toast({
+        title: "Invalid Input",
+        description: "Please enter a valid number of days (minimum 1).",
+        variant: "destructive",
+      });
+      setAttackRetentionDays(settings.attackDataRetentionDays.toString());
+      return;
+    }
+    
+    settings.updateAttackDataRetention(days);
+    
+    toast({
+      title: "Attack Data Retention Updated",
+      description: `Attack traffic data will now be retained for ${days} days.`,
     });
   };
 
@@ -81,7 +105,7 @@ const Settings = () => {
         >
           <CardHeader className={isDarkMode ? '' : 'border-b border-gray-100'}>
             <CardTitle className="text-xl flex items-center gap-2">
-              <Bell className="h-5 w-5 text-primary" /> 
+              <BellRing className="h-5 w-5 text-primary" /> 
               Notification Settings
             </CardTitle>
           </CardHeader>
@@ -232,23 +256,56 @@ const Settings = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <p className="text-sm font-medium mb-1">Retention Period</p>
-                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mb-3`}>
-                  Specify how many days to keep data in the database before automatic deletion
-                </p>
+                <div className="flex items-center gap-3 mb-3">
+                  <Wifi className="h-5 w-5 text-blue-500" />
+                  <div>
+                    <p className="text-sm font-medium">Normal Network Traffic Retention</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      Specify how many days to keep regular network traffic data
+                    </p>
+                  </div>
+                </div>
                 <div className="flex gap-2">
                   <Input
                     type="number"
                     min="1"
-                    value={retentionDays}
-                    onChange={(e) => setRetentionDays(e.target.value)}
+                    value={networkRetentionDays}
+                    onChange={(e) => setNetworkRetentionDays(e.target.value)}
                     className={`w-24 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white'}`}
                   />
                   <span className="flex items-center">days</span>
                   <Button 
-                    onClick={handleRetentionUpdate}
+                    onClick={handleNetworkRetentionUpdate}
+                    className="ml-2"
+                  >
+                    Save
+                  </Button>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <Shield className="h-5 w-5 text-red-500" />
+                  <div>
+                    <p className="text-sm font-medium">Attack Traffic Retention</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      Specify how many days to keep attack-related traffic data
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    min="1"
+                    value={attackRetentionDays}
+                    onChange={(e) => setAttackRetentionDays(e.target.value)}
+                    className={`w-24 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white'}`}
+                  />
+                  <span className="flex items-center">days</span>
+                  <Button 
+                    onClick={handleAttackRetentionUpdate}
                     className="ml-2"
                   >
                     Save
@@ -258,7 +315,7 @@ const Settings = () => {
               
               <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-4 p-3 rounded-md border ${isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-gray-50'}`}>
                 <p className="font-medium mb-1">Note:</p>
-                <p>Setting a shorter retention period can help reduce storage requirements and improve system performance, but may limit historical data analysis.</p>
+                <p>Attack traffic is typically retained longer than normal traffic to enable thorough forensic analysis. Adjust according to your organization's compliance requirements.</p>
               </div>
             </div>
           </CardContent>
