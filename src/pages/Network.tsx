@@ -1,3 +1,4 @@
+
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { 
   Network as NetworkIcon, 
@@ -11,8 +12,11 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useTheme } from "@/providers/ThemeProvider";
 
 const Network = () => {
+  const { isDarkMode } = useTheme();
+  
   // Mock data for the network information
   const networkInfo = {
     id: "NET-78921",

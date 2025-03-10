@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
-import { useTheme } from "@/context/theme";
+import { useTheme } from "@/providers/ThemeProvider";
 
 // Mock connection data generator for demonstration
 const generateConnectionData = () => {
