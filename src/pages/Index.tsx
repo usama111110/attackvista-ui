@@ -79,7 +79,7 @@ const Index = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in ${
-            isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
+            isDarkMode ? "bg-gray-900/50" : "bg-white/90"
           }`}>
           <h3 className="text-lg font-semibold mb-4">Network Performance</h3>
           <div className="space-y-4">
@@ -93,7 +93,7 @@ const Index = () => {
                   <div className={`p-2 rounded-lg ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
                     {item.icon}
                   </div>
-                  <span>{item.name}</span>
+                  <span className={isDarkMode ? "text-gray-200" : "text-gray-700"}>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className={`w-36 h-2 rounded-full overflow-hidden ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
@@ -102,7 +102,7 @@ const Index = () => {
                       style={{ width: `${item.value}%` }}
                     ></div>
                   </div>
-                  <span className="text-sm font-medium">{item.value}%</span>
+                  <span className={`text-sm font-medium ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>{item.value}%</span>
                 </div>
               </div>
             ))}
@@ -110,7 +110,7 @@ const Index = () => {
         </Card>
 
         <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in ${
-            isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
+            isDarkMode ? "bg-gray-900/50" : "bg-white/90"
           }`}>
           <h3 className="text-lg font-semibold mb-4">System Health</h3>
           <div className="space-y-4">
@@ -124,7 +124,7 @@ const Index = () => {
                   <div className={`p-2 rounded-lg ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
                     {item.icon}
                   </div>
-                  <span>{item.name}</span>
+                  <span className={isDarkMode ? "text-gray-200" : "text-gray-700"}>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className={`w-36 h-2 rounded-full overflow-hidden ${isDarkMode ? "bg-gray-700/50" : "bg-gray-200/70"}`}>
@@ -137,7 +137,7 @@ const Index = () => {
                       style={{ width: `${item.value}%` }}
                     ></div>
                   </div>
-                  <span className="text-sm font-medium">{item.value}%</span>
+                  <span className={`text-sm font-medium ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>{item.value}%</span>
                 </div>
               </div>
             ))}

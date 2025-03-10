@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { 
   Table, 
@@ -10,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { useTheme } from "@/context/theme";
 
 // Mock connection data generator for demonstration
 const generateConnectionData = () => {
@@ -37,6 +37,7 @@ const generateConnectionData = () => {
 
 export function LiveConnectionsTable() {
   const [connections, setConnections] = useState(generateConnectionData());
+  const { isDarkMode } = useTheme();
 
   // Function to format bytes into KB, MB, GB
   const formatBytes = (bytes: number) => {
@@ -60,22 +61,22 @@ export function LiveConnectionsTable() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Source IP</TableHead>
-            <TableHead>Source Port</TableHead>
-            <TableHead>Destination IP</TableHead>
-            <TableHead>Destination Port</TableHead>
-            <TableHead>Protocol</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Source IP</TableHead>
+            <TableHead className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Source Port</TableHead>
+            <TableHead className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Destination IP</TableHead>
+            <TableHead className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Destination Port</TableHead>
+            <TableHead className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Protocol</TableHead>
+            <TableHead className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Status</TableHead>
             <TableHead>
               <div className="flex items-center gap-1">
                 <ArrowDownRight className="h-4 w-4" />
-                <span>Ingress</span>
+                <span className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Ingress</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center gap-1">
                 <ArrowUpRight className="h-4 w-4" />
-                <span>Egress</span>
+                <span className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Egress</span>
               </div>
             </TableHead>
           </TableRow>
@@ -86,15 +87,15 @@ export function LiveConnectionsTable() {
               key={connection.id}
               className={connection.isMalicious ? "bg-red-900/20" : ""}
             >
-              <TableCell className="font-mono text-sm">
+              <TableCell className={`font-mono text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
                 {connection.sourceIp}
                 {connection.isMalicious && (
                   <Badge variant="destructive" className="ml-2">Suspicious</Badge>
                 )}
               </TableCell>
-              <TableCell className="font-mono text-sm">{connection.sourcePort}</TableCell>
-              <TableCell className="font-mono text-sm">{connection.destIp}</TableCell>
-              <TableCell className="font-mono text-sm">{connection.destPort}</TableCell>
+              <TableCell className={`font-mono text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>{connection.sourcePort}</TableCell>
+              <TableCell className={`font-mono text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>{connection.destIp}</TableCell>
+              <TableCell className={`font-mono text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>{connection.destPort}</TableCell>
               <TableCell>
                 <Badge 
                   variant="outline" 

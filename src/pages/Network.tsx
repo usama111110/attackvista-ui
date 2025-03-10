@@ -1,4 +1,3 @@
-
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { 
   Network as NetworkIcon, 
@@ -48,14 +47,18 @@ const Network = () => {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
+        <Card className={`p-6 backdrop-blur-lg border ${
+          isDarkMode 
+            ? "bg-gray-900/50 border-gray-700/50 text-gray-100" 
+            : "bg-white/90 border-gray-200 text-gray-800"
+        } data-card hover-lift animate-fade-in`}>
           <div className="flex items-center gap-4 mb-4">
             <div className="p-3 bg-primary/20 text-primary rounded-lg">
               <NetworkIcon size={24} />
             </div>
             <div>
               <h2 className="text-xl font-semibold">{networkInfo.name}</h2>
-              <p className="text-gray-600 dark:text-gray-400">Network ID: {networkInfo.id}</p>
+              <p className={isDarkMode ? "text-gray-300" : "text-gray-600"}>Network ID: {networkInfo.id}</p>
             </div>
           </div>
           
@@ -98,7 +101,9 @@ const Network = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg">
+            <div className={`p-4 rounded-lg ${
+              isDarkMode ? "bg-gray-800/50" : "bg-gray-100"
+            }`}>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-600 dark:text-gray-400">VPN Status</span>
                 <span className={`px-2 py-1 rounded-full text-xs ${networkInfo.vpnEnabled ? "bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400" : "bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400"}`}>
@@ -111,7 +116,9 @@ const Network = () => {
               </div>
             </div>
             
-            <div className="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-lg">
+            <div className={`p-4 rounded-lg ${
+              isDarkMode ? "bg-gray-800/50" : "bg-gray-100"
+            }`}>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-600 dark:text-gray-400">Firewall</span>
                 <span className="px-2 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">{networkInfo.firewallStatus}</span>
@@ -124,14 +131,18 @@ const Network = () => {
           </div>
         </Card>
         
-        <Card className="p-6 backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
+        <Card className={`p-6 backdrop-blur-lg border ${
+          isDarkMode 
+            ? "bg-gray-900/50 border-gray-700/50 text-gray-100" 
+            : "bg-white/90 border-gray-200 text-gray-800"
+        } data-card hover-lift animate-fade-in`}>
           <div className="flex items-center gap-4 mb-6">
             <div className="p-3 bg-primary/20 text-primary rounded-lg">
               <Shield size={24} />
             </div>
             <div>
               <h2 className="text-xl font-semibold">Protection Status</h2>
-              <p className="text-gray-600 dark:text-gray-400">{protectedSystems.length} systems protected</p>
+              <p className={isDarkMode ? "text-gray-300" : "text-gray-600"}>{protectedSystems.length} systems protected</p>
             </div>
           </div>
           
