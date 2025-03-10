@@ -26,11 +26,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#9b87f5", // Updated to Purple from the orange
+          DEFAULT: "#FF7B00", // Orange from the logo
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#7E69AB", // Updated to secondary purple
+          DEFAULT: "#646464", // Gray from the logo
           foreground: "#FFFFFF",
         },
         destructive: {

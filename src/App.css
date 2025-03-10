@@ -13,10 +13,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em rgba(155, 135, 245, 0.6));
+  filter: drop-shadow(0 0 2em rgba(255, 123, 0, 0.6));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em rgba(155, 135, 245, 0.6));
+  filter: drop-shadow(0 0 2em rgba(255, 123, 0, 0.6));
 }
 
 @keyframes logo-spin {
@@ -44,7 +44,7 @@
 
 /* New additions for modern UI */
 .animated-gradient {
-  background: linear-gradient(-45deg, #9b87f5, #7E69AB, #6E59A5, #1A1F2C);
+  background: linear-gradient(-45deg, #FF7B00, #FF9800, #646464, #444444);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
@@ -70,9 +70,9 @@
 }
 
 .shadow-glow {
-  box-shadow: 0 0 15px rgba(155, 135, 245, 0.2);
+  box-shadow: 0 0 15px rgba(255, 123, 0, 0.2);
 }
 
 .shadow-glow:hover {
-  box-shadow: 0 0 20px rgba(155, 135, 245, 0.4);
+  box-shadow: 0 0 20px rgba(255, 123, 0, 0.4);
 }

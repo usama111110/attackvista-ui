@@ -5,27 +5,27 @@
 @tailwind utilities;
  
 @layer base {
-  /* Dark mode (default) - with dark purple */
+  /* Dark mode (default) */
   :root, .dark-mode {
-    --background: 260 20% 7%;
+    --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 260 20% 10%;
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-    --popover: 260 20% 7%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 260 80% 75%;
+    --primary: 24 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 262 30% 54%;
+    --secondary: 0 0% 39%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 260 20% 15%;
+    --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 260 20% 15%;
+    --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 260 20% 15%;
-    --input: 260 20% 15%;
-    --ring: 260 80% 75%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 24 100% 50%;
     --radius: 0.75rem;
   }
 
@@ -99,7 +99,7 @@
 
 /* Background patterns */
 .bg-world-map {
-  background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M362,81c-19-13-39-24-65-24c-55,0-111,44-111,102c0,28,26,64,26,64c26-32,40-36,40-36c-14,0-31,23-31,50c0,65,64,114,64,114c-14-10-31-32-31-64c0-43,43-61,43-61c-5,14-7,28-7,40c0,47,38,100,89,127c51-27,89-80,89-127c0-12-2-26-7-40c0,0,43,18,43,61c0,32-17,54-31,64c0,0,64-49,64-114c0-27-17-50-31-50c0,0,14,4,40,36c0,0,26-36,26-64c0-58-56-102-111-102c-26,0-46,11-65,24c-19-28-51-47-87-47C394,34,362,53,362,81z' fill='rgba(155, 135, 245, 0.05)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='800' height='400' viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M362,81c-19-13-39-24-65-24c-55,0-111,44-111,102c0,28,26,64,26,64c26-32,40-36,40-36c-14,0-31,23-31,50c0,65,64,114,64,114c-14-10-31-32-31-64c0-43,43-61,43-61c-5,14-7,28-7,40c0,47,38,100,89,127c51-27,89-80,89-127c0-12-2-26-7-40c0,0,43,18,43,61c0,32-17,54-31,64c0,0,64-49,64-114c0-27-17-50-31-50c0,0,14,4,40,36c0,0,26-36,26-64c0-58-56-102-111-102c-26,0-46,11-65,24c-19-28-51-47-87-47C394,34,362,53,362,81z' fill='rgba(100, 100, 100, 0.05)'/%3E%3C/svg%3E");
 }
 
 /* Utility classes */
@@ -159,7 +159,7 @@
   }
   
   .text-gradient {
-    background-image: linear-gradient(to right, #9b87f5, #7E69AB);
+    background-image: linear-gradient(to right, #FF7B00, #FFA500);
     background-clip: text;
     color: transparent;
   }
@@ -232,17 +232,17 @@
     background-color: rgba(249, 250, 251, 0.9);
   }
   
-  /* DARK MODE BACKGROUND FIXES WITH PURPLE THEME */
+  /* DARK MODE BACKGROUND FIXES */
   .dark-mode .bg-white\/90 {
-    background-color: rgba(30, 25, 50, 0.5);
+    background-color: rgba(17, 24, 39, 0.5);
   }
   
   .dark-mode .bg-white\/5 {
-    background-color: rgba(30, 25, 50, 0.5);
+    background-color: rgba(17, 24, 39, 0.5);
   }
   
   .dark-mode .bg-gray-800\/20 {
-    background-color: rgba(30, 25, 50, 0.5);
+    background-color: rgba(17, 24, 39, 0.5);
   }
   
   .light-mode .bg-black\/20 {
