@@ -199,12 +199,7 @@ export function AttackDetailView({ attack, timeRange, onBack }: AttackDetailProp
           <div>
             <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              Subnet Distribution 
-              {victimIp && (
-                <span className="ml-2 text-sm font-normal bg-gray-800/70 px-2 py-0.5 rounded text-red-400 font-mono">
-                  Target: {victimIp}
-                </span>
-              )}
+              Subnet Distribution
             </h3>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
