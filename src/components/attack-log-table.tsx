@@ -130,7 +130,7 @@ export const generateMockAttackLogs = (attackId: string, count: number = 10): { 
       timestamp: getRecentTimestamp(),
       sourceIp,
       sourcePort,
-      destIp: victimIp,
+      destIp: victimIps,  // Fix: Use victimIps instead of victimIp
       destPort,
       protocol,
       attackType: {
@@ -154,7 +154,7 @@ export const generateMockAttackLogs = (attackId: string, count: number = 10): { 
     };
   }).sort((a, b) => b.timestamp.localeCompare(a.timestamp)); // Sort by most recent first
 
-  return { logs, victimIp };
+  return { logs, victimIp: victimIps };  // Fix: Return victimIps as victimIp
 };
 
 export function AttackLogTable({ logs, victimIp }: AttackLogTableProps) {
