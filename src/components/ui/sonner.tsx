@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Toaster as Sonner } from "sonner";
 import { useTheme } from "@/providers/ThemeProvider";
 
