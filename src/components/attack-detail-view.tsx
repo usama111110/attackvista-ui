@@ -15,7 +15,7 @@ import {
   Cell,
   Legend
 } from "recharts";
-import { ArrowLeft, Shield, Activity, Clock } from "lucide-react";
+import { ArrowLeft, Shield, Activity, Clock, MapPin } from "lucide-react";
 import { AttackLogTable, generateMockAttackLogs } from "./attack-log-table";
 
 type AttackDetailProps = {
@@ -197,7 +197,15 @@ export function AttackDetailView({ attack, timeRange, onBack }: AttackDetailProp
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <div>
-            <h3 className="text-lg font-semibold mb-3">Subnet Distribution</h3>
+            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-primary" />
+              Subnet Distribution 
+              {victimIp && (
+                <span className="ml-2 text-sm font-normal bg-gray-800/70 px-2 py-0.5 rounded text-red-400 font-mono">
+                  Target: {victimIp}
+                </span>
+              )}
+            </h3>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart 
