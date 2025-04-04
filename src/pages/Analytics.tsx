@@ -1,312 +1,196 @@
 
 import { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { LineChart, BarChart, Gauge, PieChart, Calendar, Download, Filter } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useTheme } from "@/providers/ThemeProvider";
-import { Button } from "@/components/ui/button";
 import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
   ResponsiveContainer,
-  LineChart as RechartsLineChart,
+  LineChart,
   Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  BarChart as RechartsBarChart,
-  Bar,
-  PieChart as RechartsPieChart,
+  PieChart,
   Pie,
   Cell
 } from "recharts";
+import { TimeFilter } from "@/components/time-filter";
+import { useTheme } from "@/providers/ThemeProvider";
+import { Clock, Shield, AlertTriangle } from "lucide-react";
 
-// Sample data for charts
-const attackTrendData = [
-  { name: "Jan", ddos: 40, sql: 24, xss: 18 },
-  { name: "Feb", ddos: 30, sql: 28, xss: 22 },
-  { name: "Mar", ddos: 20, sql: 26, xss: 23 },
-  { name: "Apr", ddos: 27, sql: 30, xss: 26 },
-  { name: "May", ddos: 18, sql: 28, xss: 24 },
-  { name: "Jun", ddos: 23, sql: 34, xss: 29 },
-  { name: "Jul", ddos: 34, sql: 36, xss: 33 },
-  { name: "Aug", ddos: 45, sql: 32, xss: 30 },
+// Mock data for charts
+const attackData = [
+  { name: "Mon", ddos: 4, sqlInjection: 2, xss: 1, bruteForce: 3 },
+  { name: "Tue", ddos: 3, sqlInjection: 1, xss: 2, bruteForce: 2 },
+  { name: "Wed", ddos: 2, sqlInjection: 3, xss: 3, bruteForce: 1 },
+  { name: "Thu", ddos: 5, sqlInjection: 2, xss: 2, bruteForce: 4 },
+  { name: "Fri", ddos: 3, sqlInjection: 4, xss: 1, bruteForce: 2 },
+  { name: "Sat", ddos: 2, sqlInjection: 1, xss: 1, bruteForce: 1 },
+  { name: "Sun", ddos: 1, sqlInjection: 2, xss: 0, bruteForce: 2 }
+];
+
+const trafficData = [
+  { name: "00:00", traffic: 2100 },
+  { name: "04:00", traffic: 1200 },
+  { name: "08:00", traffic: 4500 },
+  { name: "12:00", traffic: 5800 },
+  { name: "16:00", traffic: 6200 },
+  { name: "20:00", traffic: 4300 },
+  { name: "23:59", traffic: 3100 }
 ];
 
 const threatSourceData = [
-  { name: "North America", value: 35 },
-  { name: "Europe", value: 25 },
-  { name: "Asia", value: 30 },
-  { name: "Other", value: 10 },
+  { name: "USA", value: 35 },
+  { name: "China", value: 25 },
+  { name: "Russia", value: 20 },
+  { name: "Other", value: 20 }
 ];
 
-const mitigationData = [
-  { name: "Blocked", value: 840 },
-  { name: "Quarantined", value: 350 },
-  { name: "Logged Only", value: 190 },
-];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-const THREAT_COLORS = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"];
+// Component for metric card
+const MetricCard = ({ 
+  title, 
+  value, 
+  trend, 
+  icon 
+}: { 
+  title: string; 
+  value: string | number; 
+  trend?: { value: number; isPositive: boolean }; 
+  icon: React.ReactNode 
+}) => {
+  const { isDarkMode } = useTheme();
+  
+  return (
+    <Card className={`p-5 ${isDarkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-white border-gray-200'}`}>
+      <div className="flex justify-between">
+        <div>
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</h3>
+          <p className="text-2xl font-bold mt-1">{value}</p>
+          {trend && (
+            <p className={`text-sm flex items-center gap-1 ${
+              trend.isPositive 
+                ? 'text-green-600 dark:text-green-400' 
+                : 'text-red-600 dark:text-red-400'
+            }`}>
+              {trend.isPositive ? '↑' : '↓'} {trend.value}%
+            </p>
+          )}
+        </div>
+        <div className="bg-primary/10 p-3 rounded-lg text-primary">
+          {icon}
+        </div>
+      </div>
+    </Card>
+  );
+};
 
 const Analytics = () => {
-  const { isDarkMode } = useTheme();
   const [timeRange, setTimeRange] = useState("7d");
-
+  const { isDarkMode } = useTheme();
+  
+  const cardClassName = isDarkMode
+    ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50"
+    : "p-6 backdrop-blur-lg bg-white/90 border border-gray-200";
+  
   return (
     <DashboardLayout>
-      <header className="mb-6 animate-fade-in">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold mb-2 dark:text-gradient">Security Analytics</h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Advanced insights and threat intelligence
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Select value={timeRange} onValueChange={setTimeRange}>
-              <SelectTrigger className="w-36">
-                <SelectValue placeholder="Time Range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="24h">Last 24 Hours</SelectItem>
-                <SelectItem value="7d">Last 7 Days</SelectItem>
-                <SelectItem value="30d">Last 30 Days</SelectItem>
-                <SelectItem value="90d">Last 90 Days</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button size="sm" variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Export
-            </Button>
-          </div>
+      <div className="space-y-8 animate-fade-in">
+        <div>
+          <h1 className="text-3xl font-bold dark:text-gradient mb-2">Security Analytics</h1>
+          <p className="text-gray-600 dark:text-gray-400">Comprehensive security metrics and trends</p>
         </div>
-      </header>
-
-      {/* Summary metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 animate-fade-in">
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total Attacks</p>
-              <p className="text-2xl font-bold mt-1">1,384</p>
-            </div>
-            <div className="p-3 rounded-full bg-red-500/10">
-              <Gauge className="h-6 w-6 text-red-500" />
-            </div>
-          </div>
-          <div className="mt-3 text-xs text-red-500">
-            +12.5% from last period
-          </div>
-        </Card>
         
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Avg. Response Time</p>
-              <p className="text-2xl font-bold mt-1">3.2 min</p>
-            </div>
-            <div className="p-3 rounded-full bg-blue-500/10">
-              <Clock className="h-6 w-6 text-blue-500" />
-            </div>
-          </div>
-          <div className="mt-3 text-xs text-green-500">
-            -8.3% from last period
-          </div>
-        </Card>
+        <TimeFilter value={timeRange} onChange={setTimeRange} />
         
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Threat Score</p>
-              <p className="text-2xl font-bold mt-1">72/100</p>
-            </div>
-            <div className="p-3 rounded-full bg-amber-500/10">
-              <AlertTriangle className="h-6 w-6 text-amber-500" />
-            </div>
-          </div>
-          <div className="mt-3 text-xs text-amber-500">
-            +5.2% from last period
-          </div>
-        </Card>
-        
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Mitigated</p>
-              <p className="text-2xl font-bold mt-1">1,190</p>
-            </div>
-            <div className="p-3 rounded-full bg-green-500/10">
-              <Shield className="h-6 w-6 text-green-500" />
-            </div>
-          </div>
-          <div className="mt-3 text-xs text-green-500">
-            +9.7% from last period
-          </div>
-        </Card>
-      </div>
-
-      {/* Main charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <Card className={`lg:col-span-2 p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <LineChart className="h-5 w-5 text-primary" />
-              Attack Trends
-            </h3>
-            <div className="flex items-center gap-2">
-              <Button size="sm" variant="ghost" className="h-8 px-2">
-                <Filter className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <MetricCard 
+            title="Total Attacks"
+            value="1,284"
+            trend={{ value: 12, isPositive: false }}
+            icon={<Clock size={24} />}
+          />
           
-          <div className="h-80">
+          <MetricCard 
+            title="Critical Vulnerabilities"
+            value="23"
+            trend={{ value: 5, isPositive: false }}
+            icon={<AlertTriangle size={24} />}
+          />
+          
+          <MetricCard 
+            title="Security Score"
+            value="78/100"
+            trend={{ value: 4, isPositive: true }}
+            icon={<Shield size={24} />}
+          />
+        </div>
+        
+        <Card className={cardClassName}>
+          <h2 className="text-lg font-semibold mb-4">Attack Types Distribution</h2>
+          <div className="h-96">
             <ResponsiveContainer width="100%" height="100%">
-              <RechartsLineChart
-                data={attackTrendData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"} />
-                <XAxis dataKey="name" stroke={isDarkMode ? "#888" : "#333"} />
-                <YAxis stroke={isDarkMode ? "#888" : "#333"} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: isDarkMode ? "rgba(17, 24, 39, 0.9)" : "rgba(255, 255, 255, 0.9)",
-                    border: "none",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                    color: isDarkMode ? "#fff" : "#000",
-                  }}
-                />
+              <BarChart data={attackData}>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip contentStyle={{ backgroundColor: isDarkMode ? '#1f2937' : '#fff', borderColor: isDarkMode ? '#374151' : '#e5e7eb' }} />
                 <Legend />
-                <Line type="monotone" dataKey="ddos" stroke="#FF6384" strokeWidth={2} activeDot={{ r: 8 }} name="DDoS Attacks" />
-                <Line type="monotone" dataKey="sql" stroke="#36A2EB" strokeWidth={2} name="SQL Injections" />
-                <Line type="monotone" dataKey="xss" stroke="#FFCE56" strokeWidth={2} name="XSS Attacks" />
-              </RechartsLineChart>
+                <Bar dataKey="ddos" name="DDoS Attacks" fill="#8884d8" />
+                <Bar dataKey="sqlInjection" name="SQL Injection" fill="#82ca9d" />
+                <Bar dataKey="xss" name="XSS Attacks" fill="#ffc658" />
+                <Bar dataKey="bruteForce" name="Brute Force" fill="#ff8042" />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </Card>
         
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <PieChart className="h-5 w-5 text-primary" />
-              Threat Sources
-            </h3>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className={cardClassName}>
+            <h2 className="text-lg font-semibold mb-4">Network Traffic</h2>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={trafficData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip contentStyle={{ backgroundColor: isDarkMode ? '#1f2937' : '#fff', borderColor: isDarkMode ? '#374151' : '#e5e7eb' }} />
+                  <Legend />
+                  <Line type="monotone" dataKey="traffic" name="Traffic (requests)" stroke="#8884d8" activeDot={{ r: 8 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
           
-          <div className="h-80 flex items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <RechartsPieChart>
-                <Pie
-                  data={threatSourceData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {threatSourceData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={THREAT_COLORS[index % THREAT_COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: isDarkMode ? "rgba(17, 24, 39, 0.9)" : "rgba(255, 255, 255, 0.9)",
-                    border: "none",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                    color: isDarkMode ? "#fff" : "#000",
-                  }}
-                />
-              </RechartsPieChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-      </div>
-
-      {/* Secondary charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <BarChart className="h-5 w-5 text-primary" />
-              Mitigation Actions
-            </h3>
-          </div>
-          
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <RechartsBarChart
-                data={mitigationData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"} />
-                <XAxis dataKey="name" stroke={isDarkMode ? "#888" : "#333"} />
-                <YAxis stroke={isDarkMode ? "#888" : "#333"} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: isDarkMode ? "rgba(17, 24, 39, 0.9)" : "rgba(255, 255, 255, 0.9)",
-                    border: "none",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                    color: isDarkMode ? "#fff" : "#000",
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="value" fill="#4BC0C0" radius={[4, 4, 0, 0]} name="Count" />
-              </RechartsBarChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-        
-        <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Security Events Timeline</h3>
-            <Button variant="outline" size="sm" className="h-8">
-              <Calendar className="h-4 w-4 mr-2" />
-              View Calendar
-            </Button>
-          </div>
-          
-          <div className="space-y-4">
-            {[
-              { time: "09:45 AM", event: "Firewall blocked suspicious IP", severity: "Medium" },
-              { time: "11:23 AM", event: "Multiple failed login attempts", severity: "High" },
-              { time: "01:12 PM", event: "System update completed", severity: "Info" },
-              { time: "03:57 PM", event: "Data exfiltration attempt detected", severity: "Critical" },
-              { time: "06:30 PM", event: "Scheduled security scan completed", severity: "Info" },
-            ].map((event, index) => (
-              <div key={index} className="flex items-start">
-                <div className={`mt-1 w-3 h-3 rounded-full flex-shrink-0 mr-3 ${
-                  event.severity === "Critical" ? "bg-red-500" :
-                  event.severity === "High" ? "bg-orange-500" :
-                  event.severity === "Medium" ? "bg-yellow-500" :
-                  "bg-blue-500"
-                }`}></div>
-                <div className="flex-1">
-                  <div className="flex justify-between">
-                    <p className="font-medium">{event.event}</p>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{event.time}</span>
-                  </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    Severity: {event.severity}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
+          <Card className={cardClassName}>
+            <h2 className="text-lg font-semibold mb-4">Threat Sources by Country</h2>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={threatSourceData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  >
+                    {threatSourceData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ backgroundColor: isDarkMode ? '#1f2937' : '#fff', borderColor: isDarkMode ? '#374151' : '#e5e7eb' }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </div>
       </div>
     </DashboardLayout>
   );
