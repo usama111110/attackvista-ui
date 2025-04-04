@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import Detection from "./pages/Detection";
 import Network from "./pages/Network";
 import Notifications from "./pages/Notifications";
+import Analytics from "./pages/Analytics";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/network" element={<Network />} />
           <Route path="/users" element={<Users />} />
           <Route path="/live-traffic" element={<LiveTraffic />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="*" element={<NotFound />} />

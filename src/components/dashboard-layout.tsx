@@ -1,8 +1,9 @@
 
 import { ReactNode, useState } from "react";
 import { MainNav } from "./main-nav";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Bell } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
+import { NotificationDropdown } from "./notification-dropdown";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -10,6 +11,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const { isDarkMode } = useTheme();
 
   return (
@@ -35,7 +37,26 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </button>
       </aside>
-      <main className="flex-1 overflow-y-auto p-6 lg:p-8">
+      <main className="flex-1 overflow-y-auto p-6 lg:p-8 relative">
+        {/* Notification bell */}
+        <div className="absolute top-6 right-6 z-10">
+          <button 
+            onClick={() => setNotificationsOpen(!notificationsOpen)}
+            className={`p-2 rounded-full transition-colors ${
+              isDarkMode 
+                ? 'bg-gray-800/50 hover:bg-gray-700/50 text-gray-300' 
+                : 'bg-white shadow-sm hover:bg-gray-100 text-gray-600'
+            }`}
+          >
+            <Bell size={18} />
+            <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-red-500"></span>
+          </button>
+          
+          {notificationsOpen && (
+            <NotificationDropdown onClose={() => setNotificationsOpen(false)} />
+          )}
+        </div>
+        
         <div className="max-w-7xl mx-auto">
           {children}
         </div>

@@ -1,6 +1,6 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Shield, Activity, Users, Settings, Bell, LogOut, AlertTriangle, Globe } from "lucide-react";
+import { Shield, Activity, Users, Settings, Bell, LogOut, AlertTriangle, Globe, BarChart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/utils/userDatabase";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +12,7 @@ const navItems = [
   { icon: Shield, label: "Dashboard", path: "/" },
   { icon: AlertTriangle, label: "Detection", path: "/detection" },
   { icon: Activity, label: "Live Traffic", path: "/live-traffic" },
+  { icon: BarChart, label: "Analytics", path: "/analytics" },
   { icon: Globe, label: "Network", path: "/network" },
   { icon: Users, label: "Users", path: "/users" },
   { icon: Settings, label: "Settings", path: "/settings" },

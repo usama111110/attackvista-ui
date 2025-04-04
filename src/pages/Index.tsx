@@ -1,5 +1,5 @@
 
-import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2 } from "lucide-react";
+import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search } from "lucide-react";
 import { MetricsCard } from "@/components/metrics-card";
 import { AttackChart } from "@/components/attack-chart";
 import { LiveTrafficGraph } from "@/components/live-traffic-graph";
@@ -9,9 +9,25 @@ import { SecurityScore } from "@/components/security-score";
 import { ThreatMap } from "@/components/threat-map";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/providers/ThemeProvider";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 const Index = () => {
   const { isDarkMode } = useTheme();
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Filter data based on search query
+  const attackData = [
+    { type: "DDoS Attack", ip: "192.168.1.1", time: "2 min ago", severity: "High" },
+    { type: "SQL Injection", ip: "192.168.1.45", time: "15 min ago", severity: "Critical" },
+    { type: "Brute Force", ip: "192.168.2.12", time: "1 hour ago", severity: "Medium" }
+  ];
+  
+  const filteredAttacks = searchQuery 
+    ? attackData.filter(attack => 
+        attack.type.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        attack.ip.includes(searchQuery))
+    : attackData;
   
   return (
     <DashboardLayout>
@@ -25,6 +41,27 @@ const Index = () => {
         </div>
         <p className="text-gray-600 dark:text-gray-400">Real-time network security monitoring</p>
       </header>
+
+      {/* Search bar */}
+      <div className="mb-6 relative w-full md:w-1/2 lg:w-1/3">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            placeholder="Search attacks, IPs, threats..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={`pl-10 border ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white/90 border-gray-200'}`}
+          />
+          {searchQuery && (
+            <button 
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <MetricsCard
@@ -153,11 +190,7 @@ const Index = () => {
           <Link to="/live-traffic" className="text-xs text-primary hover:underline">View all</Link>
         </div>
         <div className="space-y-4">
-          {[
-            { type: "DDoS Attack", ip: "192.168.1.1", time: "2 min ago", severity: "High" },
-            { type: "SQL Injection", ip: "192.168.1.45", time: "15 min ago", severity: "Critical" },
-            { type: "Brute Force", ip: "192.168.2.12", time: "1 hour ago", severity: "Medium" }
-          ].map((attack, i) => (
+          {filteredAttacks.map((attack, i) => (
             <div key={i} className={`flex items-center justify-between p-4 rounded-lg transition-colors ${
               isDarkMode 
                 ? "bg-black/20 hover:bg-black/30" 
@@ -185,6 +218,11 @@ const Index = () => {
               </div>
             </div>
           ))}
+          {searchQuery && filteredAttacks.length === 0 && (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              No results found for "{searchQuery}"
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>
