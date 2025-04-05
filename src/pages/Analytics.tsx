@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,6 +38,7 @@ import {
 import { toast } from "sonner";
 import { SecurityScore } from "@/components/security-score";
 import { AttackTypesVisualization } from "@/components/attack-types-visualization";
+import { AttackInsights } from "@/components/attack-insights";
 import { 
   Select,
   SelectContent,
@@ -300,7 +300,7 @@ const Analytics = () => {
                         className="mr-2" 
                         readOnly
                       />
-                      DDoS Attacks
+                      <span>DDoS Attacks</span>
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("sqlInjection")}>
@@ -311,7 +311,7 @@ const Analytics = () => {
                         className="mr-2" 
                         readOnly
                       />
-                      SQL Injection
+                      <span>SQL Injection</span>
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("xss")}>
@@ -322,7 +322,7 @@ const Analytics = () => {
                         className="mr-2" 
                         readOnly
                       />
-                      XSS Attacks
+                      <span>XSS Attacks</span>
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("bruteForce")}>
@@ -333,7 +333,7 @@ const Analytics = () => {
                         className="mr-2" 
                         readOnly
                       />
-                      Brute Force
+                      <span>Brute Force</span>
                     </div>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -421,10 +421,11 @@ const Analytics = () => {
         </div>
         
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid grid-cols-3 mb-4 bg-muted/50">
+          <TabsList className="grid grid-cols-4 mb-4 bg-muted/50">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="threats">Threat Analytics</TabsTrigger>
             <TabsTrigger value="traffic">Traffic Analysis</TabsTrigger>
+            <TabsTrigger value="insights">Attack Insights</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-6">
@@ -524,6 +525,10 @@ const Analytics = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+          
+          <TabsContent value="insights" className="space-y-6">
+            <AttackInsights />
           </TabsContent>
         </Tabs>
       </div>
