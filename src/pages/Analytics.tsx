@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -293,7 +294,7 @@ const Analytics = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => toggleMetric("ddos")}>
-                    <div className="flex items-center">
+                    <div className="flex items-center w-full">
                       <input 
                         type="checkbox" 
                         checked={visibleMetrics.includes("ddos")} 
@@ -304,7 +305,7 @@ const Analytics = () => {
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("sqlInjection")}>
-                    <div className="flex items-center">
+                    <div className="flex items-center w-full">
                       <input 
                         type="checkbox" 
                         checked={visibleMetrics.includes("sqlInjection")} 
@@ -315,7 +316,7 @@ const Analytics = () => {
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("xss")}>
-                    <div className="flex items-center">
+                    <div className="flex items-center w-full">
                       <input 
                         type="checkbox" 
                         checked={visibleMetrics.includes("xss")} 
@@ -326,7 +327,7 @@ const Analytics = () => {
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("bruteForce")}>
-                    <div className="flex items-center">
+                    <div className="flex items-center w-full">
                       <input 
                         type="checkbox" 
                         checked={visibleMetrics.includes("bruteForce")} 
