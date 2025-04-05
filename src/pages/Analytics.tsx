@@ -299,40 +299,48 @@ const Analytics = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => toggleMetric("ddos")}>
-                    <input 
-                      type="checkbox" 
-                      checked={visibleMetrics.includes("ddos")} 
-                      className="mr-2" 
-                      readOnly
-                    />
-                    DDoS Attacks
+                    <div className="flex items-center">
+                      <input 
+                        type="checkbox" 
+                        checked={visibleMetrics.includes("ddos")} 
+                        className="mr-2" 
+                        readOnly
+                      />
+                      DDoS Attacks
+                    </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("sqlInjection")}>
-                    <input 
-                      type="checkbox" 
-                      checked={visibleMetrics.includes("sqlInjection")} 
-                      className="mr-2" 
-                      readOnly
-                    />
-                    SQL Injection
+                    <div className="flex items-center">
+                      <input 
+                        type="checkbox" 
+                        checked={visibleMetrics.includes("sqlInjection")} 
+                        className="mr-2" 
+                        readOnly
+                      />
+                      SQL Injection
+                    </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("xss")}>
-                    <input 
-                      type="checkbox" 
-                      checked={visibleMetrics.includes("xss")} 
-                      className="mr-2" 
-                      readOnly
-                    />
-                    XSS Attacks
+                    <div className="flex items-center">
+                      <input 
+                        type="checkbox" 
+                        checked={visibleMetrics.includes("xss")} 
+                        className="mr-2" 
+                        readOnly
+                      />
+                      XSS Attacks
+                    </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => toggleMetric("bruteForce")}>
-                    <input 
-                      type="checkbox" 
-                      checked={visibleMetrics.includes("bruteForce")} 
-                      className="mr-2" 
-                      readOnly
-                    />
-                    Brute Force
+                    <div className="flex items-center">
+                      <input 
+                        type="checkbox" 
+                        checked={visibleMetrics.includes("bruteForce")} 
+                        className="mr-2" 
+                        readOnly
+                      />
+                      Brute Force
+                    </div>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
