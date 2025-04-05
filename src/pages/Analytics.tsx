@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,7 +55,6 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MetricsCard } from "@/components/metrics-card";
 
-// Mock data for charts
 const attackData = [
   { name: "Mon", ddos: 4, sqlInjection: 2, xss: 1, bruteForce: 3 },
   { name: "Tue", ddos: 3, sqlInjection: 1, xss: 2, bruteForce: 2 },
@@ -86,7 +84,6 @@ const threatSourceData = [
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-// Extended area chart data 
 const areaChartData = [
   { name: "Jan", blocked: 4000, detected: 2400, amt: 2400 },
   { name: "Feb", blocked: 3000, detected: 1398, amt: 2210 },
@@ -97,7 +94,6 @@ const areaChartData = [
   { name: "Jul", blocked: 3490, detected: 4300, amt: 2100 },
 ];
 
-// Previous period comparison data
 const comparisonData = [
   { name: "Mon", current: 4, previous: 2 },
   { name: "Tue", current: 3, previous: 4 },
@@ -117,12 +113,10 @@ const Analytics = () => {
   const [visibleMetrics, setVisibleMetrics] = useState<string[]>(["ddos", "sqlInjection", "xss", "bruteForce"]);
   const { isDarkMode } = useTheme();
   
-  // Simulate real-time updates
   useEffect(() => {
     if (!realtimeUpdates) return;
     
     const interval = setInterval(() => {
-      // Generate slightly modified data for real-time effect
       const newData = attackData.map(item => ({
         ...item,
         ddos: item.ddos + Math.floor(Math.random() * 3) - 1,
@@ -133,7 +127,6 @@ const Analytics = () => {
       
       setChartData(newData);
       
-      // Show a notification for significant changes
       if (Math.random() > 0.7) {
         toast.info("Attack pattern change detected", {
           description: "Unusual activity detected in the network",
@@ -197,16 +190,16 @@ const Analytics = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => exportData("Attack")}>
-                  Export Attack Data
+                  <div>Export Attack Data</div>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportData("Traffic")}>
-                  Export Traffic Data
+                  <div>Export Traffic Data</div>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportData("Threats")}>
-                  Export Threat Sources
+                  <div>Export Threat Sources</div>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportData("All")}>
-                  Export All Data
+                  <div>Export All Data</div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
