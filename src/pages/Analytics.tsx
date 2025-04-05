@@ -191,16 +191,16 @@ const Analytics = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => exportData("Attack")}>
-                  <div>Export Attack Data</div>
+                  Export Attack Data
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportData("Traffic")}>
-                  <div>Export Traffic Data</div>
+                  Export Traffic Data
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportData("Threats")}>
-                  <div>Export Threat Sources</div>
+                  Export Threat Sources
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportData("All")}>
-                  <div>Export All Data</div>
+                  Export All Data
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
