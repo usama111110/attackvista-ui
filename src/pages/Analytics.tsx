@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -289,7 +290,7 @@ const Analytics = () => {
                     <Layers size={16} />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-56 p-0">
+                <PopoverContent className="w-56 p-0" align="end">
                   <div className="p-1">
                     <MetricToggle 
                       label="DDoS Attacks" 
