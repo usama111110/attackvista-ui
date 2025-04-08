@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -52,6 +51,8 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MetricsCard } from "@/components/metrics-card";
 import MetricToggle from "@/components/metric-toggle";
+import { AdvancedFilter } from "@/components/advanced-filter";
+import { PredictiveAnalytics } from "@/components/predictive-analytics";
 
 const attackData = [
   { name: "Mon", ddos: 4, sqlInjection: 2, xss: 1, bruteForce: 3 },
@@ -109,6 +110,7 @@ const Analytics = () => {
   const [comparisonMode, setComparisonMode] = useState(false);
   const [chartData, setChartData] = useState(attackData);
   const [visibleMetrics, setVisibleMetrics] = useState<string[]>(["ddos", "sqlInjection", "xss", "bruteForce"]);
+  const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
   const { isDarkMode } = useTheme();
   
   useEffect(() => {
@@ -134,6 +136,21 @@ const Analytics = () => {
     
     return () => clearInterval(interval);
   }, [realtimeUpdates]);
+
+  useEffect(() => {
+    if (Object.keys(activeFilters).length === 0) {
+      setChartData(attackData);
+      return;
+    }
+
+    if (activeFilters.attackType) {
+      const filteredData = attackData.map(item => ({
+        ...item,
+        [activeFilters.attackType]: item[activeFilters.attackType as keyof typeof item] as number,
+      }));
+      setChartData(filteredData);
+    }
+  }, [activeFilters]);
   
   const cardClassName = isDarkMode
     ? "backdrop-blur-xl bg-gray-900/50 border border-gray-700/50 shadow-lg"
@@ -151,6 +168,10 @@ const Analytics = () => {
         ? current.filter(m => m !== metric)
         : [...current, metric]
     );
+  };
+
+  const handleFilterChange = (filters: Record<string, string>) => {
+    setActiveFilters(filters);
   };
   
   return (
@@ -205,6 +226,12 @@ const Analytics = () => {
             </Popover>
           </div>
         </div>
+
+        <Card className={cardClassName}>
+          <CardContent className="pt-4">
+            <AdvancedFilter onFilterChange={handleFilterChange} />
+          </CardContent>
+        </Card>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <TimeFilter value={timeRange} onChange={setTimeRange} />
@@ -291,7 +318,6 @@ const Analytics = () => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-56 p-0" align="end">
-                  {/* Wrap the metric toggles in a single div to satisfy the single child requirement */}
                   <div className="p-1">
                     <MetricToggle 
                       label="DDoS Attacks" 
@@ -401,6 +427,8 @@ const Analytics = () => {
           
           <SecurityScore score={78} />
         </div>
+
+        <PredictiveAnalytics />
         
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="grid grid-cols-4 mb-4 bg-muted/50">
