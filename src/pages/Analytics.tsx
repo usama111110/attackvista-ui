@@ -46,16 +46,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MetricsCard } from "@/components/metrics-card";
 import MetricToggle from "@/components/metric-toggle";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 const attackData = [
   { name: "Mon", ddos: 4, sqlInjection: 2, xss: 1, bruteForce: 3 },
@@ -182,29 +177,31 @@ const Analytics = () => {
               </label>
             </div>
             
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Popover>
+              <PopoverTrigger asChild>
                 <Button variant="outline" className="gap-1">
                   <Download size={16} />
                   Export
                   <ChevronDown size={14} />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => exportData("Attack")}>
-                  Export Attack Data
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportData("Traffic")}>
-                  Export Traffic Data
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportData("Threats")}>
-                  Export Threat Sources
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => exportData("All")}>
-                  Export All Data
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="p-0">
+                <div className="p-1">
+                  <div className="cursor-pointer px-2 py-1.5 hover:bg-accent rounded-sm" onClick={() => exportData("Attack")}>
+                    Export Attack Data
+                  </div>
+                  <div className="cursor-pointer px-2 py-1.5 hover:bg-accent rounded-sm" onClick={() => exportData("Traffic")}>
+                    Export Traffic Data
+                  </div>
+                  <div className="cursor-pointer px-2 py-1.5 hover:bg-accent rounded-sm" onClick={() => exportData("Threats")}>
+                    Export Threat Sources
+                  </div>
+                  <div className="cursor-pointer px-2 py-1.5 hover:bg-accent rounded-sm" onClick={() => exportData("All")}>
+                    Export All Data
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
         
