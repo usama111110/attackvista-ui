@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,6 +55,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MetricsCard } from "@/components/metrics-card";
+import MetricToggle from "@/components/metric-toggle";
 
 const attackData = [
   { name: "Mon", ddos: 4, sqlInjection: 2, xss: 1, bruteForce: 3 },
@@ -293,49 +293,37 @@ const Analytics = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => toggleMetric("ddos")}>
-                    <div className="flex items-center w-full">
-                      <input 
-                        type="checkbox" 
-                        checked={visibleMetrics.includes("ddos")} 
-                        className="mr-2" 
-                        readOnly
-                      />
-                      <span>DDoS Attacks</span>
-                    </div>
+                  <DropdownMenuItem className="p-0">
+                    <MetricToggle 
+                      label="DDoS Attacks" 
+                      metricKey="ddos" 
+                      checked={visibleMetrics.includes("ddos")} 
+                      onToggle={toggleMetric} 
+                    />
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => toggleMetric("sqlInjection")}>
-                    <div className="flex items-center w-full">
-                      <input 
-                        type="checkbox" 
-                        checked={visibleMetrics.includes("sqlInjection")} 
-                        className="mr-2" 
-                        readOnly
-                      />
-                      <span>SQL Injection</span>
-                    </div>
+                  <DropdownMenuItem className="p-0">
+                    <MetricToggle 
+                      label="SQL Injection" 
+                      metricKey="sqlInjection" 
+                      checked={visibleMetrics.includes("sqlInjection")} 
+                      onToggle={toggleMetric} 
+                    />
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => toggleMetric("xss")}>
-                    <div className="flex items-center w-full">
-                      <input 
-                        type="checkbox" 
-                        checked={visibleMetrics.includes("xss")} 
-                        className="mr-2" 
-                        readOnly
-                      />
-                      <span>XSS Attacks</span>
-                    </div>
+                  <DropdownMenuItem className="p-0">
+                    <MetricToggle 
+                      label="XSS Attacks" 
+                      metricKey="xss" 
+                      checked={visibleMetrics.includes("xss")} 
+                      onToggle={toggleMetric} 
+                    />
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => toggleMetric("bruteForce")}>
-                    <div className="flex items-center w-full">
-                      <input 
-                        type="checkbox" 
-                        checked={visibleMetrics.includes("bruteForce")} 
-                        className="mr-2" 
-                        readOnly
-                      />
-                      <span>Brute Force</span>
-                    </div>
+                  <DropdownMenuItem className="p-0">
+                    <MetricToggle 
+                      label="Brute Force" 
+                      metricKey="bruteForce" 
+                      checked={visibleMetrics.includes("bruteForce")} 
+                      onToggle={toggleMetric} 
+                    />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
