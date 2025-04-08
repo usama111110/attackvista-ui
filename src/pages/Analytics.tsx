@@ -49,13 +49,13 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MetricsCard } from "@/components/metrics-card";
 import MetricToggle from "@/components/metric-toggle";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 const attackData = [
   { name: "Mon", ddos: 4, sqlInjection: 2, xss: 1, bruteForce: 3 },
@@ -286,47 +286,41 @@ const Analytics = () => {
           <Card className={`${cardClassName} lg:col-span-3`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-lg font-semibold">Attack Types Distribution</CardTitle>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+              <Popover>
+                <PopoverTrigger asChild>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                     <Layers size={16} />
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="p-0">
+                </PopoverTrigger>
+                <PopoverContent className="w-56 p-0">
+                  <div className="p-1">
                     <MetricToggle 
                       label="DDoS Attacks" 
                       metricKey="ddos" 
                       checked={visibleMetrics.includes("ddos")} 
                       onToggle={toggleMetric} 
                     />
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="p-0">
                     <MetricToggle 
                       label="SQL Injection" 
                       metricKey="sqlInjection" 
                       checked={visibleMetrics.includes("sqlInjection")} 
                       onToggle={toggleMetric} 
                     />
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="p-0">
                     <MetricToggle 
                       label="XSS Attacks" 
                       metricKey="xss" 
                       checked={visibleMetrics.includes("xss")} 
                       onToggle={toggleMetric} 
                     />
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="p-0">
                     <MetricToggle 
                       label="Brute Force" 
                       metricKey="bruteForce" 
                       checked={visibleMetrics.includes("bruteForce")} 
                       onToggle={toggleMetric} 
                     />
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </CardHeader>
             <CardContent>
               <div className="h-96">
