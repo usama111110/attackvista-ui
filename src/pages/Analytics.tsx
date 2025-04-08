@@ -291,6 +291,7 @@ const Analytics = () => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-56 p-0" align="end">
+                  {/* Wrap the metric toggles in a single div to satisfy the single child requirement */}
                   <div className="p-1">
                     <MetricToggle 
                       label="DDoS Attacks" 
