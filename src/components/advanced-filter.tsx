@@ -160,7 +160,7 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
               <Separator className="mb-4" />
               
               <Form {...form}>
-                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
+                <form className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
                   {filterOptions.map((option) => (
                     <div key={option.id} className="space-y-1.5">
                       <div className="flex items-center justify-between">
@@ -206,7 +206,7 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
                       )}
                     </div>
                   ))}
-                </div>
+                </form>
               </Form>
               
               {hasActiveFilters && (
