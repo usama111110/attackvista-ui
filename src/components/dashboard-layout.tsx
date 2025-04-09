@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const { isDarkMode, ThemeToggle } = useTheme();
+  const { isDarkMode } = useTheme();
 
   return (
     <div className={`min-h-screen flex animate-fade-in ${isDarkMode 
@@ -38,10 +38,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </button>
       </aside>
       <main className="flex-1 overflow-y-auto p-6 lg:p-8 relative">
-        {/* Top right controls */}
-        <div className="absolute top-6 right-6 z-10 flex items-center gap-2">
-          <ThemeToggle />
-          
+        {/* Notification bell */}
+        <div className="absolute top-6 right-6 z-10">
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className={`p-2 rounded-full transition-colors ${
