@@ -29,30 +29,30 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <MainNav collapsed={collapsed} />
         <button 
           onClick={() => setCollapsed(!collapsed)}
-          className={`mt-auto mb-4 mx-auto p-2 rounded-full transition-colors shadow-glow ${
+          className={`mt-auto mb-4 mx-auto p-2 rounded-full transition-all shadow-sm ${
             isDarkMode 
-              ? 'bg-gray-800/50 hover:bg-gray-700/50 text-primary' 
-              : 'bg-blue-50 hover:bg-blue-100 text-blue-700'
+              ? 'bg-gray-800/70 hover:bg-gray-700/70 text-primary hover:scale-110' 
+              : 'bg-blue-50/80 hover:bg-blue-100/80 text-blue-700 hover:scale-110'
           }`}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </button>
       </aside>
-      <main className="flex-1 overflow-y-auto p-6 lg:p-8 relative">
+      <main className="flex-1 overflow-y-auto p-6 lg:px-8 relative">
         {/* Header controls with notification bell and theme toggle */}
-        <div className="absolute top-6 right-6 z-10 flex items-center space-x-2">
+        <div className="absolute top-6 right-6 z-10 flex items-center space-x-3">
           <ThemeToggle />
           
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className={`p-2 rounded-full transition-colors ${
+            className={`p-2 rounded-full transition-colors relative ${
               isDarkMode 
-                ? 'bg-gray-800/50 hover:bg-gray-700/50 text-gray-300' 
-                : 'bg-white shadow-sm hover:bg-gray-100 text-gray-600'
+                ? 'bg-gray-800 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg' 
+                : 'bg-gray-100 hover:bg-gray-200 text-gray-600 backdrop-blur-lg'
             }`}
           >
             <Bell size={18} />
-            <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-red-500"></span>
+            <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
           </button>
           
           {notificationsOpen && (
