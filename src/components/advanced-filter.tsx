@@ -9,10 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
-import { Form, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { FormLabel } from '@/components/ui/form';
+import { useTheme } from '@/providers/ThemeProvider';
 
 interface FilterOption {
   id: string;
@@ -26,32 +24,10 @@ interface AdvancedFilterProps {
   onFilterChange: (filters: Record<string, string>) => void;
 }
 
-// Create a schema for our filter form
-const filterSchema = z.object({
-  attackType: z.string().optional(),
-  severity: z.string().optional(),
-  sourceIp: z.string().optional(),
-  country: z.string().optional(),
-  timeRange: z.string().optional(),
-});
-
-type FilterFormValues = z.infer<typeof filterSchema>;
-
 export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-  // Initialize the form with react-hook-form
-  const form = useForm<FilterFormValues>({
-    resolver: zodResolver(filterSchema),
-    defaultValues: {
-      attackType: '',
-      severity: '',
-      sourceIp: '',
-      country: '',
-      timeRange: '',
-    },
-  });
+  const { isDarkMode } = useTheme();
 
   const filterOptions: FilterOption[] = [
     { id: 'attackType', label: 'Attack Type', value: '', type: 'select', options: [
@@ -111,7 +87,6 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
   const clearAllFilters = () => {
     setActiveFilters({});
     onFilterChange({});
-    form.reset();
     if (Object.keys(activeFilters).length > 0) {
       toast.info('All filters cleared');
     }
@@ -131,7 +106,15 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
       <div className="flex flex-wrap items-center gap-2">
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="h-9 gap-1 px-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className={`h-9 gap-1 px-3 ${
+                isDarkMode 
+                  ? 'border-gray-700 hover:bg-gray-800/70' 
+                  : 'border-gray-200 hover:bg-gray-100'
+              }`}
+            >
               <Filter size={16} />
               <span>Filter</span>
               <ChevronDown size={14} className="ml-1 opacity-70" />
@@ -142,7 +125,14 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-96 p-0" align="start">
+          <PopoverContent 
+            className={`w-96 p-0 ${
+              isDarkMode 
+                ? 'bg-gray-900 border-gray-700' 
+                : 'bg-white border-gray-200'
+            }`} 
+            align="start"
+          >
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="text-sm font-medium">Advanced Filters</div>
@@ -159,61 +149,69 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
               </div>
               <Separator className="mb-4" />
               
-              <Form {...form}>
-                <form className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
-                  {filterOptions.map((option) => (
-                    <div key={option.id} className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <FormLabel className="text-xs font-medium text-muted-foreground">
-                          {option.label}
-                        </FormLabel>
-                        {activeFilters[option.id] && (
-                          <CheckCircle2 size={14} className="text-primary" />
-                        )}
-                      </div>
-                      
-                      {option.type === 'text' ? (
-                        <div className="flex items-center gap-2">
-                          <Input 
-                            placeholder={`Enter ${option.label.toLowerCase()}`}
-                            className="h-8 text-sm"
-                            value={activeFilters[option.id] || ''}
-                            onChange={(e) => applyFilter(option.id, e.target.value)}
-                          />
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-8 w-8"
-                            onClick={() => applyFilter(option.id, activeFilters[option.id] ? '' : ' ')}
-                          >
-                            {activeFilters[option.id] ? <X size={14} /> : <Search size={14} />}
-                          </Button>
-                        </div>
-                      ) : (
-                        <Select 
-                          value={activeFilters[option.id] || ''} 
-                          onValueChange={(value) => applyFilter(option.id, value)}
-                        >
-                          <SelectTrigger className="h-8 text-sm">
-                            <SelectValue placeholder={`Select ${option.label.toLowerCase()}`} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {option.options?.map((opt) => (
-                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+              <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
+                {filterOptions.map((option) => (
+                  <div key={option.id} className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <FormLabel className={`text-xs font-medium ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
+                        {option.label}
+                      </FormLabel>
+                      {activeFilters[option.id] && (
+                        <CheckCircle2 size={14} className="text-primary" />
                       )}
                     </div>
-                  ))}
-                </form>
-              </Form>
+                    
+                    {option.type === 'text' ? (
+                      <div className="flex items-center gap-2">
+                        <Input 
+                          placeholder={`Enter ${option.label.toLowerCase()}`}
+                          className={`h-8 text-sm ${
+                            isDarkMode 
+                              ? 'bg-gray-800 border-gray-700' 
+                              : 'bg-white border-gray-200'
+                          }`}
+                          value={activeFilters[option.id] || ''}
+                          onChange={(e) => applyFilter(option.id, e.target.value)}
+                        />
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => applyFilter(option.id, activeFilters[option.id] ? '' : ' ')}
+                        >
+                          {activeFilters[option.id] ? <X size={14} /> : <Search size={14} />}
+                        </Button>
+                      </div>
+                    ) : (
+                      <Select 
+                        value={activeFilters[option.id] || ''} 
+                        onValueChange={(value) => applyFilter(option.id, value)}
+                      >
+                        <SelectTrigger className={`h-8 text-sm ${
+                          isDarkMode 
+                            ? 'bg-gray-800 border-gray-700' 
+                            : 'bg-white border-gray-200'
+                        }`}>
+                          <SelectValue placeholder={`Select ${option.label.toLowerCase()}`} />
+                        </SelectTrigger>
+                        <SelectContent className={isDarkMode ? 'bg-gray-800 border-gray-700' : ''}>
+                          {option.options?.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </div>
+                ))}
+              </div>
               
               {hasActiveFilters && (
                 <>
                   <Separator className="my-4" />
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">
+                    <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                       {Object.keys(activeFilters).length} filter{Object.keys(activeFilters).length !== 1 ? 's' : ''} applied
                     </span>
                     <Button 
@@ -234,7 +232,11 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
           variant={hasActiveFilters ? "secondary" : "ghost"} 
           size="sm" 
           className={cn("h-9 gap-1", 
-            hasActiveFilters ? "bg-muted hover:bg-muted" : "opacity-70"
+            hasActiveFilters 
+              ? isDarkMode 
+                ? "bg-gray-800 hover:bg-gray-700" 
+                : "bg-gray-100 hover:bg-gray-200" 
+              : "opacity-70"
           )}
           onClick={clearAllFilters}
           disabled={!hasActiveFilters}
@@ -269,9 +271,13 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
               <Badge 
                 key={id} 
                 variant="outline" 
-                className="flex items-center gap-1 h-7 px-2 py-1 bg-background hover:bg-background"
+                className={`flex items-center gap-1 h-7 px-2 py-1 hover-lift ${
+                  isDarkMode 
+                    ? 'bg-gray-800/70 border-gray-700/70' 
+                    : 'bg-gray-50 border-gray-200'
+                }`}
               >
-                <span className="font-medium text-xs text-muted-foreground">{label}:</span>
+                <span className={`font-medium text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{label}:</span>
                 <span className="text-xs">{displayValue}</span>
                 <Button 
                   variant="ghost" 
