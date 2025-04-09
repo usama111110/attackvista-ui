@@ -4,6 +4,7 @@ import { MainNav } from "./main-nav";
 import { ChevronLeft, ChevronRight, Bell } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { NotificationDropdown } from "./notification-dropdown";
+import { ThemeToggle } from "./theme-toggle";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -38,8 +39,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </button>
       </aside>
       <main className="flex-1 overflow-y-auto p-6 lg:p-8 relative">
-        {/* Notification bell */}
-        <div className="absolute top-6 right-6 z-10">
+        {/* Header controls with notification bell and theme toggle */}
+        <div className="absolute top-6 right-6 z-10 flex items-center space-x-2">
+          <ThemeToggle />
+          
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className={`p-2 rounded-full transition-colors ${
@@ -57,7 +60,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           )}
         </div>
         
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto pt-10">
           {children}
         </div>
       </main>
