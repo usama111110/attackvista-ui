@@ -1,15 +1,40 @@
 
 import { ReactNode, useState, useEffect } from "react";
 import { MainNav } from "./main-nav";
-import { ChevronLeft, ChevronRight, Bell, ExternalLink } from "lucide-react";
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  Bell, 
+  ExternalLink, 
+  Home, 
+  ChevronRight as ChevronRightIcon,
+  BadgeInfo
+} from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { NotificationDropdown } from "./notification-dropdown";
 import { ThemeToggle } from "./theme-toggle";
 import { useToast } from "@/hooks/use-toast";
+import { Link, useLocation } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
+
+// Function to get page title based on the current path
+const getPageInfo = (pathname: string) => {
+  const routes: Record<string, { title: string, icon: typeof Home }> = {
+    '/': { title: 'Dashboard', icon: Home },
+    '/detection': { title: 'Detection', icon: BadgeInfo },
+    '/live-traffic': { title: 'Live Traffic', icon: BadgeInfo },
+    '/analytics': { title: 'Analytics', icon: BadgeInfo },
+    '/network': { title: 'Network', icon: BadgeInfo },
+    '/users': { title: 'Users', icon: BadgeInfo },
+    '/settings': { title: 'Settings', icon: BadgeInfo },
+    '/notifications': { title: 'Notifications', icon: Bell },
+  };
+
+  return routes[pathname] || { title: 'Page Not Found', icon: BadgeInfo };
+};
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
@@ -17,6 +42,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
   const [mounted, setMounted] = useState(false);
+  const location = useLocation();
+  const { title } = getPageInfo(location.pathname);
 
   useEffect(() => {
     setMounted(true);
@@ -40,12 +67,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className={`min-h-screen flex animate-fade-in ${isDarkMode 
       ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100' 
-      : 'bg-gradient-to-br from-blue-50 via-white to-slate-50 text-gray-800'}`}>
+      : 'bg-gradient-to-br from-blue-50/50 via-white to-slate-50/80 text-gray-800'}`}>
       <aside 
-        className={`${collapsed ? 'w-16' : 'w-64'} border-r transition-all duration-300 ease-in-out flex flex-col h-screen sticky top-0 ${
+        className={`${collapsed ? 'w-16' : 'w-64'} border-r transition-all duration-500 ease-in-out flex flex-col h-screen sticky top-0 ${
           isDarkMode 
-            ? 'border-gray-800/50 bg-gray-900/80 backdrop-blur-xl' 
-            : 'border-gray-200 bg-white/90 shadow-sm backdrop-blur-xl'
+            ? 'border-gray-800/50 bg-gray-900/80 backdrop-blur-xl shadow-lg shadow-black/5' 
+            : 'border-gray-200 bg-white/90 shadow-lg shadow-gray-200/50 backdrop-blur-xl'
         }`}
       >
         <div className="flex-1 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
@@ -64,6 +91,21 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </button>
       </aside>
       <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative">
+        {/* Breadcrumb navigation */}
+        <div className="absolute top-6 left-6 z-10 breadcrumb">
+          <div className="breadcrumb-item">
+            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+          </div>
+          {location.pathname !== "/" && (
+            <>
+              <span className="breadcrumb-separator">
+                <ChevronRightIcon size={14} />
+              </span>
+              <div className="breadcrumb-item breadcrumb-active">{title}</div>
+            </>
+          )}
+        </div>
+
         {/* Header controls with notification bell and theme toggle */}
         <div className="absolute top-6 right-6 z-10 flex items-center space-x-3">
           <a
@@ -72,9 +114,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             rel="noopener noreferrer"
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs ${
               isDarkMode 
-                ? 'bg-gray-800/70 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg' 
-                : 'bg-gray-100/90 hover:bg-gray-200/90 text-gray-600 backdrop-blur-lg'
-            } transition-colors`}
+                ? 'bg-gray-800/70 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg hover:text-white transition-colors' 
+                : 'bg-gray-100/90 hover:bg-gray-200/90 text-gray-600 backdrop-blur-lg hover:text-gray-900 transition-colors'
+            }`}
           >
             <ExternalLink size={12} />
             <span>GitHub</span>
@@ -84,14 +126,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className={`p-2 rounded-full transition-colors relative ${
+            className={`p-2 rounded-full transition-all duration-300 relative group ${
               isDarkMode 
-                ? 'bg-gray-800/80 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg' 
-                : 'bg-gray-100/90 hover:bg-gray-200/90 text-gray-600 backdrop-blur-lg'
+                ? 'bg-gray-800/80 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg hover:text-white hover:shadow-inner' 
+                : 'bg-gray-100/90 hover:bg-gray-200/90 text-gray-600 backdrop-blur-lg hover:text-gray-900 hover:shadow-inner'
             }`}
             aria-label="Open notifications"
           >
-            <Bell size={18} />
+            <Bell size={18} className="group-hover:scale-110 transition-transform duration-300" />
             <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
           </button>
           
@@ -100,7 +142,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           )}
         </div>
         
-        <div className="max-w-7xl mx-auto pt-10">
+        <div className="max-w-7xl mx-auto pt-14">
           {children}
         </div>
       </main>

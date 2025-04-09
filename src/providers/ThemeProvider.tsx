@@ -30,6 +30,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }
     return themePreference === 'dark';
   });
+
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   // Listen for system preference changes
   useEffect(() => {
@@ -37,6 +39,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     
     const handleChange = () => {
       if (themePreference === 'system') {
+        setIsTransitioning(true);
         setIsDarkMode(mediaQuery.matches);
         
         // Show a toast when system theme changes
@@ -44,7 +47,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         toast(`System theme changed to ${newMode} mode`, {
           description: "Following your system preferences",
           duration: 2000,
+          icon: mediaQuery.matches ? '🌙' : '☀️',
         });
+
+        // Reset transition state
+        setTimeout(() => setIsTransitioning(false), 300);
       }
     };
     
@@ -54,6 +61,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   // Update theme based on preference
   useEffect(() => {
+    setIsTransitioning(true);
+    
     if (themePreference === 'system') {
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setIsDarkMode(systemPrefersDark);
@@ -62,6 +71,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }
     
     localStorage.setItem('theme-preference', themePreference);
+    
+    // Reset transition state
+    setTimeout(() => setIsTransitioning(false), 300);
   }, [themePreference]);
   
   const setThemePreference = (preference: ThemePreference) => {
@@ -72,12 +84,14 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       toast(`Theme set to ${preference} mode`, {
         description: `You can change this anytime in the theme menu`,
         duration: 2000,
+        icon: preference === 'dark' ? '🌙' : '☀️',
       });
     } else {
       const systemMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       toast(`Following system preference (${systemMode})`, {
         description: `Your theme will automatically adjust with your system`,
         duration: 2000,
+        icon: systemMode === 'dark' ? '🌙' : '☀️',
       });
     }
   };
@@ -85,6 +99,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   // Apply theme class to document element whenever theme changes
   useEffect(() => {
     const root = window.document.documentElement;
+    
+    if (isTransitioning) {
+      root.classList.add('theme-transition');
+    } else {
+      root.classList.remove('theme-transition');
+    }
+    
     if (isDarkMode) {
       root.classList.add('dark');
       root.classList.add('dark-mode');
@@ -96,7 +117,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       root.classList.remove('dark');
       root.classList.remove('dark-mode');
     }
-  }, [isDarkMode]);
+  }, [isDarkMode, isTransitioning]);
 
   const toggleDarkMode = () => {
     if (themePreference === 'system') {
