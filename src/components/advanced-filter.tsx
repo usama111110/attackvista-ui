@@ -9,8 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Form, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 interface FilterOption {
   id: string;
@@ -24,9 +26,32 @@ interface AdvancedFilterProps {
   onFilterChange: (filters: Record<string, string>) => void;
 }
 
+// Create a schema for our filter form
+const filterSchema = z.object({
+  attackType: z.string().optional(),
+  severity: z.string().optional(),
+  sourceIp: z.string().optional(),
+  country: z.string().optional(),
+  timeRange: z.string().optional(),
+});
+
+type FilterFormValues = z.infer<typeof filterSchema>;
+
 export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  // Initialize the form with react-hook-form
+  const form = useForm<FilterFormValues>({
+    resolver: zodResolver(filterSchema),
+    defaultValues: {
+      attackType: '',
+      severity: '',
+      sourceIp: '',
+      country: '',
+      timeRange: '',
+    },
+  });
 
   const filterOptions: FilterOption[] = [
     { id: 'attackType', label: 'Attack Type', value: '', type: 'select', options: [
@@ -86,6 +111,7 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
   const clearAllFilters = () => {
     setActiveFilters({});
     onFilterChange({});
+    form.reset();
     if (Object.keys(activeFilters).length > 0) {
       toast.info('All filters cleared');
     }
@@ -132,52 +158,56 @@ export function AdvancedFilter({ onFilterChange }: AdvancedFilterProps) {
                 )}
               </div>
               <Separator className="mb-4" />
-              <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
-                {filterOptions.map((option) => (
-                  <div key={option.id} className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <FormLabel className="text-xs font-medium text-muted-foreground">
-                        {option.label}
-                      </FormLabel>
-                      {activeFilters[option.id] && (
-                        <CheckCircle2 size={14} className="text-primary" />
+              
+              <Form {...form}>
+                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-1">
+                  {filterOptions.map((option) => (
+                    <div key={option.id} className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <FormLabel className="text-xs font-medium text-muted-foreground">
+                          {option.label}
+                        </FormLabel>
+                        {activeFilters[option.id] && (
+                          <CheckCircle2 size={14} className="text-primary" />
+                        )}
+                      </div>
+                      
+                      {option.type === 'text' ? (
+                        <div className="flex items-center gap-2">
+                          <Input 
+                            placeholder={`Enter ${option.label.toLowerCase()}`}
+                            className="h-8 text-sm"
+                            value={activeFilters[option.id] || ''}
+                            onChange={(e) => applyFilter(option.id, e.target.value)}
+                          />
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8"
+                            onClick={() => applyFilter(option.id, activeFilters[option.id] ? '' : ' ')}
+                          >
+                            {activeFilters[option.id] ? <X size={14} /> : <Search size={14} />}
+                          </Button>
+                        </div>
+                      ) : (
+                        <Select 
+                          value={activeFilters[option.id] || ''} 
+                          onValueChange={(value) => applyFilter(option.id, value)}
+                        >
+                          <SelectTrigger className="h-8 text-sm">
+                            <SelectValue placeholder={`Select ${option.label.toLowerCase()}`} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {option.options?.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       )}
                     </div>
-                    {option.type === 'text' ? (
-                      <div className="flex items-center gap-2">
-                        <Input 
-                          placeholder={`Enter ${option.label.toLowerCase()}`}
-                          className="h-8 text-sm"
-                          value={activeFilters[option.id] || ''}
-                          onChange={(e) => applyFilter(option.id, e.target.value)}
-                        />
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="h-8 w-8"
-                          onClick={() => applyFilter(option.id, activeFilters[option.id] ? '' : ' ')}
-                        >
-                          {activeFilters[option.id] ? <X size={14} /> : <Search size={14} />}
-                        </Button>
-                      </div>
-                    ) : (
-                      <Select 
-                        value={activeFilters[option.id] || ''} 
-                        onValueChange={(value) => applyFilter(option.id, value)}
-                      >
-                        <SelectTrigger className="h-8 text-sm">
-                          <SelectValue placeholder={`Select ${option.label.toLowerCase()}`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {option.options?.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </Form>
               
               {hasActiveFilters && (
                 <>
