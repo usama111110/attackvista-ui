@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Shield, AlertTriangle } from "lucide-react";
+import { Shield, AlertTriangle, ArrowRight } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 
 interface SecurityScoreProps {
@@ -10,10 +10,15 @@ interface SecurityScoreProps {
 
 export function SecurityScore({ score }: SecurityScoreProps) {
   const [animatedScore, setAnimatedScore] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const { isDarkMode } = useTheme();
   
-  // Animate the score on mount
+  // Animate the score on mount with delay
   useEffect(() => {
+    const visibilityTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 200);
+    
     const timer = setTimeout(() => {
       const interval = setInterval(() => {
         setAnimatedScore(prev => {
@@ -26,9 +31,12 @@ export function SecurityScore({ score }: SecurityScoreProps) {
       }, 20);
       
       return () => clearInterval(interval);
-    }, 300);
+    }, 500);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(visibilityTimer);
+    };
   }, [score]);
 
   // Calculate color based on score
@@ -49,18 +57,18 @@ export function SecurityScore({ score }: SecurityScoreProps) {
   const { text, icon } = getDescription();
   
   // Calculate the circumference of the circle
-  const size = 160;
+  const size = 180;
   const strokeWidth = 12;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (animatedScore / 100) * circumference;
 
   const cardClassName = isDarkMode
-    ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[400px]"
-    : "p-6 backdrop-blur-lg bg-white/90 border border-gray-200 h-[400px]";
+    ? "p-6 backdrop-blur-xl bg-gray-900/60 border border-gray-700/50 h-[400px] hover:bg-gray-900/70 hover:border-gray-600/60 hover:shadow-xl"
+    : "p-6 backdrop-blur-xl bg-white/90 border border-gray-200 h-[400px] hover:bg-white hover:border-gray-300 hover:shadow-lg";
 
   return (
-    <Card className={`${cardClassName} flex flex-col items-center justify-center data-card hover-lift transition-all duration-300 animate-fade-in`}>
+    <Card className={`${cardClassName} flex flex-col items-center justify-center transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? "dark:text-gradient" : "text-gray-800"}`}>Security Score</h3>
       
       <div className="relative">
@@ -71,28 +79,35 @@ export function SecurityScore({ score }: SecurityScoreProps) {
             cy={size / 2}
             r={radius}
             fill="transparent"
-            stroke={isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}
+            stroke={isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}
             strokeWidth={strokeWidth}
           />
-          {/* Foreground circle */}
+          {/* Foreground circle with gradient */}
+          <defs>
+            <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={color} stopOpacity="0.8" />
+              <stop offset="100%" stopColor={color} stopOpacity="1" />
+            </linearGradient>
+          </defs>
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="transparent"
-            stroke={color}
+            stroke="url(#scoreGradient)"
             strokeWidth={strokeWidth}
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
-            className="transition-all duration-1000 ease-in-out"
+            className="transition-all duration-1000 ease-out"
+            filter="drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.2))"
           />
         </svg>
         
         {/* Score text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className={`text-4xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}>{animatedScore}</div>
-          <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>out of 100</div>
+          <div className={`text-5xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}>{animatedScore}</div>
+          <div className={`text-sm mt-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>out of 100</div>
         </div>
       </div>
       
@@ -104,7 +119,11 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         </div>
       </div>
       
-      <button className="mt-4 text-primary hover:underline text-sm bg-primary/10 px-3 py-1 rounded-full hover:bg-primary/20 transition-colors">View details</button>
+      <button 
+        className="mt-4 text-primary hover:bg-primary/10 text-sm px-3 py-1.5 rounded-full flex items-center gap-1 transition-all hover:shadow-sm hover:pl-4"
+      >
+        View details <ArrowRight size={14} />
+      </button>
     </Card>
   );
 }
