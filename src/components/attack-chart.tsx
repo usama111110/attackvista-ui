@@ -1,6 +1,7 @@
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Card } from "@/components/ui/card";
+import { memo } from "react";
 
 const data = [
   { name: "DDoS", value: 45 },
@@ -10,7 +11,8 @@ const data = [
   { name: "XSS", value: 18 },
 ];
 
-export function AttackChart() {
+// Use memo to prevent unnecessary re-renders
+export const AttackChart = memo(() => {
   return (
     <Card className="p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 h-[400px] data-card hover-lift transition-all duration-300 animate-fade-in">
       <h3 className="text-lg font-semibold mb-6 text-gradient dark:text-gradient">Attack Distribution</h3>
@@ -55,4 +57,6 @@ export function AttackChart() {
       </ResponsiveContainer>
     </Card>
   );
-}
+});
+
+AttackChart.displayName = "AttackChart";
