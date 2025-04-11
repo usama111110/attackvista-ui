@@ -4,15 +4,18 @@ import { MainNav } from "./main-nav";
 import { 
   ChevronLeft, 
   ChevronRight, 
-  ExternalLink
+  ExternalLink,
+  LogOut
 } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { NotificationDropdown } from "./notification-dropdown";
 import { ThemeToggle } from "./theme-toggle";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BreadcrumbNavigation } from "./breadcrumb-navigation";
 import { NotificationIndicator } from "./notification-indicator";
+import { useUserStore } from "@/utils/userDatabase";
+import { Button } from "./ui/button";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -24,6 +27,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
   const [mounted, setMounted] = useState(false);
+  const { logout } = useUserStore();
+  const navigate = useNavigate();
   
   useEffect(() => {
     setMounted(true);
@@ -40,6 +45,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       }, 1000);
     }
   }, [toast]);
+  
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out",
+    });
+    navigate("/login");
+  };
   
   // Prevent flash of unstyled content
   if (!mounted) return null;
@@ -71,7 +85,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </button>
       </aside>
       <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative">
-        {/* Header controls with notification bell and theme toggle */}
+        {/* Header controls with logout button, notification bell and theme toggle */}
         <div className="absolute top-6 right-6 z-10 flex items-center space-x-3">
           <a
             href="https://github.com/your-repo/secure-sentry"
@@ -86,6 +100,20 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <ExternalLink size={12} />
             <span>GitHub</span>
           </a>
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLogout}
+            className={`flex items-center gap-1.5 ${
+              isDarkMode
+                ? 'hover:bg-gray-800 hover:text-red-400'
+                : 'hover:bg-gray-100 hover:text-red-500'
+            }`}
+          >
+            <LogOut size={16} />
+            <span className="hidden sm:inline">Logout</span>
+          </Button>
           
           <ThemeToggle />
           
