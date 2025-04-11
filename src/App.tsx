@@ -15,7 +15,6 @@ import Detection from "./pages/Detection";
 import Network from "./pages/Network";
 import Notifications from "./pages/Notifications";
 import Analytics from "./pages/Analytics";
-import CustomDashboard from "./pages/CustomDashboard";
 
 const queryClient = new QueryClient();
 
@@ -29,7 +28,6 @@ const App = () => (
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Index />} />
-            <Route path="/custom-dashboard" element={<CustomDashboard />} />
             <Route path="/detection" element={<Detection />} />
             <Route path="/network" element={<Network />} />
             <Route path="/users" element={<Users />} />
