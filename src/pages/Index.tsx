@@ -1,4 +1,3 @@
-
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { MetricsCard } from "@/components/metrics-card";
 import { AttackChart } from "@/components/attack-chart";
@@ -16,6 +15,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
+import { useNotifications } from "@/components/notification-provider";
 
 // Example attack data
 const attackData = [
@@ -37,6 +38,7 @@ const timePeriods = [
 const Index = () => {
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
+  const { pushNotification } = useNotifications();
   const [searchQuery, setSearchQuery] = useState("");
   const [timeFilter, setTimeFilter] = useState("today");
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -54,10 +56,19 @@ const Index = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
+      
+      // Simulate a welcome notification
+      setTimeout(() => {
+        pushNotification({
+          type: "info",
+          title: "Welcome to SecureSentry",
+          message: "Your security dashboard is ready. Monitoring network activity in real-time."
+        });
+      }, 2000);
     }, 1500);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [pushNotification]);
   
   // Simulate data refresh
   const refreshData = () => {
@@ -70,6 +81,13 @@ const Index = () => {
         title: "Dashboard Updated",
         description: "All metrics and data have been refreshed",
       });
+      
+      // Simulate finding a new threat on refresh
+      pushNotification({
+        type: "attack",
+        title: "New Threat Detected",
+        message: "Potential port scanning detected from IP 203.45.78.32"
+      });
     }, 1500);
   };
 
@@ -81,7 +99,7 @@ const Index = () => {
     
     return () => clearInterval(interval);
   }, []);
-  
+
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-fade-in">
@@ -108,7 +126,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Time period selector */}
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <Calendar size={16} className="text-primary" />
             <span className="text-sm font-medium mr-2">Time Period:</span>
@@ -125,7 +142,6 @@ const Index = () => {
             ))}
           </div>
 
-          {/* Search bar */}
           <div className="mb-6 relative w-full md:w-1/2 lg:w-1/3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -219,6 +235,12 @@ const Index = () => {
                 <SecurityScore score={78} />
               )}
             </div>
+            
+            {!isLoading && (
+              <div className="mb-8">
+                <SecurityTrendsChart />
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="performance">
