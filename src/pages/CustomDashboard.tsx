@@ -1,4 +1,3 @@
-
 import { lazy, Suspense } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { WidgetManager, WidgetType } from "@/components/widget-manager";
@@ -110,12 +109,12 @@ const KeyMetrics = () => (
 );
 
 const CustomDashboard = () => {
-  // Default widgets configuration
+  // Default widgets configuration with correct type for defaultSize
   const defaultWidgets = [
-    { id: "security-score-1", type: "security-score" as WidgetType, title: "Security Score", defaultSize: "small" },
-    { id: "attack-chart-1", type: "attack-chart" as WidgetType, title: "Attack Distribution", defaultSize: "medium" },
-    { id: "metrics-1", type: "metrics" as WidgetType, title: "Key Metrics", defaultSize: "medium" },
-    { id: "threat-map-1", type: "threat-map" as WidgetType, title: "Threat Map", defaultSize: "large" },
+    { id: "security-score-1", type: "security-score" as WidgetType, title: "Security Score", defaultSize: "small" as "small" | "medium" | "large" },
+    { id: "attack-chart-1", type: "attack-chart" as WidgetType, title: "Attack Distribution", defaultSize: "medium" as "small" | "medium" | "large" },
+    { id: "metrics-1", type: "metrics" as WidgetType, title: "Key Metrics", defaultSize: "medium" as "small" | "medium" | "large" },
+    { id: "threat-map-1", type: "threat-map" as WidgetType, title: "Threat Map", defaultSize: "large" as "small" | "medium" | "large" },
   ];
 
   // Render the appropriate widget content based on the widget type
