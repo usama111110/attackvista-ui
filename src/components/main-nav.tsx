@@ -1,3 +1,4 @@
+
 import {
   Home,
   Layout,
@@ -18,7 +19,7 @@ interface MainNavProps {
 
 const navItems = [
   { title: "Dashboard", href: "/", icon: Home },
-  { title: "Custom Dashboard", href: "/custom-dashboard", icon: Layout }, // Add this line
+  { title: "Custom Dashboard", href: "/custom-dashboard", icon: Layout },
   { title: "Detection", href: "/detection", icon: BadgeInfo },
   { title: "Live Traffic", href: "/live-traffic", icon: Activity },
   { title: "Analytics", href: "/analytics", icon: AreaChart },
