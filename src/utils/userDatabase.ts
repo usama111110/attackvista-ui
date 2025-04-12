@@ -12,42 +12,6 @@ export interface User {
   lastActive: string;
 }
 
-// Initial users to populate the database
-const initialUsers: User[] = [
-  { 
-    id: 1, 
-    name: "Admin User", 
-    email: "admin@example.com", 
-    password: "admin123", // In a real app, passwords should be hashed
-    role: "Admin", 
-    lastActive: "2 hours ago" 
-  },
-  { 
-    id: 2, 
-    name: "Security Analyst", 
-    email: "analyst@example.com", 
-    password: "analyst123",
-    role: "Analyst", 
-    lastActive: "5 min ago" 
-  },
-  { 
-    id: 3, 
-    name: "Network Manager", 
-    email: "manager@example.com", 
-    password: "manager123",
-    role: "Manager", 
-    lastActive: "1 day ago" 
-  },
-  { 
-    id: 4, 
-    name: "Guest User", 
-    email: "guest@example.com", 
-    password: "guest123",
-    role: "Guest", 
-    lastActive: "1 week ago" 
-  },
-];
-
 // User store interface
 interface UserStore {
   users: User[];
@@ -57,6 +21,7 @@ interface UserStore {
   deleteUser: (id: number) => void;
   login: (email: string, password: string) => User | null;
   logout: () => void;
+  isAuthenticated: boolean; // Add this to define the property
 }
 
 // Create user store with persistence
@@ -131,6 +96,11 @@ export const useUserStore = create<UserStore>()(
       // Logout functionality
       logout: () => {
         set({ currentUser: null });
+      },
+      
+      // Computed property for authentication status
+      get isAuthenticated() {
+        return get().currentUser !== null;
       }
     }),
     {
@@ -138,3 +108,39 @@ export const useUserStore = create<UserStore>()(
     }
   )
 );
+
+// Initial users to populate the database
+const initialUsers: User[] = [
+  { 
+    id: 1, 
+    name: "Admin User", 
+    email: "admin@example.com", 
+    password: "admin123", // In a real app, passwords should be hashed
+    role: "Admin", 
+    lastActive: "2 hours ago" 
+  },
+  { 
+    id: 2, 
+    name: "Security Analyst", 
+    email: "analyst@example.com", 
+    password: "analyst123",
+    role: "Analyst", 
+    lastActive: "5 min ago" 
+  },
+  { 
+    id: 3, 
+    name: "Network Manager", 
+    email: "manager@example.com", 
+    password: "manager123",
+    role: "Manager", 
+    lastActive: "1 day ago" 
+  },
+  { 
+    id: 4, 
+    name: "Guest User", 
+    email: "guest@example.com", 
+    password: "guest123",
+    role: "Guest", 
+    lastActive: "1 week ago" 
+  },
+];

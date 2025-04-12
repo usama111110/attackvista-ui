@@ -1,4 +1,3 @@
-
 import {
   Home,
   LayoutDashboard,
@@ -33,8 +32,7 @@ export function MainNav({
   children,
   collapsed
 }: MainNavProps) {
-  const userStore = useUserStore();
-  const isAuthenticated = userStore.isAuthenticated as boolean;
+  const { isAuthenticated } = useUserStore();
   const [mounted, setMounted] = useState(false);
   const { isDarkMode } = useTheme();
   
