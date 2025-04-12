@@ -1,4 +1,3 @@
-
 import {
   Home,
   LayoutDashboard,
@@ -39,18 +38,13 @@ export function MainNav({
   const location = useLocation();
   
   useEffect(() => {
-    setMounted(true);
-    console.log("MainNav mounted, auth state:", isAuthenticated, "user:", currentUser?.name);
-  }, [isAuthenticated, currentUser]);
+    if (!mounted) {
+      setMounted(true);
+    }
+    console.log("MainNav: Auth state:", isAuthenticated, "User:", currentUser?.name);
+  }, [isAuthenticated, currentUser, mounted]);
   
-  // Don't render anything if not mounted yet or not authenticated
   if (!mounted) {
-    return null;
-  }
-  
-  // Check authentication state before rendering the navigation
-  if (!isAuthenticated || !currentUser) {
-    console.log("MainNav: Not authenticated or no user, not rendering nav");
     return null;
   }
 
@@ -124,5 +118,5 @@ export function MainNav({
         </ul>
       </div>
     </div>
-  )
+  );
 }

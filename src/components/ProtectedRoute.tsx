@@ -8,18 +8,16 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, currentUser } = useUserStore();
   const location = useLocation();
 
-  // Simple check for authentication without side effects
-  if (!isAuthenticated) {
-    console.log("User not authenticated, redirecting to login");
-    // Pass the current location to redirect back after login
+  // Add more validation to prevent flickering
+  if (!isAuthenticated || !currentUser) {
+    console.log("ProtectedRoute: User not authenticated, redirecting to login");
     return <Navigate to="/login" state={{ from: location.pathname, message: "You must be logged in to access this page" }} replace />;
   }
 
-  // If authenticated, render the children
-  console.log("User is authenticated, rendering protected content");
+  console.log("ProtectedRoute: User authenticated:", currentUser.name);
   return <>{children}</>;
 };
 

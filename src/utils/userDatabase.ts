@@ -120,11 +120,11 @@ export const useUserStore = create<UserStore>()(
           // Update last active time
           const updatedUser = { ...user, lastActive: "Just now" };
           
-          // Set authenticated state first, then update currentUser
-          set({
-            isAuthenticated: true,
-            currentUser: updatedUser
-          });
+          // Update state atomically to prevent race conditions
+          set(() => ({
+            currentUser: updatedUser,
+            isAuthenticated: true
+          }));
           
           console.log("Login successful:", updatedUser.name, "isAuthenticated set to true");
           
@@ -150,6 +150,13 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: "user-storage", // Storage key
+      getStorage: () => localStorage, // Use localStorage for persistence
+      partialize: (state) => ({
+        // Only persist these fields from state
+        currentUser: state.currentUser,
+        isAuthenticated: state.isAuthenticated,
+        users: state.users
+      }),
     }
   )
 );
