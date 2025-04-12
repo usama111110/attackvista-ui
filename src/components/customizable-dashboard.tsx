@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { WidgetManager, WidgetType } from "@/components/widget-manager";
+import { WidgetManager } from "@/components/widget-manager";
 import { SecurityScore } from "@/components/security-score";
 import { AttackChart } from "@/components/attack-chart";
 import { ThreatMap } from "@/components/threat-map";
@@ -9,7 +9,7 @@ import { AttackTypesVisualization } from "@/components/attack-types-visualizatio
 import { Card } from "@/components/ui/card";
 import { useTheme } from "@/providers/ThemeProvider";
 import { Activity, Database, Network, Shield } from "lucide-react";
-import { WidgetDefinition } from "@/types";
+import { WidgetDefinition, WidgetType } from "@/types";
 
 // Create a component for the network status widget
 const NetworkStatusWidget = () => {
@@ -192,11 +192,11 @@ const MetricsWidget = () => {
 
 // Default widgets to show on the dashboard
 const defaultWidgets: WidgetDefinition[] = [
-  { id: "security-score-1", type: "security-score" as WidgetType, title: "Security Score", defaultSize: "small" as const },
-  { id: "attack-chart-1", type: "attack-chart" as WidgetType, title: "Attack Distribution", defaultSize: "medium" as const },
-  { id: "threat-map-1", type: "threat-map" as WidgetType, title: "Threat Map", defaultSize: "large" as const },
-  { id: "network-status-1", type: "network-status" as WidgetType, title: "Network Status", defaultSize: "medium" as const },
-  { id: "system-health-1", type: "system-health" as WidgetType, title: "System Health", defaultSize: "small" as const },
+  { id: "security-score-1", type: "security-score", title: "Security Score", defaultSize: "small" },
+  { id: "attack-chart-1", type: "attack-chart", title: "Attack Distribution", defaultSize: "medium" },
+  { id: "threat-map-1", type: "threat-map", title: "Threat Map", defaultSize: "large" },
+  { id: "network-status-1", type: "network-status", title: "Network Status", defaultSize: "medium" },
+  { id: "system-health-1", type: "system-health", title: "System Health", defaultSize: "small" },
 ];
 
 export function CustomizableDashboard() {
@@ -217,6 +217,8 @@ export function CustomizableDashboard() {
         return <NetworkStatusWidget />;
       case "system-health":
         return <SystemHealthWidget />;
+      case "attack-types":
+        return <AttackTypesVisualization />;
       default:
         return <Card className="p-4">Widget content not available</Card>;
     }

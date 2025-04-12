@@ -1,4 +1,3 @@
-
 import { useState, useEffect, memo } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,23 +11,7 @@ import {
 import { WidgetContainer } from "./widget-container";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-
-// Define available widget types
-export type WidgetType = 
-  | "security-score" 
-  | "attack-chart" 
-  | "threat-map" 
-  | "live-traffic" 
-  | "metrics" 
-  | "network-status"
-  | "system-health";
-
-interface WidgetDefinition {
-  id: string;
-  type: WidgetType;
-  title: string;
-  defaultSize: 'small' | 'medium' | 'large';
-}
+import { WidgetType, WidgetDefinition } from "@/types";
 
 interface WidgetManagerProps {
   defaultWidgets?: WidgetDefinition[];

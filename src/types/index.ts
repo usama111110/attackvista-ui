@@ -10,7 +10,15 @@ export interface NavItem {
 
 export interface MainNavItem extends NavItem {}
 
-export type WidgetType = "security-score" | "attack-chart" | "threat-map" | "live-traffic" | "metrics" | "network-status" | "system-health" | "attack-types";
+export type WidgetType = 
+  | "security-score" 
+  | "attack-chart" 
+  | "threat-map" 
+  | "live-traffic" 
+  | "metrics" 
+  | "network-status" 
+  | "system-health" 
+  | "attack-types";
 
 export interface WidgetDefinition {
   id: string;
