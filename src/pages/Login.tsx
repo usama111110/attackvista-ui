@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, Lock, AlertTriangle } from "lucide-react";
@@ -18,13 +19,16 @@ const Login = () => {
   const { login, currentUser } = useUserStore();
   const { isDarkMode } = useTheme();
   
+  // Check if user is already logged in
   useEffect(() => {
     if (currentUser) {
       navigate("/");
     }
   }, [currentUser, navigate]);
   
+  // Show toast message if redirected with a message
   useEffect(() => {
+    // Only show toast if there's a message in location state
     if (location.state?.message) {
       toast({
         title: "Authentication Required",
