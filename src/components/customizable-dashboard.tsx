@@ -191,11 +191,11 @@ const MetricsWidget = () => {
 
 // Default widgets to show on the dashboard
 const defaultWidgets = [
-  { id: "security-score-1", type: "security-score", title: "Security Score", defaultSize: "small" },
-  { id: "attack-chart-1", type: "attack-chart", title: "Attack Distribution", defaultSize: "medium" },
-  { id: "threat-map-1", type: "threat-map", title: "Threat Map", defaultSize: "large" },
-  { id: "network-status-1", type: "network-status", title: "Network Status", defaultSize: "medium" },
-  { id: "system-health-1", type: "system-health", title: "System Health", defaultSize: "small" },
+  { id: "security-score-1", type: "security-score" as WidgetType, title: "Security Score", defaultSize: "small" },
+  { id: "attack-chart-1", type: "attack-chart" as WidgetType, title: "Attack Distribution", defaultSize: "medium" },
+  { id: "threat-map-1", type: "threat-map" as WidgetType, title: "Threat Map", defaultSize: "large" },
+  { id: "network-status-1", type: "network-status" as WidgetType, title: "Network Status", defaultSize: "medium" },
+  { id: "system-health-1", type: "system-health" as WidgetType, title: "System Health", defaultSize: "small" },
 ];
 
 export function CustomizableDashboard() {

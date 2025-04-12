@@ -1,3 +1,4 @@
+
 import {
   Home,
   LayoutDashboard,
@@ -9,12 +10,11 @@ import {
   Users,
   FileText
 } from "lucide-react";
-import { NavItem } from "@/types";
-import { MainNavItem } from "@/types";
 import { Link } from "react-router-dom";
 import { useUserStore } from "@/utils/userDatabase";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/providers/ThemeProvider";
+import { MainNavItem, NavItem } from "@/types";
 
 interface MainNavProps {
   items?: MainNavItem[]
@@ -22,12 +22,19 @@ interface MainNavProps {
   collapsed: boolean;
 }
 
+interface NavItemType {
+  path: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
 export function MainNav({
   items,
   children,
   collapsed
 }: MainNavProps) {
-  const { isAuthenticated } = useUserStore();
+  const userStore = useUserStore();
+  const isAuthenticated = userStore.isAuthenticated as boolean;
   const [mounted, setMounted] = useState(false);
   const { isDarkMode } = useTheme();
   
@@ -39,7 +46,7 @@ export function MainNav({
     return null;
   }
 
-  const navItems = [
+  const navItems: NavItemType[] = [
     {
       path: "/",
       label: "Dashboard",
