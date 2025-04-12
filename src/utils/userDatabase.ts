@@ -57,7 +57,6 @@ interface UserStore {
   deleteUser: (id: number) => void;
   login: (email: string, password: string) => User | null;
   logout: () => void;
-  isAuthenticated: boolean;
 }
 
 // Create user store with persistence
@@ -66,7 +65,6 @@ export const useUserStore = create<UserStore>()(
     (set, get) => ({
       users: initialUsers,
       currentUser: null,
-      isAuthenticated: false,
       
       // Add a new user
       addUser: (user) => {
@@ -105,8 +103,7 @@ export const useUserStore = create<UserStore>()(
         set((state) => ({
           users: state.users.filter((user) => user.id !== id),
           // If deleting the current user, log out
-          currentUser: state.currentUser?.id === id ? null : state.currentUser,
-          isAuthenticated: state.currentUser?.id === id ? false : state.isAuthenticated
+          currentUser: state.currentUser?.id === id ? null : state.currentUser
         }));
       },
       
@@ -119,44 +116,25 @@ export const useUserStore = create<UserStore>()(
         if (user) {
           // Update last active time
           const updatedUser = { ...user, lastActive: "Just now" };
-          
-          // Update state atomically to prevent race conditions
-          set(() => ({
-            currentUser: updatedUser,
-            isAuthenticated: true
-          }));
-          
-          console.log("Login successful:", updatedUser.name, "isAuthenticated set to true");
-          
-          // Update the user in the users array
           set((state) => ({
+            currentUser: updatedUser,
             users: state.users.map((u) => 
               u.id === user.id ? updatedUser : u
             )
           }));
-          
           return updatedUser;
         }
         
-        console.log("Login failed: invalid credentials");
         return null;
       },
       
       // Logout functionality
       logout: () => {
-        console.log("Logging out user");
-        set({ currentUser: null, isAuthenticated: false });
+        set({ currentUser: null });
       }
     }),
     {
       name: "user-storage", // Storage key
-      getStorage: () => localStorage, // Use localStorage for persistence
-      partialize: (state) => ({
-        // Only persist these fields from state
-        currentUser: state.currentUser,
-        isAuthenticated: state.isAuthenticated,
-        users: state.users
-      }),
     }
   )
 );

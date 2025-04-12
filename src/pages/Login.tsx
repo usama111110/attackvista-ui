@@ -18,18 +18,13 @@ const Login = () => {
   const { login, currentUser } = useUserStore();
   const { isDarkMode } = useTheme();
   
-  // Check if user is already logged in
   useEffect(() => {
     if (currentUser) {
-      // Get redirect path from location state or default to "/"
-      const from = location.state?.from || "/";
-      navigate(from);
+      navigate("/");
     }
-  }, [currentUser, navigate, location.state]);
+  }, [currentUser, navigate]);
   
-  // Show toast message if redirected with a message
   useEffect(() => {
-    // Only show toast if there's a message in location state
     if (location.state?.message) {
       toast({
         title: "Authentication Required",
@@ -58,10 +53,7 @@ const Login = () => {
           title: "Login Successful",
           description: `Welcome back, ${user.name}!`
         });
-        
-        // Get redirect path from location state or default to "/"
-        const from = location.state?.from || "/";
-        navigate(from);
+        navigate("/");
       } else {
         setError("Invalid email or password");
         toast({
