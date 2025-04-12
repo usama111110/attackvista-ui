@@ -57,7 +57,7 @@ interface UserStore {
   deleteUser: (id: number) => void;
   login: (email: string, password: string) => User | null;
   logout: () => void;
-  isAuthenticated: boolean; // Add this to define the property
+  isAuthenticated: boolean;
 }
 
 // Create user store with persistence
@@ -66,6 +66,7 @@ export const useUserStore = create<UserStore>()(
     (set, get) => ({
       users: initialUsers,
       currentUser: null,
+      isAuthenticated: false,
       
       // Add a new user
       addUser: (user) => {
@@ -104,7 +105,8 @@ export const useUserStore = create<UserStore>()(
         set((state) => ({
           users: state.users.filter((user) => user.id !== id),
           // If deleting the current user, log out
-          currentUser: state.currentUser?.id === id ? null : state.currentUser
+          currentUser: state.currentUser?.id === id ? null : state.currentUser,
+          isAuthenticated: state.currentUser?.id === id ? false : state.isAuthenticated
         }));
       },
       
@@ -119,6 +121,7 @@ export const useUserStore = create<UserStore>()(
           const updatedUser = { ...user, lastActive: "Just now" };
           set((state) => ({
             currentUser: updatedUser,
+            isAuthenticated: true,
             users: state.users.map((u) => 
               u.id === user.id ? updatedUser : u
             )
@@ -131,12 +134,7 @@ export const useUserStore = create<UserStore>()(
       
       // Logout functionality
       logout: () => {
-        set({ currentUser: null });
-      },
-      
-      // Computed property for authentication status
-      get isAuthenticated() {
-        return get().currentUser !== null;
+        set({ currentUser: null, isAuthenticated: false });
       }
     }),
     {

@@ -1,3 +1,4 @@
+
 import {
   Home,
   LayoutDashboard,
@@ -9,7 +10,7 @@ import {
   Users,
   FileText
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useUserStore } from "@/utils/userDatabase";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -32,15 +33,16 @@ export function MainNav({
   children,
   collapsed
 }: MainNavProps) {
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, currentUser } = useUserStore();
   const [mounted, setMounted] = useState(false);
   const { isDarkMode } = useTheme();
+  const location = useLocation();
   
   useEffect(() => {
     setMounted(true);
   }, []);
   
-  if (!mounted) {
+  if (!mounted || !isAuthenticated || !currentUser) {
     return null;
   }
 
@@ -87,10 +89,6 @@ export function MainNav({
     }
   ];
 
-  if (!isAuthenticated) {
-    return null;
-  }
-
   return (
     <div className="flex flex-col space-y-1">
       <div className="px-3 py-2">
@@ -103,7 +101,9 @@ export function MainNav({
               <li key={item.label}>
                 <Link
                   to={item.path}
-                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${isDarkMode
+                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
+                    location.pathname === item.path ? 'bg-accent text-accent-foreground' : ''
+                  } ${isDarkMode
                     ? 'text-gray-300 hover:text-gray-50'
                     : 'text-gray-600 hover:text-gray-900'}`}
                 >

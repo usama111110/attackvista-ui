@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mail, Lock, AlertTriangle } from "lucide-react";
@@ -22,9 +21,11 @@ const Login = () => {
   // Check if user is already logged in
   useEffect(() => {
     if (currentUser) {
-      navigate("/");
+      // Get redirect path from location state or default to "/"
+      const from = location.state?.from || "/";
+      navigate(from);
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, location.state]);
   
   // Show toast message if redirected with a message
   useEffect(() => {
@@ -57,7 +58,10 @@ const Login = () => {
           title: "Login Successful",
           description: `Welcome back, ${user.name}!`
         });
-        navigate("/");
+        
+        // Get redirect path from location state or default to "/"
+        const from = location.state?.from || "/";
+        navigate(from);
       } else {
         setError("Invalid email or password");
         toast({

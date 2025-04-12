@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useUserStore } from "@/utils/userDatabase";
 
 interface ProtectedRouteProps {
@@ -9,9 +9,11 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated } = useUserStore();
+  const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    // Pass the current location to redirect back after login
+    return <Navigate to="/login" state={{ from: location.pathname, message: "You must be logged in to access this page" }} replace />;
   }
 
   return <>{children}</>;
