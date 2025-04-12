@@ -119,21 +119,32 @@ export const useUserStore = create<UserStore>()(
         if (user) {
           // Update last active time
           const updatedUser = { ...user, lastActive: "Just now" };
-          set((state) => ({
-            currentUser: updatedUser,
+          
+          // Set authenticated state first, then update currentUser
+          set({
             isAuthenticated: true,
+            currentUser: updatedUser
+          });
+          
+          console.log("Login successful:", updatedUser.name, "isAuthenticated set to true");
+          
+          // Update the user in the users array
+          set((state) => ({
             users: state.users.map((u) => 
               u.id === user.id ? updatedUser : u
             )
           }));
+          
           return updatedUser;
         }
         
+        console.log("Login failed: invalid credentials");
         return null;
       },
       
       // Logout functionality
       logout: () => {
+        console.log("Logging out user");
         set({ currentUser: null, isAuthenticated: false });
       }
     }),
