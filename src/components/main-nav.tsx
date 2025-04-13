@@ -8,7 +8,8 @@ import {
   Users as UsersIcon,
   Settings as SettingsIcon,
   Bell,
-  AreaChart
+  AreaChart,
+  Shield
 } from "lucide-react";
 import { NavItem } from "./nav-item";
 
@@ -23,6 +24,7 @@ const navItems = [
   { title: "Live Traffic", href: "/live-traffic", icon: Activity },
   { title: "Analytics", href: "/analytics", icon: AreaChart },
   { title: "Network", href: "/network", icon: Network },
+  { title: "Security", href: "/security", icon: Shield },
   { title: "Users", href: "/users", icon: UsersIcon },
   { title: "Settings", href: "/settings", icon: SettingsIcon },
   { title: "Notifications", href: "/notifications", icon: Bell },

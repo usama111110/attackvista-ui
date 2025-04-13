@@ -16,6 +16,7 @@ import Detection from "./pages/Detection";
 import Network from "./pages/Network";
 import Notifications from "./pages/Notifications";
 import Analytics from "./pages/Analytics";
+import Security from "./pages/Security";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/users" element={<Users />} />
               <Route path="/live-traffic" element={<LiveTraffic />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/security" element={<Security />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="*" element={<NotFound />} />
