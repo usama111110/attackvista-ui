@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "@/providers/ThemeProvider";
-import { Download, Terminal, Copy, Check, Globe } from "lucide-react";
+import { Download, Terminal, Copy, Check, Globe, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function AgentDownloadCard() {
@@ -50,6 +50,36 @@ attackvista-agent config --server-address=${serverAddress || "your.server.addres
 
 # Start the agent
 attackvista-agent start`
+  };
+
+  // Usage commands for antivirus scanning
+  const usageCommands = {
+    windows: `# Run a quick scan
+attackvista-agent scan --quick
+
+# Run a full system scan
+attackvista-agent scan --full
+
+# Scan a specific directory
+attackvista-agent scan --path="C:\\Users\\Documents"`,
+    
+    linux: `# Run a quick scan
+sudo attackvista-agent scan --quick
+
+# Run a full system scan
+sudo attackvista-agent scan --full
+
+# Scan a specific directory
+sudo attackvista-agent scan --path="/home/user/documents"`,
+    
+    mac: `# Run a quick scan
+attackvista-agent scan --quick
+
+# Run a full system scan
+attackvista-agent scan --full
+
+# Scan a specific directory
+attackvista-agent scan --path="/Users/username/Documents"`
   };
   
   const copyToClipboard = (text: string, osType: string) => {
@@ -120,23 +150,38 @@ attackvista-agent start`
             
             <TabsContent value="windows">
               <div className="space-y-4">
-                <div className="flex justify-between">
-                  <h4 className="font-medium">Windows Installation</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="gap-1.5 text-xs" 
-                    onClick={() => copyToClipboard(installCommands.windows, "windows")}
-                  >
-                    {copied.windows ? <Check size={14} /> : <Copy size={14} />}
-                    <span>{copied.windows ? "Copied" : "Copy"}</span>
-                  </Button>
+                <div>
+                  <div className="flex justify-between">
+                    <h4 className="font-medium">Windows Installation</h4>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="gap-1.5 text-xs" 
+                      onClick={() => copyToClipboard(installCommands.windows, "windows")}
+                    >
+                      {copied.windows ? <Check size={14} /> : <Copy size={14} />}
+                      <span>{copied.windows ? "Copied" : "Copy"}</span>
+                    </Button>
+                  </div>
+                  <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
+                    isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
+                  }`}>
+                    {installCommands.windows}
+                  </div>
                 </div>
-                <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
-                  isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
-                }`}>
-                  {installCommands.windows}
+                
+                <div>
+                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                    <ShieldCheck size={16} className="text-green-500" />
+                    <span>Antivirus Scanning Commands</span>
+                  </h4>
+                  <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
+                    isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
+                  }`}>
+                    {usageCommands.windows}
+                  </div>
                 </div>
+                
                 <div className="flex justify-between">
                   <div className="text-sm text-muted-foreground">
                     Supported: Windows 10/11, Windows Server 2019/2022
@@ -151,23 +196,38 @@ attackvista-agent start`
             
             <TabsContent value="linux">
               <div className="space-y-4">
-                <div className="flex justify-between">
-                  <h4 className="font-medium">Linux Installation</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="gap-1.5 text-xs" 
-                    onClick={() => copyToClipboard(installCommands.linux, "linux")}
-                  >
-                    {copied.linux ? <Check size={14} /> : <Copy size={14} />}
-                    <span>{copied.linux ? "Copied" : "Copy"}</span>
-                  </Button>
+                <div>
+                  <div className="flex justify-between">
+                    <h4 className="font-medium">Linux Installation</h4>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="gap-1.5 text-xs" 
+                      onClick={() => copyToClipboard(installCommands.linux, "linux")}
+                    >
+                      {copied.linux ? <Check size={14} /> : <Copy size={14} />}
+                      <span>{copied.linux ? "Copied" : "Copy"}</span>
+                    </Button>
+                  </div>
+                  <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
+                    isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
+                  }`}>
+                    {installCommands.linux}
+                  </div>
                 </div>
-                <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
-                  isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
-                }`}>
-                  {installCommands.linux}
+                
+                <div>
+                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                    <ShieldCheck size={16} className="text-green-500" />
+                    <span>Antivirus Scanning Commands</span>
+                  </h4>
+                  <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
+                    isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
+                  }`}>
+                    {usageCommands.linux}
+                  </div>
                 </div>
+                
                 <div className="flex justify-between">
                   <div className="text-sm text-muted-foreground">
                     Supported: Ubuntu, Debian, CentOS, RHEL, Fedora, and more
@@ -182,23 +242,38 @@ attackvista-agent start`
             
             <TabsContent value="mac">
               <div className="space-y-4">
-                <div className="flex justify-between">
-                  <h4 className="font-medium">macOS Installation</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="gap-1.5 text-xs" 
-                    onClick={() => copyToClipboard(installCommands.mac, "mac")}
-                  >
-                    {copied.mac ? <Check size={14} /> : <Copy size={14} />}
-                    <span>{copied.mac ? "Copied" : "Copy"}</span>
-                  </Button>
+                <div>
+                  <div className="flex justify-between">
+                    <h4 className="font-medium">macOS Installation</h4>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="gap-1.5 text-xs" 
+                      onClick={() => copyToClipboard(installCommands.mac, "mac")}
+                    >
+                      {copied.mac ? <Check size={14} /> : <Copy size={14} />}
+                      <span>{copied.mac ? "Copied" : "Copy"}</span>
+                    </Button>
+                  </div>
+                  <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
+                    isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
+                  }`}>
+                    {installCommands.mac}
+                  </div>
                 </div>
-                <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
-                  isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
-                }`}>
-                  {installCommands.mac}
+                
+                <div>
+                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                    <ShieldCheck size={16} className="text-green-500" />
+                    <span>Antivirus Scanning Commands</span>
+                  </h4>
+                  <div className={`p-4 rounded-lg font-mono text-sm whitespace-pre-wrap ${
+                    isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
+                  }`}>
+                    {usageCommands.mac}
+                  </div>
                 </div>
+                
                 <div className="flex justify-between">
                   <div className="text-sm text-muted-foreground">
                     Supported: macOS 11 (Big Sur) and newer
@@ -230,6 +305,10 @@ attackvista-agent start`
               <li className="flex items-start gap-2">
                 <div className="bg-blue-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
                 <span>Process monitoring and suspicious activity alerts</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <div className="bg-blue-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                <span><strong>Full antivirus scanning with malware detection and removal</strong></span>
               </li>
               <li className="flex items-start gap-2">
                 <div className="bg-blue-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>

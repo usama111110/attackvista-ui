@@ -81,16 +81,16 @@ export function AgentApiSpecs() {
               <h4 className="font-medium text-blue-600 dark:text-blue-400">Authentication Flow</h4>
               <div className="mt-2 space-y-2 text-sm">
                 <p className="font-mono bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">
-                  1. Agent -> Server: Initial registration with agent UUID and auth key
+                  1. Agent -&gt; Server: Initial registration with agent UUID and auth key
                 </p>
                 <p className="font-mono bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">
-                  2. Server -> Agent: JWT token + refresh token if validated
+                  2. Server -&gt; Agent: JWT token + refresh token if validated
                 </p>
                 <p className="font-mono bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">
-                  3. Agent -> Server: Includes JWT in Authorization header for all requests
+                  3. Agent -&gt; Server: Includes JWT in Authorization header for all requests
                 </p>
                 <p className="font-mono bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">
-                  4. Agent -> Server: Uses refresh token to get new JWT when expired
+                  4. Agent -&gt; Server: Uses refresh token to get new JWT when expired
                 </p>
               </div>
             </div>

@@ -1,8 +1,7 @@
-
 import { Card } from "@/components/ui/card";
 import { useTheme } from "@/providers/ThemeProvider";
 import { Badge } from "@/components/ui/badge";
-import { Library, Server, Lock, Clock, Shield, Network, Settings, Zap } from "lucide-react";
+import { Library, Server, Lock, Clock, Shield, Network, Settings, Zap, Search, Bug } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function AgentTechStack() {
@@ -33,6 +32,14 @@ export function AgentTechStack() {
       { name: "ClamAV", description: "Antivirus engine integration", type: "engine" },
       { name: "procfs", description: "Linux process filesystem interface", type: "library" },
       { name: "psutil", description: "Process and system utilities", type: "library" },
+    ],
+    antivirus: [
+      { name: "ClamAV", description: "Open source antivirus engine", type: "engine" },
+      { name: "YARA Rules", description: "Malware pattern matching", type: "signatures" },
+      { name: "VirusTotal API", description: "Cloud-based suspicious file scanning", type: "service" },
+      { name: "Hashing", description: "File fingerprinting for known malware detection", type: "technique" },
+      { name: "Behavioral Analysis", description: "Runtime behavior monitoring", type: "technique" },
+      { name: "Sandbox Testing", description: "Isolated environment for suspicious file execution", type: "technique" },
     ]
   };
 
@@ -86,6 +93,18 @@ export function AgentTechStack() {
       ]
     },
     {
+      name: "Antivirus Module",
+      icon: Bug,
+      description: "Dedicated antivirus scanning and protection",
+      features: [
+        "Real-time file monitoring",
+        "On-demand system scanning",
+        "Malware removal and quarantine",
+        "Signature updates and cloud lookups",
+        "Heuristic and behavioral detection"
+      ]
+    },
+    {
       name: "Data Manager",
       icon: Library,
       description: "Manages data collection, storage, and transmission",
@@ -111,6 +130,33 @@ export function AgentTechStack() {
     }
   ];
   
+  const scanTypes = [
+    {
+      name: "Quick Scan",
+      description: "Scans critical system areas and running processes",
+      duration: "5-10 minutes",
+      locations: ["Running processes", "System memory", "Boot sectors", "Registry (Windows)", "System files"]
+    },
+    {
+      name: "Full System Scan",
+      description: "Comprehensive scan of all files and directories",
+      duration: "1-4 hours (depends on system size)",
+      locations: ["All user files", "All system files", "All connected drives", "Archive files", "Hidden areas"]
+    },
+    {
+      name: "Custom Scan",
+      description: "User-defined scan parameters",
+      duration: "Varies with selection",
+      locations: ["User-selected directories", "Specific file types", "Exclusions supported"]
+    },
+    {
+      name: "Scheduled Scan",
+      description: "Automated scans at specified intervals",
+      duration: "Configurable",
+      locations: ["Can be configured for Quick, Full, or Custom scan types"]
+    }
+  ];
+  
   return (
     <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
       <div className="flex items-center gap-2 mb-4">
@@ -123,6 +169,7 @@ export function AgentTechStack() {
           <TabsTrigger value="components">Components</TabsTrigger>
           <TabsTrigger value="architecture">Architecture</TabsTrigger>
           <TabsTrigger value="tech">Technology</TabsTrigger>
+          <TabsTrigger value="scanning">Scanning Capabilities</TabsTrigger>
         </TabsList>
         
         <TabsContent value="components">
@@ -296,7 +343,7 @@ export function AgentTechStack() {
         
         <TabsContent value="tech">
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className={`p-4 rounded-lg border ${isDarkMode ? "border-gray-700/50" : "border-gray-200"}`}>
                 <h4 className="font-medium mb-3">Core Technologies</h4>
                 <div className="space-y-2">
@@ -335,6 +382,23 @@ export function AgentTechStack() {
                 <h4 className="font-medium mb-3">Monitoring Technologies</h4>
                 <div className="space-y-2">
                   {techComponents.monitoring.map((tech, index) => (
+                    <div 
+                      key={index} 
+                      className={`flex items-center justify-between p-2 rounded ${
+                        isDarkMode ? "bg-gray-800/50 hover:bg-gray-800" : "bg-gray-100 hover:bg-gray-200"
+                      } transition-colors`}
+                    >
+                      <span>{tech.name}</span>
+                      <Badge variant="outline" className="text-xs capitalize">{tech.type}</Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className={`p-4 rounded-lg border ${isDarkMode ? "border-gray-700/50" : "border-gray-200"}`}>
+                <h4 className="font-medium mb-3">Antivirus Technologies</h4>
+                <div className="space-y-2">
+                  {techComponents.antivirus.map((tech, index) => (
                     <div 
                       key={index} 
                       className={`flex items-center justify-between p-2 rounded ${
@@ -395,6 +459,124 @@ export function AgentTechStack() {
                     <li>• EndpointSecurity framework</li>
                     <li>• Darwin Kernel interfaces</li>
                     <li>• macOS security frameworks</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="scanning">
+          <div className="space-y-6">
+            <div className={`p-4 rounded-lg ${isDarkMode ? "bg-red-900/10 border border-red-900/20" : "bg-red-50 border border-red-100"}`}>
+              <h4 className="font-medium text-red-600 dark:text-red-400">Antivirus & Security Scanning</h4>
+              <p className="mt-2 text-sm">
+                The AttackVista Security Agent includes comprehensive antivirus capabilities powered by multiple 
+                scanning engines and detection techniques. The agent performs both scheduled and on-demand scans
+                while continuously monitoring for security threats in real-time.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/40" : "bg-gray-100"}`}>
+                <h4 className="font-medium mb-3 flex items-center gap-2">
+                  <Search className="h-4 w-4 text-primary" />
+                  <span>Scan Types</span>
+                </h4>
+                <div className="space-y-4">
+                  {scanTypes.map((scan, index) => (
+                    <div key={index} className={`p-3 rounded-lg ${isDarkMode ? "bg-gray-800" : "bg-white"} border ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}>
+                      <div className="font-medium">{scan.name}</div>
+                      <div className="text-sm text-muted-foreground mt-1">{scan.description}</div>
+                      <div className="mt-2">
+                        <Badge variant="secondary" className="text-xs">{scan.duration}</Badge>
+                      </div>
+                      <div className="mt-2">
+                        <div className="text-xs font-medium mb-1">Scan Locations:</div>
+                        <ul className="text-xs text-muted-foreground">
+                          {scan.locations.map((location, i) => (
+                            <li key={i}>• {location}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className={`p-4 rounded-lg mb-6 ${isDarkMode ? "bg-gray-800/40" : "bg-gray-100"}`}>
+                  <h4 className="font-medium mb-3">Detection Methods</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <div className="bg-red-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Signature-based Detection</span>
+                        <p className="text-muted-foreground">Compares file hashes against known malware database</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-red-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Heuristic Analysis</span>
+                        <p className="text-muted-foreground">Examines code for suspicious patterns or behaviors</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-red-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Behavioral Monitoring</span>
+                        <p className="text-muted-foreground">Analyzes program behavior during execution</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-red-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Machine Learning</span>
+                        <p className="text-muted-foreground">Uses AI to identify new and evolving threats</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-red-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Cloud Lookup</span>
+                        <p className="text-muted-foreground">Verifies suspicious files against online databases</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/40" : "bg-gray-100"}`}>
+                  <h4 className="font-medium mb-3">Threat Response</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <div className="bg-amber-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Quarantine</span>
+                        <p className="text-muted-foreground">Isolates malicious files in a secure container</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-amber-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Removal</span>
+                        <p className="text-muted-foreground">Deletes or cleans infected files</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-amber-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Process Termination</span>
+                        <p className="text-muted-foreground">Stops malicious processes immediately</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="bg-amber-500 rounded-full w-1.5 h-1.5 mt-1.5"></div>
+                      <div>
+                        <span className="font-medium">Real-time Alerting</span>
+                        <p className="text-muted-foreground">Sends immediate notifications to AttackVista dashboard</p>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
