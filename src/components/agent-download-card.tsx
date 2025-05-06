@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "@/providers/ThemeProvider";
-import { Download, Terminal, Copy, Check, Globe, ShieldCheck } from "lucide-react";
+import { Download, Terminal, Copy, Check, Globe, ShieldCheck, FileCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function AgentDownloadCard() {
@@ -81,6 +81,13 @@ attackvista-agent scan --full
 # Scan a specific directory
 attackvista-agent scan --path="/Users/username/Documents"`
   };
+
+  // Download links for installers
+  const downloadLinks = {
+    windows: `https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-setup.exe`,
+    linux: `https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-linux-amd64.tar.gz`,
+    mac: `https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-macos.pkg`
+  };
   
   const copyToClipboard = (text: string, osType: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -95,6 +102,17 @@ attackvista-agent scan --path="/Users/username/Documents"`
         setCopied({ ...copied, [osType]: false });
       }, 2000);
     });
+  };
+
+  const downloadAgent = (osType: string) => {
+    toast({
+      title: "Download started",
+      description: `Downloading agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}`
+    });
+    
+    // In a real app this would download the file
+    // For now we'll simulate it with a direct link
+    window.open(downloadLinks[osType as keyof typeof downloadLinks], '_blank');
   };
   
   return (
@@ -186,7 +204,12 @@ attackvista-agent scan --path="/Users/username/Documents"`
                   <div className="text-sm text-muted-foreground">
                     Supported: Windows 10/11, Windows Server 2019/2022
                   </div>
-                  <Button variant="outline" size="sm" className="gap-1.5">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-1.5"
+                    onClick={() => downloadAgent('windows')}
+                  >
                     <Download size={14} />
                     <span>Download Installer</span>
                   </Button>
@@ -232,9 +255,14 @@ attackvista-agent scan --path="/Users/username/Documents"`
                   <div className="text-sm text-muted-foreground">
                     Supported: Ubuntu, Debian, CentOS, RHEL, Fedora, and more
                   </div>
-                  <Button variant="outline" size="sm" className="gap-1.5">
-                    <Terminal size={14} />
-                    <span>View Manual Install</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-1.5"
+                    onClick={() => downloadAgent('linux')}
+                  >
+                    <Download size={14} />
+                    <span>Download Package</span>
                   </Button>
                 </div>
               </div>
@@ -278,7 +306,12 @@ attackvista-agent scan --path="/Users/username/Documents"`
                   <div className="text-sm text-muted-foreground">
                     Supported: macOS 11 (Big Sur) and newer
                   </div>
-                  <Button variant="outline" size="sm" className="gap-1.5">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-1.5"
+                    onClick={() => downloadAgent('mac')}
+                  >
                     <Download size={14} />
                     <span>Download Package</span>
                   </Button>

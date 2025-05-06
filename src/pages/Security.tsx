@@ -1,4 +1,3 @@
-
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { AgentDownloadCard } from "@/components/agent-download-card";
 import { AgentApiSpecs } from "@/components/agent-api-specs";
+import { AgentScanControl } from "@/components/agent-scan-control";
 
 // Mock data - in a real app this would come from your backend API
 const mockAgents = [
@@ -251,6 +251,16 @@ const Security = () => {
               <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
               Refresh Data
             </Button>
+            <select 
+              className={`p-2 rounded-md text-sm ${isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"} border border-gray-300`}
+              value={selectedAgent || ""}
+              onChange={(e) => setSelectedAgent(e.target.value || null)}
+            >
+              <option value="">All Agents</option>
+              {agents.map(agent => (
+                <option key={agent.id} value={agent.id}>{agent.name}</option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -641,136 +651,13 @@ const Security = () => {
           </TabsContent>
           
           <TabsContent value="scans">
-            <div className="space-y-6">
-              <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-                <h3 className="text-lg font-semibold mb-4">Start Antivirus Scan</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {agents.map(agent => (
-                    <div key={agent.id} className={`p-4 rounded-lg border ${agent.status === "online" ? (isDarkMode ? "border-green-800/30" : "border-green-200") : "border-gray-300 opacity-60"}`}>
-                      <div className="flex justify-between items-center mb-2">
-                        <div className="font-medium">{agent.name}</div>
-                        <Badge variant={agent.status === "online" ? "outline" : "secondary"} className={`capitalize ${agent.status === "online" ? "text-green-500 border-green-500" : ""}`}>
-                          {agent.status}
-                        </Badge>
-                      </div>
-                      <div className="text-sm text-muted-foreground mb-3">{agent.os}</div>
-                      
-                      <div className="space-y-2">
-                        <Button 
-                          variant="default" 
-                          size="sm" 
-                          className="w-full flex items-center gap-1" 
-                          disabled={agent.status !== "online" || isScanningAgent === agent.id}
-                          onClick={() => startScan(agent.id, "quick")}
-                        >
-                          <Scan size={14} />
-                          {isScanningAgent === agent.id ? "Scanning..." : "Quick Scan"}
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="w-full flex items-center gap-1" 
-                          disabled={agent.status !== "online" || isScanningAgent === agent.id}
-                          onClick={() => startScan(agent.id, "full")}
-                        >
-                          <Shield size={14} />
-                          Full Scan
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-              
-              <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-                <h3 className="text-lg font-semibold mb-4">Scan History</h3>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Agent</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Start Time</TableHead>
-                      <TableHead>Duration</TableHead>
-                      <TableHead>Files Scanned</TableHead>
-                      <TableHead>Threats</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredScans.map((scan) => {
-                      const agent = agents.find(a => a.id === scan.agentId);
-                      const startTime = new Date(scan.startTime);
-                      const endTime = new Date(scan.endTime);
-                      const duration = Math.round((endTime.getTime() - startTime.getTime()) / (1000 * 60)); // minutes
-                      
-                      return (
-                        <TableRow key={scan.id}>
-                          <TableCell>{agent?.name || 'Unknown'}</TableCell>
-                          <TableCell className="capitalize">{scan.type}</TableCell>
-                          <TableCell>{startTime.toLocaleString()}</TableCell>
-                          <TableCell>{duration} min</TableCell>
-                          <TableCell>{scan.filesScanned.toLocaleString()}</TableCell>
-                          <TableCell>
-                            {scan.threatsFound > 0 ? (
-                              <Badge variant="destructive">{scan.threatsFound} found, {scan.threatsRemoved} removed</Badge>
-                            ) : (
-                              <Badge variant="outline" className="text-green-500 border-green-500">Clean</Badge>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline" className="capitalize">
-                              {scan.status}
-                            </Badge>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              </Card>
-              
-              <Card className={`p-6 ${isDarkMode ? "bg-gray-900/50 border-gray-700/50" : "bg-white/90 border-gray-200"}`}>
-                <h3 className="text-lg font-semibold mb-4">Antivirus Detection Methods</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-100"}`}>
-                    <h4 className="font-medium mb-2">Signature-based Detection</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Compares files against a database of known malware signatures for fast and reliable detection of known threats.
-                    </p>
-                  </div>
-                  <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-100"}`}>
-                    <h4 className="font-medium mb-2">Heuristic Analysis</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Examines code for suspicious patterns without relying on exact signatures, helping detect new or modified malware.
-                    </p>
-                  </div>
-                  <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-100"}`}>
-                    <h4 className="font-medium mb-2">Behavioral Monitoring</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Tracks program behavior in real-time to identify malicious activities like unauthorized system changes.
-                    </p>
-                  </div>
-                  <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-100"}`}>
-                    <h4 className="font-medium mb-2">Machine Learning</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Uses AI algorithms to predict whether files are malicious based on patterns learned from millions of samples.
-                    </p>
-                  </div>
-                  <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-100"}`}>
-                    <h4 className="font-medium mb-2">Cloud Lookups</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Checks file hashes against real-time cloud databases for up-to-date protection against emerging threats.
-                    </p>
-                  </div>
-                  <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-100"}`}>
-                    <h4 className="font-medium mb-2">YARA Rules</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Uses custom pattern matching rules to identify malware based on textual or binary patterns specific to malware families.
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </div>
+            <AgentScanControl 
+              agents={filteredAgents} 
+              scanHistory={filteredScans} 
+              selectedAgent={selectedAgent} 
+              isScanningAgent={isScanningAgent} 
+              onStartScan={startScan}
+            />
           </TabsContent>
           
           <TabsContent value="download">
