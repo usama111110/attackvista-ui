@@ -2,7 +2,7 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import { Shield, Server, RefreshCw, Download, HardDrive, Cpu, Network, Scan } from "lucide-react";
+import { Shield, Server, RefreshCw, Download, HardDrive, Cpu, Network, Scan, FileCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/providers/ThemeProvider";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AgentDownloadCard } from "@/components/agent-download-card";
 import { AgentApiSpecs } from "@/components/agent-api-specs";
 import { AgentScanControl } from "@/components/agent-scan-control";
+import { ComplianceReporting } from "@/components/compliance-reporting";
 
 // Mock data - in a real app this would come from your backend API
 const mockAgents = [
@@ -159,6 +160,22 @@ const Security = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [isScanningAgent, setIsScanningAgent] = useState<string | null>(null);
 
+  // Memoization of filtered data to improve performance
+  const filteredAgents = React.useMemo(() => 
+    selectedAgent ? agents.filter(agent => agent.id === selectedAgent) : agents,
+    [agents, selectedAgent]
+  );
+  
+  const filteredEvents = React.useMemo(() => 
+    selectedAgent ? securityEvents.filter(event => event.agentId === selectedAgent) : securityEvents,
+    [securityEvents, selectedAgent]
+  );
+    
+  const filteredScans = React.useMemo(() => 
+    selectedAgent ? scanHistory.filter(scan => scan.agentId === selectedAgent) : scanHistory,
+    [scanHistory, selectedAgent]
+  );
+
   // Simulate data refresh
   const refreshData = () => {
     setIsRefreshing(true);
@@ -208,19 +225,6 @@ const Security = () => {
     }, scanTime);
   };
 
-  // Filter data for selected agent or show all
-  const filteredAgents = selectedAgent 
-    ? agents.filter(agent => agent.id === selectedAgent)
-    : agents;
-  
-  const filteredEvents = selectedAgent
-    ? securityEvents.filter(event => event.agentId === selectedAgent)
-    : securityEvents;
-    
-  const filteredScans = selectedAgent
-    ? scanHistory.filter(scan => scan.agentId === selectedAgent)
-    : scanHistory;
-
   // Function to get severity badge styling
   const getSeverityBadge = (severity: string) => {
     switch (severity) {
@@ -236,23 +240,26 @@ const Security = () => {
   };
 
   // Calculate overall security status
-  const overallSecurityScore = agents.reduce((sum, agent) => sum + agent.securityScore, 0) / agents.length;
+  const overallSecurityScore = React.useMemo(() => 
+    agents.reduce((sum, agent) => sum + agent.securityScore, 0) / agents.length,
+    [agents]
+  );
   
   return (
     <DashboardLayout>
       <div className="animate-fade-in space-y-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold mb-2 dark:text-gradient">Security Agents</h1>
+            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent dark:from-indigo-400 dark:to-purple-300">Security Agents</h1>
             <p className="text-gray-600 dark:text-gray-400">Monitor and manage security agents across your network</p>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="gap-1" onClick={refreshData}>
+            <Button variant="outline" size="sm" className="gap-1 border-indigo-200 dark:border-indigo-800/50" onClick={refreshData}>
               <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
               Refresh Data
             </Button>
             <select 
-              className={`p-2 rounded-md text-sm ${isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"} border border-gray-300`}
+              className={`p-2 rounded-md text-sm border-indigo-200 dark:border-indigo-800/50 ${isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"} border`}
               value={selectedAgent || ""}
               onChange={(e) => setSelectedAgent(e.target.value || null)}
             >
@@ -264,14 +271,19 @@ const Security = () => {
           </div>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="agents">Connected Agents</TabsTrigger>
-            <TabsTrigger value="events">Security Events</TabsTrigger>
-            <TabsTrigger value="scans">Antivirus Scans</TabsTrigger>
-            <TabsTrigger value="download">Agent Download</TabsTrigger>
-            <TabsTrigger value="api">API Specs</TabsTrigger>
+        <Tabs 
+          value={activeTab} 
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
+          <TabsList className="mb-6 p-1 bg-indigo-50/50 dark:bg-gray-800/50 border border-indigo-100 dark:border-gray-700/50 rounded-xl">
+            <TabsTrigger value="overview" className="rounded-lg">Overview</TabsTrigger>
+            <TabsTrigger value="agents" className="rounded-lg">Connected Agents</TabsTrigger>
+            <TabsTrigger value="events" className="rounded-lg">Security Events</TabsTrigger>
+            <TabsTrigger value="scans" className="rounded-lg">Antivirus Scans</TabsTrigger>
+            <TabsTrigger value="compliance" className="rounded-lg">Compliance</TabsTrigger>
+            <TabsTrigger value="download" className="rounded-lg">Agent Download</TabsTrigger>
+            <TabsTrigger value="api" className="rounded-lg">API Specs</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview">
@@ -306,8 +318,8 @@ const Security = () => {
                     <h3 className="text-sm text-muted-foreground">Security Score</h3>
                     <p className="text-2xl font-bold mt-1">{Math.round(overallSecurityScore)}%</p>
                   </div>
-                  <div className={`p-2 rounded-lg ${overallSecurityScore > 80 ? (isDarkMode ? "bg-green-900/20" : "bg-green-100") : (isDarkMode ? "bg-yellow-900/20" : "bg-yellow-100")}`}>
-                    <Shield className={`h-5 w-5 ${overallSecurityScore > 80 ? "text-green-500" : "text-yellow-500"}`} />
+                  <div className={`p-2 rounded-lg ${isDarkMode ? "bg-blue-900/20" : "bg-blue-100"}`}>
+                    <Shield className="h-5 w-5 text-blue-500" />
                   </div>
                 </div>
                 <div className="mt-4">
@@ -658,6 +670,10 @@ const Security = () => {
               isScanningAgent={isScanningAgent} 
               onStartScan={startScan}
             />
+          </TabsContent>
+          
+          <TabsContent value="compliance">
+            <ComplianceReporting selectedFramework={null} />
           </TabsContent>
           
           <TabsContent value="download">
