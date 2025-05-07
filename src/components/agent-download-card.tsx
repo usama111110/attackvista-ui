@@ -19,6 +19,7 @@ export function AgentDownloadCard() {
     linux: false,
     mac: false
   });
+  const [isDownloading, setIsDownloading] = useState<string | null>(null);
   
   // Mock version details
   const agentVersion = "1.0.3";
@@ -27,7 +28,7 @@ export function AgentDownloadCard() {
   // Installation commands
   const installCommands = {
     windows: `# Download the installer
-curl -L https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-setup.exe -o attackvista-agent-setup.exe
+curl -L https://download.attackvista.io/releases/v${agentVersion}/attackvista-agent-setup.exe -o attackvista-agent-setup.exe
 
 # Run the installer
 ./attackvista-agent-setup.exe --server-address=${serverAddress || "your.server.address"}`,
@@ -36,7 +37,7 @@ curl -L https://github.com/attackvista/agent/releases/download/v${agentVersion}/
 curl -s https://install.attackvista.io | sudo bash -s -- --server-address=${serverAddress || "your.server.address"}
 
 # Or download and install manually
-wget https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-linux-amd64.tar.gz
+wget https://download.attackvista.io/releases/v${agentVersion}/attackvista-agent-linux-amd64.tar.gz
 tar -xzf attackvista-agent-linux-amd64.tar.gz
 cd attackvista-agent
 sudo ./install.sh --server-address=${serverAddress || "your.server.address"}`,
@@ -82,11 +83,11 @@ attackvista-agent scan --full
 attackvista-agent scan --path="/Users/username/Documents"`
   };
 
-  // Download links for installers
+  // Direct download links for installers
   const downloadLinks = {
-    windows: `https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-setup.exe`,
-    linux: `https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-linux-amd64.tar.gz`,
-    mac: `https://github.com/attackvista/agent/releases/download/v${agentVersion}/attackvista-agent-macos.pkg`
+    windows: `https://download.attackvista.io/releases/v${agentVersion}/attackvista-agent-setup.exe`,
+    linux: `https://download.attackvista.io/releases/v${agentVersion}/attackvista-agent-linux-amd64.tar.gz`,
+    mac: `https://download.attackvista.io/releases/v${agentVersion}/attackvista-agent-macos.pkg`
   };
   
   const copyToClipboard = (text: string, osType: string) => {
@@ -105,14 +106,34 @@ attackvista-agent scan --path="/Users/username/Documents"`
   };
 
   const downloadAgent = (osType: string) => {
+    setIsDownloading(osType);
+    
     toast({
       title: "Download started",
       description: `Downloading agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}`
     });
     
-    // In a real app this would download the file
-    // For now we'll simulate it with a direct link
-    window.open(downloadLinks[osType as keyof typeof downloadLinks], '_blank');
+    // Simulate download delay for better UX feedback
+    setTimeout(() => {
+      // Create a hidden anchor and trigger the download
+      const link = document.createElement('a');
+      link.href = downloadLinks[osType as keyof typeof downloadLinks];
+      link.download = osType === 'windows' 
+        ? 'attackvista-agent-setup.exe' 
+        : osType === 'linux'
+          ? 'attackvista-agent-linux-amd64.tar.gz'
+          : 'attackvista-agent-macos.pkg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      setIsDownloading(null);
+      
+      toast({
+        title: "Download complete",
+        description: `Agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'} downloaded successfully`
+      });
+    }, 1500);
   };
   
   return (
@@ -209,9 +230,22 @@ attackvista-agent scan --path="/Users/username/Documents"`
                     size="sm" 
                     className="gap-1.5"
                     onClick={() => downloadAgent('windows')}
+                    disabled={isDownloading !== null}
                   >
-                    <Download size={14} />
-                    <span>Download Installer</span>
+                    {isDownloading === 'windows' ? (
+                      <span className="flex items-center gap-1.5">
+                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Downloading...
+                      </span>
+                    ) : (
+                      <>
+                        <Download size={14} />
+                        <span>Download Installer</span>
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -260,9 +294,22 @@ attackvista-agent scan --path="/Users/username/Documents"`
                     size="sm" 
                     className="gap-1.5"
                     onClick={() => downloadAgent('linux')}
+                    disabled={isDownloading !== null}
                   >
-                    <Download size={14} />
-                    <span>Download Package</span>
+                    {isDownloading === 'linux' ? (
+                      <span className="flex items-center gap-1.5">
+                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Downloading...
+                      </span>
+                    ) : (
+                      <>
+                        <Download size={14} />
+                        <span>Download Package</span>
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -311,9 +358,22 @@ attackvista-agent scan --path="/Users/username/Documents"`
                     size="sm" 
                     className="gap-1.5"
                     onClick={() => downloadAgent('mac')}
+                    disabled={isDownloading !== null}
                   >
-                    <Download size={14} />
-                    <span>Download Package</span>
+                    {isDownloading === 'mac' ? (
+                      <span className="flex items-center gap-1.5">
+                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Downloading...
+                      </span>
+                    ) : (
+                      <>
+                        <Download size={14} />
+                        <span>Download Package</span>
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
