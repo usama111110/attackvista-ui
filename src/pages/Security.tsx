@@ -1,7 +1,8 @@
+
+import React, { useState, useEffect, useMemo } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
 import { Shield, Server, RefreshCw, Download, HardDrive, Cpu, Network, Scan, FileCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -161,17 +162,17 @@ const Security = () => {
   const [isScanningAgent, setIsScanningAgent] = useState<string | null>(null);
 
   // Memoization of filtered data to improve performance
-  const filteredAgents = React.useMemo(() => 
+  const filteredAgents = useMemo(() => 
     selectedAgent ? agents.filter(agent => agent.id === selectedAgent) : agents,
     [agents, selectedAgent]
   );
   
-  const filteredEvents = React.useMemo(() => 
+  const filteredEvents = useMemo(() => 
     selectedAgent ? securityEvents.filter(event => event.agentId === selectedAgent) : securityEvents,
     [securityEvents, selectedAgent]
   );
     
-  const filteredScans = React.useMemo(() => 
+  const filteredScans = useMemo(() => 
     selectedAgent ? scanHistory.filter(scan => scan.agentId === selectedAgent) : scanHistory,
     [scanHistory, selectedAgent]
   );
@@ -240,7 +241,7 @@ const Security = () => {
   };
 
   // Calculate overall security status
-  const overallSecurityScore = React.useMemo(() => 
+  const overallSecurityScore = useMemo(() => 
     agents.reduce((sum, agent) => sum + agent.securityScore, 0) / agents.length,
     [agents]
   );
