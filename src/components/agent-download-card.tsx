@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -89,7 +88,7 @@ attackvista-agent scan --full
 attackvista-agent scan --path="/Users/username/Documents"`
   };
 
-  // Create binary data for file downloads - This is for demo purposes only
+  // Create binary data for file downloads - This is for demonstration purposes
   const createDummyFile = (osType: string) => {
     // In a real app, this would be the actual binary file
     const fileNames = {
@@ -98,19 +97,192 @@ attackvista-agent scan --path="/Users/username/Documents"`
       mac: 'attackvista-agent-macos.pkg'
     };
     
-    // Create a more detailed demo file with sample installation instructions
+    // Create a more detailed demo file with actual code snippets
     const content = `
 ============================================================
 AttackVista Security Agent v${agentVersion} for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}
 ============================================================
 
-THIS IS A DEMO FILE - NOT A REAL EXECUTABLE
+THIS IS A CODE SAMPLE FILE - NOT AN ACTUAL EXECUTABLE
 
-In a real deployment, this would be the actual security agent installer.
-To obtain the real security agent, contact your system administrator
-or visit the official AttackVista website.
+In a real deployment, this would be compiled into an installable agent.
+Below is a sample of the actual agent code that would be compiled:
 
-Installation Instructions (Demo):
+${osType === 'windows' ? 
+`// Windows Agent Core (C++)
+#include <windows.h>
+#include <vector>
+#include <string>
+
+class AttackVistaAgent {
+private:
+    std::string server_address;
+    std::string agent_id;
+    bool running;
+    
+public:
+    AttackVistaAgent(const std::string& server) : server_address(server), running(false) {
+        // Initialize Windows-specific monitoring
+        SYSTEM_INFO sysInfo;
+        GetSystemInfo(&sysInfo);
+        
+        // Register with server
+        agent_id = RegisterWithServer();
+        
+        std::cout << "AttackVista Agent initialized on Windows with " 
+                  << sysInfo.dwNumberOfProcessors << " processors" << std::endl;
+    }
+    
+    bool Start() {
+        running = true;
+        HANDLE hThread = CreateThread(NULL, 0, MonitoringThread, this, 0, NULL);
+        return hThread != NULL;
+    }
+    
+    void Stop() {
+        running = false;
+    }
+    
+    static DWORD WINAPI MonitoringThread(LPVOID param) {
+        AttackVistaAgent* agent = static_cast<AttackVistaAgent*>(param);
+        while(agent->running) {
+            // Collect metrics
+            agent->CollectSystemMetrics();
+            
+            // Check for security threats
+            agent->DetectSecurityThreats();
+            
+            // Send data to server
+            agent->SendDataToServer();
+            
+            // Wait for next collection cycle
+            Sleep(60000); // 60 seconds
+        }
+        return 0;
+    }
+    
+    // Implementation of core functions would go here...
+};` 
+: osType === 'linux' ? 
+`// Linux Agent Core (C++ with Linux APIs)
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+
+class AttackVistaAgent {
+private:
+    std::string server_address;
+    std::string agent_id;
+    bool running;
+    
+public:
+    AttackVistaAgent(const std::string& server) : server_address(server), running(false) {
+        // Get system information
+        struct utsname system_info;
+        uname(&system_info);
+        
+        // Register with server
+        agent_id = RegisterWithServer();
+        
+        std::cout << "AttackVista Agent initialized on Linux "
+                  << system_info.release << std::endl;
+    }
+    
+    bool Start() {
+        running = true;
+        std::thread monitoring_thread(&AttackVistaAgent::MonitoringLoop, this);
+        monitoring_thread.detach();
+        return true;
+    }
+    
+    void Stop() {
+        running = false;
+    }
+    
+    void MonitoringLoop() {
+        while(running) {
+            // Collect metrics
+            CollectSystemMetrics();
+            
+            // Check for security threats
+            DetectSecurityThreats();
+            
+            // Send data to server
+            SendDataToServer();
+            
+            // Wait for next collection cycle
+            std::this_thread::sleep_for(std::chrono::seconds(60));
+        }
+    }
+    
+    // Implementation of core functions would go here...
+};`
+:
+`// macOS Agent Core (Swift)
+import Foundation
+import IOKit
+import SystemConfiguration
+
+class AttackVistaAgent {
+    private let serverAddress: String
+    private var agentId: String = ""
+    private var running: Bool = false
+    private var monitoringQueue: DispatchQueue
+    
+    init(serverAddress: String) {
+        self.serverAddress = serverAddress
+        self.monitoringQueue = DispatchQueue(label: "com.attackvista.monitoring", qos: .utility)
+        
+        // Get system information
+        let processInfo = ProcessInfo.processInfo
+        
+        // Register with server
+        self.agentId = registerWithServer()
+        
+        print("AttackVista Agent initialized on macOS \\(processInfo.operatingSystemVersionString)")
+    }
+    
+    func start() -> Bool {
+        running = true
+        monitoringQueue.async {
+            self.monitoringLoop()
+        }
+        return true
+    }
+    
+    func stop() {
+        running = false
+    }
+    
+    private func monitoringLoop() {
+        while running {
+            // Collect metrics
+            collectSystemMetrics()
+            
+            // Check for security threats
+            detectSecurityThreats()
+            
+            // Send data to server
+            sendDataToServer()
+            
+            // Wait for next collection cycle
+            Thread.sleep(forTimeInterval: 60)
+        }
+    }
+    
+    // Implementation of core functions would go here...
+}
+`}
+
+============================================================
+Installation Instructions:
 --------------------------------
 ${installCommands[osType as keyof typeof installCommands]}
 
@@ -206,10 +378,9 @@ Documentation: https://docs.attackvista.example.com
           
           <Alert className="bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/50">
             <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-            <AlertTitle>Demo Environment</AlertTitle>
+            <AlertTitle>Code Sample Only</AlertTitle>
             <AlertDescription>
-              This is a demonstration environment. The downloads provided are non-functional demo files for UI demonstration purposes only. 
-              In a real deployment, these would be actual security agent installers.
+              This is a demonstration with code samples only. The downloads provided contain source code snippets that would typically be compiled into an agent, but they are not functional executables.
             </AlertDescription>
           </Alert>
           
@@ -301,7 +472,7 @@ Documentation: https://docs.attackvista.example.com
                     ) : (
                       <>
                         <Download size={14} />
-                        <span>Download Demo Installer</span>
+                        <span>Download Code Sample</span>
                       </>
                     )}
                   </Button>
@@ -367,7 +538,7 @@ Documentation: https://docs.attackvista.example.com
                     ) : (
                       <>
                         <Download size={14} />
-                        <span>Download Demo Package</span>
+                        <span>Download Code Sample</span>
                       </>
                     )}
                   </Button>
@@ -433,7 +604,7 @@ Documentation: https://docs.attackvista.example.com
                     ) : (
                       <>
                         <Download size={14} />
-                        <span>Download Demo Package</span>
+                        <span>Download Code Sample</span>
                       </>
                     )}
                   </Button>
