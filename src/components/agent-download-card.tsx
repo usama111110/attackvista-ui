@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "@/providers/ThemeProvider";
-import { Download, Terminal, Copy, Check, Globe, ShieldCheck, FileCheck } from "lucide-react";
+import { Download, Terminal, Copy, Check, Globe, ShieldCheck, FileCheck, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function AgentDownloadCard() {
   const { toast } = useToast();
@@ -30,7 +30,7 @@ export function AgentDownloadCard() {
   const agentVersion = "1.0.3";
   const releaseDate = "2023-04-10";
   
-  // Installation commands
+  // Installation commands - these would be real commands in a production environment
   const installCommands = {
     windows: `# Download the installer
 curl -L https://cdn.attackvista.local/releases/v${agentVersion}/attackvista-agent-setup.exe -o attackvista-agent-setup.exe
@@ -88,7 +88,7 @@ attackvista-agent scan --full
 attackvista-agent scan --path="/Users/username/Documents"`
   };
 
-  // Create binary data for file downloads
+  // Create binary data for file downloads - This is for demo purposes only
   const createDummyFile = (osType: string) => {
     // In a real app, this would be the actual binary file
     const fileNames = {
@@ -97,7 +97,27 @@ attackvista-agent scan --path="/Users/username/Documents"`
       mac: 'attackvista-agent-macos.pkg'
     };
     
-    const content = `AttackVista Security Agent v${agentVersion} for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}\n`;
+    // Create a more detailed demo file with sample installation instructions
+    const content = `
+============================================================
+AttackVista Security Agent v${agentVersion} for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}
+============================================================
+
+THIS IS A DEMO FILE - NOT A REAL EXECUTABLE
+
+In a real deployment, this would be the actual security agent installer.
+To obtain the real security agent, contact your system administrator
+or visit the official AttackVista website.
+
+Installation Instructions (Demo):
+--------------------------------
+${installCommands[osType as keyof typeof installCommands]}
+
+============================================================
+For technical support: support@attackvista.example.com
+Documentation: https://docs.attackvista.example.com
+============================================================
+`;
     const blob = new Blob([content], { type: 'application/octet-stream' });
     return { blob, fileName: fileNames[osType as keyof typeof fileNames] };
   };
@@ -122,8 +142,8 @@ attackvista-agent scan --path="/Users/username/Documents"`
     setDownloadProgress({ ...downloadProgress, [osType]: 0 });
     
     toast({
-      title: "Download started",
-      description: `Downloading agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}`
+      title: "Demo download started",
+      description: `Downloading demo agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'}`
     });
     
     // Simulate progressive download
@@ -156,8 +176,8 @@ attackvista-agent scan --path="/Users/username/Documents"`
       setIsDownloading(null);
       
       toast({
-        title: "Download complete",
-        description: `Agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'} downloaded successfully`
+        title: "Demo download complete",
+        description: `Demo agent for ${osType === 'windows' ? 'Windows' : osType === 'linux' ? 'Linux' : 'macOS'} downloaded successfully`
       });
     }, 2000);
   };
@@ -182,6 +202,15 @@ attackvista-agent scan --path="/Users/username/Documents"`
               </Badge>
             </div>
           </div>
+          
+          <Alert variant="warning" className="bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/50">
+            <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <AlertTitle>Demo Environment</AlertTitle>
+            <AlertDescription>
+              This is a demonstration environment. The downloads provided are non-functional demo files for UI demonstration purposes only. 
+              In a real deployment, these would be actual security agent installers.
+            </AlertDescription>
+          </Alert>
           
           <div className="p-4 rounded-lg border border-dashed">
             <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -271,7 +300,7 @@ attackvista-agent scan --path="/Users/username/Documents"`
                     ) : (
                       <>
                         <Download size={14} />
-                        <span>Download Installer</span>
+                        <span>Download Demo Installer</span>
                       </>
                     )}
                   </Button>
@@ -337,7 +366,7 @@ attackvista-agent scan --path="/Users/username/Documents"`
                     ) : (
                       <>
                         <Download size={14} />
-                        <span>Download Package</span>
+                        <span>Download Demo Package</span>
                       </>
                     )}
                   </Button>
@@ -403,7 +432,7 @@ attackvista-agent scan --path="/Users/username/Documents"`
                     ) : (
                       <>
                         <Download size={14} />
-                        <span>Download Package</span>
+                        <span>Download Demo Package</span>
                       </>
                     )}
                   </Button>
