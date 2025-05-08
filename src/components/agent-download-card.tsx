@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -203,7 +204,7 @@ Documentation: https://docs.attackvista.example.com
             </div>
           </div>
           
-          <Alert variant="warning" className="bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/50">
+          <Alert className="bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/50">
             <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             <AlertTitle>Demo Environment</AlertTitle>
             <AlertDescription>
