@@ -9,13 +9,13 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { NotificationDropdown } from "./notification-dropdown";
-import { ThemeToggle } from "./theme-toggle";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { BreadcrumbNavigation } from "./breadcrumb-navigation";
 import { NotificationIndicator } from "./notification-indicator";
 import { useUserStore } from "@/utils/userDatabase";
 import { Button } from "./ui/button";
+import { DashboardHeader } from "./dashboard-header";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -85,44 +85,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </button>
       </aside>
       <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative">
-        {/* Header controls with logout button, notification bell and theme toggle */}
-        <div className="absolute top-6 right-6 z-10 flex items-center space-x-3">
-          <a
-            href="https://github.com/your-repo/secure-sentry"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs ${
-              isDarkMode 
-                ? 'bg-gray-800/70 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg hover:text-white transition-colors' 
-                : 'bg-gray-100/90 hover:bg-gray-200/90 text-gray-600 backdrop-blur-lg hover:text-gray-900 transition-colors'
-            }`}
-          >
-            <ExternalLink size={12} />
-            <span>GitHub</span>
-          </a>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLogout}
-            className={`flex items-center gap-1.5 ${
-              isDarkMode
-                ? 'hover:bg-gray-800 hover:text-red-400'
-                : 'hover:bg-gray-100 hover:text-red-500'
-            }`}
-          >
-            <LogOut size={16} />
-            <span className="hidden sm:inline">Logout</span>
-          </Button>
-          
-          <ThemeToggle />
-          
-          <NotificationIndicator onClick={() => setNotificationsOpen(!notificationsOpen)} />
-          
-          {notificationsOpen && (
-            <NotificationDropdown onClose={() => setNotificationsOpen(false)} />
-          )}
-        </div>
+        {/* Add the new dashboard header */}
+        <DashboardHeader />
         
         <div className="max-w-7xl mx-auto pt-14">
           {/* Add breadcrumb navigation at the top of the content area */}

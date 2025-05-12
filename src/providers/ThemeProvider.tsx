@@ -4,6 +4,12 @@ import { toast } from "sonner";
 
 type ThemePreference = 'dark' | 'light' | 'system';
 
+type ColorTheme = {
+  name: string;
+  primary: string;
+  accent: string;
+};
+
 type ThemeProviderProps = {
   children: React.ReactNode;
 };
@@ -13,6 +19,8 @@ type ThemeContextType = {
   toggleDarkMode: () => void;
   setThemePreference: (preference: ThemePreference) => void;
   themePreference: ThemePreference;
+  colorTheme: ColorTheme | null;
+  setColorTheme: (theme: ColorTheme) => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -29,6 +37,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     return themePreference === 'dark';
+  });
+
+  // Add color theme state
+  const [colorTheme, setColorThemeState] = useState<ColorTheme | null>(() => {
+    const savedTheme = localStorage.getItem('color-theme');
+    return savedTheme ? JSON.parse(savedTheme) : null;
   });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -96,6 +110,24 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }
   };
 
+  // Set color theme and save to local storage
+  const setColorTheme = (theme: ColorTheme) => {
+    setColorThemeState(theme);
+    localStorage.setItem('color-theme', JSON.stringify(theme));
+    
+    // Update CSS variables for the theme
+    if (theme) {
+      document.documentElement.style.setProperty('--color-primary', `var(--${theme.primary.replace('bg-', '')})`);
+      document.documentElement.style.setProperty('--color-accent', `var(--${theme.accent.replace('bg-', '')})`);
+      
+      toast(`Color theme changed to ${theme.name}`, {
+        description: `Your interface colors have been updated`,
+        duration: 2000,
+        icon: '🎨',
+      });
+    }
+  };
+
   // Apply theme class to document element whenever theme changes
   useEffect(() => {
     const root = window.document.documentElement;
@@ -119,6 +151,14 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     }
   }, [isDarkMode, isTransitioning]);
 
+  // Apply color theme if available
+  useEffect(() => {
+    if (colorTheme) {
+      document.documentElement.style.setProperty('--color-primary', `var(--${colorTheme.primary.replace('bg-', '')})`);
+      document.documentElement.style.setProperty('--color-accent', `var(--${colorTheme.accent.replace('bg-', '')})`);
+    }
+  }, [colorTheme]);
+
   const toggleDarkMode = () => {
     if (themePreference === 'system') {
       // If coming from system preference, select the opposite of current
@@ -134,7 +174,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       isDarkMode, 
       toggleDarkMode,
       themePreference,
-      setThemePreference 
+      setThemePreference,
+      colorTheme,
+      setColorTheme
     }}>
       {children}
     </ThemeContext.Provider>
