@@ -3,18 +3,13 @@ import { ReactNode, useState, useEffect } from "react";
 import { MainNav } from "./main-nav";
 import { 
   ChevronLeft, 
-  ChevronRight, 
-  ExternalLink,
-  LogOut
+  ChevronRight,
 } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
-import { NotificationDropdown } from "./notification-dropdown";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { BreadcrumbNavigation } from "./breadcrumb-navigation";
-import { NotificationIndicator } from "./notification-indicator";
 import { useUserStore } from "@/utils/userDatabase";
-import { Button } from "./ui/button";
 import { DashboardHeader } from "./dashboard-header";
 
 interface DashboardLayoutProps {
@@ -23,7 +18,6 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
   const [mounted, setMounted] = useState(false);
@@ -45,15 +39,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       }, 1000);
     }
   }, [toast]);
-  
-  const handleLogout = () => {
-    logout();
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out",
-    });
-    navigate("/login");
-  };
   
   // Prevent flash of unstyled content
   if (!mounted) return null;

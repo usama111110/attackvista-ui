@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { useNotificationStore, Notification } from '@/utils/notificationUtils';
 import { NotificationDropdown } from './notification-dropdown';
@@ -43,7 +44,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       clearAll: notificationStore.clearAllNotifications
     }}>
       {children}
-      <NotificationDropdown />
+      {isOpen && <NotificationDropdown onClose={closeNotifications} />}
     </NotificationContext.Provider>
   );
 }

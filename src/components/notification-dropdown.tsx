@@ -3,58 +3,18 @@ import { useState, useEffect, useRef } from "react";
 import { AlertTriangle, Shield, Clock, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useTheme } from "@/providers/ThemeProvider";
+import { Notification } from "@/utils/notificationUtils";
+import { useNotifications } from "./notification-provider";
 
 interface NotificationProps {
   onClose: () => void;
 }
 
-interface Notification {
-  id: number;
-  title: string;
-  message: string;
-  time: string;
-  severity: "critical" | "warning" | "info";
-  read: boolean;
-}
-
 export function NotificationDropdown({ onClose }: NotificationProps) {
   const { isDarkMode } = useTheme();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      title: "Critical Alert",
-      message: "DDoS attack detected on your main server",
-      time: "5 min ago",
-      severity: "critical",
-      read: false
-    },
-    {
-      id: 2,
-      title: "Warning",
-      message: "Unusual login attempts detected",
-      time: "15 min ago",
-      severity: "warning",
-      read: false
-    },
-    {
-      id: 3,
-      title: "Security Update",
-      message: "Security updates are available for your system",
-      time: "1 hour ago",
-      severity: "info",
-      read: true
-    },
-    {
-      id: 4,
-      title: "Firewall Alert",
-      message: "Firewall blocked 23 connection attempts",
-      time: "3 hours ago",
-      severity: "warning",
-      read: true
-    },
-  ]);
-
+  const { notifications, markAsRead, markAllAsRead } = useNotifications();
+  
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -68,24 +28,10 @@ export function NotificationDropdown({ onClose }: NotificationProps) {
     };
   }, [onClose]);
 
-  const markAsRead = (id: number) => {
-    setNotifications(prevNotifications => 
-      prevNotifications.map(notification => 
-        notification.id === id ? { ...notification, read: true } : notification
-      )
-    );
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(prevNotifications => 
-      prevNotifications.map(notification => ({ ...notification, read: true }))
-    );
-  };
-
   return (
     <Card 
       ref={dropdownRef}
-      className={`absolute right-0 top-12 w-96 overflow-hidden shadow-lg animate-fade-in ${
+      className={`fixed right-6 top-16 w-96 overflow-hidden shadow-lg animate-fade-in z-50 ${
         isDarkMode ? "bg-gray-900/90 border-gray-700/50" : "bg-white border-gray-200"
       }`}
     >
@@ -93,7 +39,7 @@ export function NotificationDropdown({ onClose }: NotificationProps) {
         <h3 className="font-semibold">Notifications</h3>
         <div className="flex items-center gap-3">
           <button 
-            onClick={markAllAsRead}
+            onClick={() => markAllAsRead()}
             className="text-xs text-primary hover:underline"
           >
             Mark all as read
