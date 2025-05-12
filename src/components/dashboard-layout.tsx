@@ -1,10 +1,7 @@
 
 import { ReactNode, useState, useEffect } from "react";
 import { MainNav } from "./main-nav";
-import { 
-  ChevronLeft, 
-  ChevronRight,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -43,12 +40,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   // Prevent flash of unstyled content
   if (!mounted) return null;
 
+  const sidebarWidth = collapsed ? "w-16" : "w-64";
+  const contentWidth = collapsed ? "w-[calc(100%-4rem)]" : "w-[calc(100%-16rem)]";
+
   return (
     <div className={`min-h-screen flex animate-fade-in ${isDarkMode 
       ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100' 
       : 'bg-gradient-to-br from-blue-50/50 via-white to-slate-50/80 text-gray-800'}`}>
       <aside 
-        className={`${collapsed ? 'w-16' : 'w-64'} border-r transition-all duration-500 ease-in-out flex flex-col h-screen sticky top-0 ${
+        className={`${sidebarWidth} border-r transition-all duration-500 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50 ${
           isDarkMode 
             ? 'border-gray-800/50 bg-gray-900/80 backdrop-blur-xl shadow-lg shadow-black/5' 
             : 'border-gray-200 bg-white/90 shadow-lg shadow-gray-200/50 backdrop-blur-xl'
@@ -69,8 +69,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </button>
       </aside>
-      <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative">
-        {/* Dashboard header is now positioned correctly */}
+      <main className={`${contentWidth} ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative`}>
+        {/* Dashboard header with fixed positioning */}
         <DashboardHeader />
         
         <div className="max-w-7xl mx-auto pt-20">

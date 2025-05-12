@@ -64,13 +64,13 @@ export function NotificationDropdown({ onClose }: NotificationProps) {
           >
             <div className="flex">
               <div className="flex-shrink-0 mr-3">
-                {notification.severity === "critical" && (
+                {notification.type === "attack" && (
                   <AlertTriangle className="h-5 w-5 text-red-500" />
                 )}
-                {notification.severity === "warning" && (
+                {notification.type === "system" || notification.type === "warning" && (
                   <AlertTriangle className="h-5 w-5 text-amber-500" />
                 )}
-                {notification.severity === "info" && (
+                {notification.type === "info" || notification.type === "success" && (
                   <Shield className="h-5 w-5 text-blue-500" />
                 )}
               </div>

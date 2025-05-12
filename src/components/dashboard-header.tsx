@@ -22,7 +22,7 @@ export function DashboardHeader() {
       isDarkMode 
         ? 'bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50' 
         : 'bg-white/80 backdrop-blur-xl border-b border-gray-200/50'
-    } w-[calc(100%-16rem)]`}>
+    } w-[calc(100%)]`}>
       <div className="flex-1"></div>
       
       {currentUser && (

@@ -3,6 +3,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 import { useNotificationStore, Notification } from '@/utils/notificationUtils';
 import { NotificationDropdown } from './notification-dropdown';
 
+// Update the context type to include pushNotification
 interface NotificationContextType {
   isOpen: boolean;
   toggleNotifications: () => void;
@@ -13,6 +14,7 @@ interface NotificationContextType {
   markAllAsRead: () => void;
   deleteNotification: (id: number) => void;
   clearAll: () => void;
+  pushNotification: (notification: { type: string; title: string; message: string }) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
@@ -31,6 +33,11 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     setIsOpen(false);
   };
   
+  // Add the pushNotification function
+  const pushNotification = (notification: { type: string; title: string; message: string }) => {
+    notificationStore.addNotification(notification);
+  };
+  
   return (
     <NotificationContext.Provider value={{
       isOpen,
@@ -41,7 +48,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       markAsRead: notificationStore.markAsRead,
       markAllAsRead: notificationStore.markAllAsRead,
       deleteNotification: notificationStore.deleteNotification,
-      clearAll: notificationStore.clearAllNotifications
+      clearAll: notificationStore.clearAllNotifications,
+      pushNotification
     }}>
       {children}
       {isOpen && <NotificationDropdown onClose={closeNotifications} />}
