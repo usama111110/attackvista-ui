@@ -3,17 +3,13 @@ import { useNotifications } from "./notification-provider";
 import { Bell } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 
-interface NotificationIndicatorProps {
-  onClick: () => void;
-}
-
-export function NotificationIndicator({ onClick }: NotificationIndicatorProps) {
+export function NotificationIndicator({ onClick }: { onClick?: () => void }) {
   const { unreadCount } = useNotifications();
   const { isDarkMode } = useTheme();
   
   return (
     <button 
-      onClick={onClick}
+      onClick={onClick || (() => {})}
       className={`p-2 rounded-full transition-all duration-300 relative group ${
         isDarkMode 
           ? 'bg-gray-800/80 hover:bg-gray-700/80 text-gray-300 backdrop-blur-lg hover:text-white hover:shadow-inner' 

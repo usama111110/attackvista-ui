@@ -85,10 +85,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </button>
       </aside>
       <main className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative">
-        {/* Add the new dashboard header */}
+        {/* Dashboard header is now positioned correctly */}
         <DashboardHeader />
         
-        <div className="max-w-7xl mx-auto pt-14">
+        <div className="max-w-7xl mx-auto pt-20">
           {/* Add breadcrumb navigation at the top of the content area */}
           <BreadcrumbNavigation />
           

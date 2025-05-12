@@ -26,7 +26,7 @@ export function NotificationPreferences({ trigger }: { trigger: React.ReactNode 
   const [attackNotifications, setAttackNotifications] = useState(settings.attackNotifications);
   const [systemNotifications, setSystemNotifications] = useState(settings.systemNotifications);
   const [emailAlerts, setEmailAlerts] = useState(settings.emailAlerts);
-  const [emailFrequency, setEmailFrequency] = useState(settings.emailFrequency);
+  const [emailFrequency, setEmailFrequency] = useState<string>(settings.emailFrequency);
   
   const handleSave = () => {
     // Save notification preferences
@@ -43,7 +43,7 @@ export function NotificationPreferences({ trigger }: { trigger: React.ReactNode 
     }
     
     if (emailFrequency !== settings.emailFrequency) {
-      settings.updateEmailFrequency(emailFrequency);
+      settings.updateEmailFrequency(emailFrequency as any);
     }
     
     toast({
@@ -121,7 +121,10 @@ export function NotificationPreferences({ trigger }: { trigger: React.ReactNode 
               {emailAlerts && (
                 <div className="space-y-2">
                   <Label htmlFor="email-frequency" className="text-sm">Frequency</Label>
-                  <Select value={emailFrequency} onValueChange={setEmailFrequency}>
+                  <Select 
+                    value={emailFrequency} 
+                    onValueChange={(value: string) => setEmailFrequency(value)}
+                  >
                     <SelectTrigger id="email-frequency" className="w-full">
                       <SelectValue placeholder="Select frequency" />
                     </SelectTrigger>
