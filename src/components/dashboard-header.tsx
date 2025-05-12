@@ -3,10 +3,9 @@ import { ReactNode } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { NotificationIndicator } from "./notification-indicator";
 import { UserProfile } from "./user-profile";
-import { NotificationPreferences } from "./notification-preferences";
 import { DataExport } from "./data-export";
 import { Collaboration } from "./collaboration";
-import { Bell, Download, Users } from "lucide-react";
+import { Download, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import { useUserStore } from "@/utils/userDatabase";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -27,19 +26,6 @@ export function DashboardHeader() {
       
       {currentUser && (
         <>
-          <NotificationPreferences 
-            trigger={
-              <Button
-                variant="ghost"
-                size="sm"
-                className="hover:bg-primary/10 transition-colors"
-              >
-                <Bell className="h-[1.2rem] w-[1.2rem]" />
-                <span className="sr-only md:not-sr-only md:ml-2">Notifications</span>
-              </Button>
-            }
-          />
-          
           <DataExport 
             trigger={
               <Button

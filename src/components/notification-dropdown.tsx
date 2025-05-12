@@ -67,7 +67,7 @@ export function NotificationDropdown({ onClose }: NotificationProps) {
                 {notification.type === "attack" && (
                   <AlertTriangle className="h-5 w-5 text-red-500" />
                 )}
-                {notification.type === "system" || notification.type === "warning" && (
+                {notification.type === "system" && (
                   <AlertTriangle className="h-5 w-5 text-amber-500" />
                 )}
                 {notification.type === "info" || notification.type === "success" && (
