@@ -17,6 +17,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
 import { useNotifications } from "@/components/notification-provider";
+import { WidgetManager, WidgetType } from "@/components/widget-manager";
+import { AIThreatDetection } from "@/components/ai-threat-detection";
 
 // Example attack data
 const attackData = [
@@ -43,6 +45,89 @@ const Index = () => {
   const [timeFilter, setTimeFilter] = useState("today");
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Default widgets for the dashboard
+  const defaultWidgets = [
+    { id: "security-score-1", type: "security-score" as WidgetType, title: "Security Score", defaultSize: "small" as const },
+    { id: "attack-chart-1", type: "attack-chart" as WidgetType, title: "Attack Distribution", defaultSize: "medium" as const },
+    { id: "threat-map-1", type: "threat-map" as WidgetType, title: "Threat Map", defaultSize: "large" as const }
+  ];
+
+  // Render widget based on type
+  const renderWidget = (type: WidgetType) => {
+    switch(type) {
+      case "security-score":
+        return <SecurityScore score={78} />;
+      case "attack-chart":
+        return <AttackChart />;
+      case "threat-map":
+        return <ThreatMap />;
+      case "live-traffic":
+        return <LiveTrafficGraph />;
+      case "metrics":
+        return (
+          <div className="grid grid-cols-2 gap-4">
+            <MetricsCard 
+              title="Total Attacks" 
+              value="1,234" 
+              icon={<Shield className="text-blue-500" />} 
+              trend={{ value: 12, isPositive: false }} 
+            />
+            <MetricsCard 
+              title="Critical Threats" 
+              value="23" 
+              icon={<AlertTriangle className="text-red-500" />} 
+              trend={{ value: 5, isPositive: false }} 
+            />
+          </div>
+        );
+      case "network-status":
+        return (
+          <Card className="p-4 h-full">
+            <h3 className="font-medium mb-4">Network Status</h3>
+            <div className="space-y-4">
+              {["Gateway", "Core Router", "Firewall", "Load Balancer"].map((device, i) => (
+                <div key={i} className="flex items-center justify-between">
+                  <span>{device}</span>
+                  <span className="flex items-center gap-1 text-green-500">
+                    <Activity size={14} />
+                    Online
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        );
+      case "system-health":
+        return (
+          <Card className="p-4 h-full">
+            <h3 className="font-medium mb-4">System Health</h3>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span>CPU</span>
+                <span>45%</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Memory</span>
+                <span>62%</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Disk</span>
+                <span>37%</span>
+              </div>
+            </div>
+          </Card>
+        );
+      case "ai-threat-detection":
+        return <AIThreatDetection />; // New AI threat detection widget
+      default:
+        return (
+          <Card className="p-4 h-full flex items-center justify-center">
+            <span className="text-gray-500">Widget not configured</span>
+          </Card>
+        );
+    }
+  };
   
   // Filter data based on search query
   const filteredAttacks = searchQuery 
@@ -168,6 +253,7 @@ const Index = () => {
             <TabsTrigger value="overview" className="rounded-lg">Overview</TabsTrigger>
             <TabsTrigger value="performance" className="rounded-lg">Performance</TabsTrigger>
             <TabsTrigger value="threats" className="rounded-lg">Threats</TabsTrigger>
+            <TabsTrigger value="widgets" className="rounded-lg">Widgets</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview">
@@ -353,6 +439,19 @@ const Index = () => {
               ) : (
                 <AttackChart />
               )}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="widgets">
+            <div className="mb-6">
+              <h2 className="text-xl font-bold mb-4">Customizable Dashboard</h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Add, remove, and resize widgets to customize your security dashboard. Your layout will be saved automatically.
+              </p>
+              <WidgetManager 
+                defaultWidgets={defaultWidgets}
+                renderWidget={renderWidget}
+              />
             </div>
           </TabsContent>
         </Tabs>
