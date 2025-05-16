@@ -17,6 +17,7 @@ import Network from "./pages/Network";
 import Notifications from "./pages/Notifications";
 import Analytics from "./pages/Analytics";
 import Security from "./pages/Security";
+import Compliance from "./pages/Compliance";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/security" element={<Security />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/notifications" element={<Notifications />} />
+              <Route path="/compliance" element={<Compliance />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
