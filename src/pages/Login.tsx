@@ -52,6 +52,7 @@ const Login = () => {
       // Add a small delay to simulate network request
       await new Promise(resolve => setTimeout(resolve, 800));
       
+      // Call login function from user store
       const user = login(email, password);
       
       if (user) {

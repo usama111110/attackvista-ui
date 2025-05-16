@@ -4,7 +4,7 @@ import { MainNav } from "./main-nav";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useToast } from "@/hooks/use-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BreadcrumbNavigation } from "./breadcrumb-navigation";
 import { useUserStore } from "@/utils/userDatabase";
 import { DashboardHeader } from "./dashboard-header";
@@ -34,10 +34,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     
     // Show welcome toast on initial load
     const hasShownWelcome = sessionStorage.getItem('welcomeShown');
-    if (!hasShownWelcome) {
+    if (!hasShownWelcome && currentUser) {
       setTimeout(() => {
         toast({
-          title: "Welcome to SecureSentry",
+          title: `Welcome to SecureSentry, ${currentUser.name}`,
           description: "Your modern security dashboard is ready",
         });
         sessionStorage.setItem('welcomeShown', 'true');
@@ -46,7 +46,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   }, [toast, currentUser, navigate]);
   
   // Prevent flash of unstyled content
-  if (!mounted) return null;
+  if (!mounted || !currentUser) return null;
 
   const sidebarWidth = collapsed ? "w-16" : "w-64";
   const contentWidth = collapsed ? "w-[calc(100%-4rem)]" : "w-[calc(100%-16rem)]";
