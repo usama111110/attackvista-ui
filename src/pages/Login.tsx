@@ -37,7 +37,7 @@ const Login = () => {
     }
   }, [location.state, toast]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -48,7 +48,10 @@ const Login = () => {
       return;
     }
     
-    setTimeout(() => {
+    try {
+      // Add a small delay to simulate network request
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
       const user = login(email, password);
       
       if (user) {
@@ -58,16 +61,18 @@ const Login = () => {
         });
         navigate("/");
       } else {
-        setError("Invalid email or password");
-        toast({
-          title: "Login Failed",
-          description: "Invalid email or password",
-          variant: "destructive"
-        });
+        throw new Error("Invalid credentials");
       }
-      
+    } catch (err) {
+      setError("Invalid email or password");
+      toast({
+        title: "Login Failed",
+        description: "Invalid email or password",
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
