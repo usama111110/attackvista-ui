@@ -18,10 +18,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
   const [mounted, setMounted] = useState(false);
-  const { logout } = useUserStore();
+  const { currentUser } = useUserStore();
   const navigate = useNavigate();
   
   useEffect(() => {
+    // Check if user is logged in
+    if (!currentUser) {
+      navigate("/login", {
+        state: { message: "Please log in to access the dashboard" }
+      });
+      return;
+    }
+    
     setMounted(true);
     
     // Show welcome toast on initial load
@@ -35,7 +43,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         sessionStorage.setItem('welcomeShown', 'true');
       }, 1000);
     }
-  }, [toast]);
+  }, [toast, currentUser, navigate]);
   
   // Prevent flash of unstyled content
   if (!mounted) return null;
