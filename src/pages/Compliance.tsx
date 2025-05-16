@@ -4,7 +4,7 @@ import { ComplianceReporting } from "@/components/compliance-reporting";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "@/providers/ThemeProvider";
-import { FileChart, FileCheck } from "lucide-react";
+import { FileText, FileCheck } from "lucide-react";
 
 export default function Compliance() {
   const { isDarkMode } = useTheme();
@@ -14,7 +14,7 @@ export default function Compliance() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold tracking-tight">Compliance & Reporting</h1>
         <div className="flex items-center gap-3">
-          <FileChart className="h-5 w-5 text-indigo-500" />
+          <FileText className="h-5 w-5 text-indigo-500" />
           <FileCheck className="h-5 w-5 text-green-500" />
         </div>
       </div>
