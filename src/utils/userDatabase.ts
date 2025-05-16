@@ -109,19 +109,19 @@ export const useUserStore = create<UserStore>()(
       
       // Login functionality
       login: (email, password) => {
-        const user = get().users.find(
-          (u) => u.email === email && u.password === password
+        const foundUser = get().users.find(
+          (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
         );
         
-        if (user) {
+        if (foundUser) {
           // Update last active time
-          const updatedUser = { ...user, lastActive: "Just now" };
-          set((state) => ({
+          const updatedUser = { ...foundUser, lastActive: "Just now" };
+          set({
             currentUser: updatedUser,
-            users: state.users.map((u) => 
-              u.id === user.id ? updatedUser : u
+            users: get().users.map((u) => 
+              u.id === foundUser.id ? updatedUser : u
             )
-          }));
+          });
           return updatedUser;
         }
         
@@ -135,6 +135,7 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: "user-storage", // Storage key
+      getStorage: () => localStorage, // Explicitly use localStorage
     }
   )
 );
