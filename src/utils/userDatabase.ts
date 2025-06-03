@@ -135,7 +135,7 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: "user-storage", // Storage key
-      getStorage: () => localStorage, // Explicitly use localStorage
+      storage: () => localStorage, // Use storage instead of getStorage
     }
   )
 );
