@@ -135,7 +135,16 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: "user-storage", // Storage key
-      storage: () => localStorage, // Use storage instead of getStorage
+      storage: {
+        getItem: (name) => {
+          const str = localStorage.getItem(name);
+          return str ? JSON.parse(str) : null;
+        },
+        setItem: (name, value) => {
+          localStorage.setItem(name, JSON.stringify(value));
+        },
+        removeItem: (name) => localStorage.removeItem(name),
+      },
     }
   )
 );
