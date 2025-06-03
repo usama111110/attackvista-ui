@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Mail, Lock, AlertTriangle, Shield, Eye, EyeOff, Fingerprint, Cpu, Zap } from "lucide-react";
+import { Mail, Lock, AlertTriangle, Shield, Eye, EyeOff } from "lucide-react";
 import { useUserStore } from "@/utils/userDatabase";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/Logo";
@@ -107,28 +108,12 @@ const Login = () => {
             backgroundSize: '24px 24px'
           }}></div>
         </div>
-        
-        {/* Floating security icons */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className={`absolute top-20 left-20 w-8 h-8 ${isDarkMode ? 'text-primary/10' : 'text-primary/5'} animate-pulse delay-300`}>
-            <Shield className="w-full h-full" />
-          </div>
-          <div className={`absolute top-40 right-32 w-6 h-6 ${isDarkMode ? 'text-blue-500/10' : 'text-blue-500/5'} animate-pulse delay-700`}>
-            <Fingerprint className="w-full h-full" />
-          </div>
-          <div className={`absolute bottom-32 left-32 w-7 h-7 ${isDarkMode ? 'text-green-500/10' : 'text-green-500/5'} animate-pulse delay-1100`}>
-            <Cpu className="w-full h-full" />
-          </div>
-          <div className={`absolute bottom-20 right-20 w-5 h-5 ${isDarkMode ? 'text-purple-500/10' : 'text-purple-500/5'} animate-pulse delay-1400`}>
-            <Zap className="w-full h-full" />
-          </div>
-        </div>
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Simplified logo and branding */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
             <div className="flex justify-center mb-8">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
@@ -136,38 +121,32 @@ const Login = () => {
                 <Logo size="lg" />
               </div>
             </div>
-            <h1 className={`text-5xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'} tracking-tight`}>
-              SecureSentry
+            <h1 className={`text-4xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'} tracking-tight`}>
+              Network Security
             </h1>
-            <p className={`text-lg mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium`}>
-              Enterprise Security Platform
+            <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} font-medium`}>
+              Enterprise Dashboard
             </p>
-            <div className="flex items-center justify-center gap-2">
-              <Shield className={`w-5 h-5 ${isDarkMode ? 'text-primary' : 'text-primary'}`} />
-              <span className={`text-base font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                Advanced Threat Protection & Real-time Monitoring
-              </span>
-            </div>
           </div>
 
           {/* Enhanced login form */}
           <div className={`relative ${
             isDarkMode 
-              ? 'bg-gray-900/80 backdrop-blur-3xl border-gray-700/50 shadow-2xl shadow-black/40' 
-              : 'bg-white/95 backdrop-blur-3xl border-white/40 shadow-2xl shadow-gray-900/15'
-          } rounded-3xl p-10 border-2`}>
+              ? 'bg-gray-900/90 backdrop-blur-2xl border-gray-700/40 shadow-2xl shadow-black/50' 
+              : 'bg-white/95 backdrop-blur-2xl border-white/50 shadow-2xl shadow-gray-900/10'
+          } rounded-3xl p-12 border-2`}>
             
-            <div className="mb-8">
-              <h2 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-3 text-center`}>
-                Welcome Back
+            <div className="mb-10">
+              <h2 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4 text-center`}>
+                Sign In
               </h2>
               <p className={`text-base ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-center`}>
-                Sign in to your security dashboard
+                Access your security dashboard
               </p>
             </div>
             
             {error && (
-              <div className="mb-8 p-4 bg-red-900/20 border border-red-700/30 rounded-2xl flex items-center gap-3 text-red-400 animate-fade-in">
+              <div className="mb-8 p-5 bg-red-900/20 border border-red-700/30 rounded-2xl flex items-center gap-3 text-red-400 animate-fade-in">
                 <AlertTriangle size={20} />
                 <div>
                   <p className="font-medium">Authentication Failed</p>
@@ -176,13 +155,13 @@ const Login = () => {
               </div>
             )}
             
-            <form onSubmit={handleLogin} className="space-y-7">
-              <div className="space-y-3">
-                <label htmlFor="email" className={`text-base font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+            <form onSubmit={handleLogin} className="space-y-8">
+              <div className="space-y-4">
+                <label htmlFor="email" className={`text-base font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} block`}>
                   Email Address
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
                     <Mail className={`h-5 w-5 transition-colors ${
                       isDarkMode ? 'text-gray-500 group-focus-within:text-primary' : 'text-gray-400 group-focus-within:text-primary'
                     }`} />
@@ -195,20 +174,20 @@ const Login = () => {
                     required
                     className={`w-full ${
                       isDarkMode 
-                        ? 'bg-gray-800/70 border-gray-600/70 text-white placeholder-gray-400' 
-                        : 'bg-gray-50/80 border-gray-300/70 text-gray-900 placeholder-gray-500'
-                    } border-2 rounded-2xl py-4 pl-12 pr-4 text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200`}
+                        ? 'bg-gray-800/80 border-gray-600/50 text-white placeholder-gray-400' 
+                        : 'bg-gray-50/90 border-gray-300/60 text-gray-900 placeholder-gray-500'
+                    } border-2 rounded-2xl py-5 pl-14 pr-5 text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 font-medium`}
                     placeholder="Enter your email"
                   />
                 </div>
               </div>
               
-              <div className="space-y-3">
-                <label htmlFor="password" className={`text-base font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+              <div className="space-y-4">
+                <label htmlFor="password" className={`text-base font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'} block`}>
                   Password
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
                     <Lock className={`h-5 w-5 transition-colors ${
                       isDarkMode ? 'text-gray-500 group-focus-within:text-primary' : 'text-gray-400 group-focus-within:text-primary'
                     }`} />
@@ -221,15 +200,15 @@ const Login = () => {
                     required
                     className={`w-full ${
                       isDarkMode 
-                        ? 'bg-gray-800/70 border-gray-600/70 text-white placeholder-gray-400' 
-                        : 'bg-gray-50/80 border-gray-300/70 text-gray-900 placeholder-gray-500'
-                    } border-2 rounded-2xl py-4 pl-12 pr-14 text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200`}
+                        ? 'bg-gray-800/80 border-gray-600/50 text-white placeholder-gray-400' 
+                        : 'bg-gray-50/90 border-gray-300/60 text-gray-900 placeholder-gray-500'
+                    } border-2 rounded-2xl py-5 pl-14 pr-16 text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 font-medium`}
                     placeholder="Enter your password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-4"
+                    className="absolute inset-y-0 right-0 flex items-center pr-5"
                   >
                     {showPassword ? (
                       <EyeOff className={`h-5 w-5 ${isDarkMode ? 'text-gray-500 hover:text-gray-400' : 'text-gray-400 hover:text-gray-600'} transition-colors`} />
@@ -243,7 +222,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-primary via-primary to-primary/80 text-white py-4 rounded-2xl font-bold text-lg hover:from-primary/90 hover:to-primary/70 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border border-primary/20 mt-8"
+                className="w-full bg-gradient-to-r from-primary via-primary to-primary/90 text-white py-5 rounded-2xl font-bold text-lg hover:from-primary/90 hover:to-primary/80 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border border-primary/20 mt-10"
               >
                 {isLoading ? (
                   <>
@@ -253,49 +232,40 @@ const Login = () => {
                 ) : (
                   <>
                     <Shield className="w-6 h-6" />
-                    Sign In to Dashboard
+                    Access Dashboard
                   </>
                 )}
               </button>
             </form>
             
             {/* Enhanced demo credentials section */}
-            <div className={`mt-10 p-6 rounded-2xl ${
+            <div className={`mt-12 p-6 rounded-2xl ${
               isDarkMode 
-                ? 'bg-gray-800/50 border border-gray-700/50' 
-                : 'bg-gray-50/70 border border-gray-200/70'
+                ? 'bg-gray-800/60 border border-gray-700/40' 
+                : 'bg-gray-50/80 border border-gray-200/60'
             }`}>
-              <div className="flex items-center gap-2 mb-5">
-                <Fingerprint className={`w-5 h-5 ${isDarkMode ? 'text-primary' : 'text-primary'}`} />
+              <div className="flex items-center gap-3 mb-6">
+                <Shield className={`w-5 h-5 ${isDarkMode ? 'text-primary' : 'text-primary'}`} />
                 <p className={`text-base font-bold ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
                   Demo Accounts
                 </p>
               </div>
               <div className={`space-y-4 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                  <span className="font-semibold flex items-center gap-2">
-                    <Shield className="w-4 h-4" />
-                    Administrator
-                  </span>
-                  <code className={`px-3 py-1.5 rounded-lg text-sm font-mono ${isDarkMode ? 'bg-gray-700/80 text-gray-300' : 'bg-white/80 text-gray-700'}`}>
+                <div className="flex justify-between items-center p-4 rounded-xl bg-black/5 dark:bg-white/5">
+                  <span className="font-semibold">Administrator</span>
+                  <code className={`px-3 py-2 rounded-lg text-sm font-mono ${isDarkMode ? 'bg-gray-700/80 text-gray-300' : 'bg-white/80 text-gray-700'}`}>
                     admin@example.com / admin123
                   </code>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                  <span className="font-semibold flex items-center gap-2">
-                    <Cpu className="w-4 h-4" />
-                    Security Analyst
-                  </span>
-                  <code className={`px-3 py-1.5 rounded-lg text-sm font-mono ${isDarkMode ? 'bg-gray-700/80 text-gray-300' : 'bg-white/80 text-gray-700'}`}>
+                <div className="flex justify-between items-center p-4 rounded-xl bg-black/5 dark:bg-white/5">
+                  <span className="font-semibold">Security Analyst</span>
+                  <code className={`px-3 py-2 rounded-lg text-sm font-mono ${isDarkMode ? 'bg-gray-700/80 text-gray-300' : 'bg-white/80 text-gray-700'}`}>
                     analyst@example.com / analyst123
                   </code>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                  <span className="font-semibold flex items-center gap-2">
-                    <Zap className="w-4 h-4" />
-                    Guest User
-                  </span>
-                  <code className={`px-3 py-1.5 rounded-lg text-sm font-mono ${isDarkMode ? 'bg-gray-700/80 text-gray-300' : 'bg-white/80 text-gray-700'}`}>
+                <div className="flex justify-between items-center p-4 rounded-xl bg-black/5 dark:bg-white/5">
+                  <span className="font-semibold">Guest User</span>
+                  <code className={`px-3 py-2 rounded-lg text-sm font-mono ${isDarkMode ? 'bg-gray-700/80 text-gray-300' : 'bg-white/80 text-gray-700'}`}>
                     guest@example.com / guest123
                   </code>
                 </div>
@@ -306,7 +276,7 @@ const Login = () => {
           {/* Simplified footer */}
           <div className="text-center mt-8">
             <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-              © 2024 SecureSentry. All rights reserved.
+              © 2024 NetworkFort. All rights reserved.
             </p>
           </div>
         </div>
