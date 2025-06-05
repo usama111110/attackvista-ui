@@ -1,11 +1,11 @@
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
-import { MetricsCard } from "@/components/metrics-card";
+import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
 import { AttackChart } from "@/components/attack-chart";
 import { LiveTrafficGraph } from "@/components/live-traffic-graph";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { SecurityScore } from "@/components/security-score";
-import { ThreatMap } from "@/components/threat-map";
+import { InteractiveThreatMap } from "@/components/interactive-threat-map";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useState, useEffect } from "react";
@@ -14,11 +14,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { MetricsSkeleton, LoadingSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
 import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
 import { useNotifications } from "@/components/notification-provider";
 import { WidgetManager, WidgetType } from "@/components/widget-manager";
 import { AIThreatDetection } from "@/components/ai-threat-detection";
+import { TypographyH1, TypographyLead } from "@/components/ui/typography";
+import { EnhancedCard } from "@/components/ui/enhanced-card";
 
 // Example attack data
 const attackData = [
@@ -61,22 +63,22 @@ const Index = () => {
       case "attack-chart":
         return <AttackChart />;
       case "threat-map":
-        return <ThreatMap />;
+        return <InteractiveThreatMap />;
       case "live-traffic":
         return <LiveTrafficGraph />;
       case "metrics":
         return (
           <div className="grid grid-cols-2 gap-4">
-            <MetricsCard 
+            <EnhancedMetricsCard 
               title="Total Attacks" 
-              value="1,234" 
-              icon={<Shield className="text-blue-500" />} 
+              value={1234} 
+              icon={<Shield className="text-blue-500 h-5 w-5" />} 
               trend={{ value: 12, isPositive: false }} 
             />
-            <MetricsCard 
+            <EnhancedMetricsCard 
               title="Critical Threats" 
-              value="23" 
-              icon={<AlertTriangle className="text-red-500" />} 
+              value={23} 
+              icon={<AlertTriangle className="text-red-500 h-5 w-5" />} 
               trend={{ value: 5, isPositive: false }} 
             />
           </div>
@@ -191,18 +193,18 @@ const Index = () => {
         <header className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2 dark:text-gradient">Security Dashboard</h1>
-              <p className="text-gray-600 dark:text-gray-400">Real-time network security monitoring</p>
+              <TypographyH1 className="mb-2">Security Dashboard</TypographyH1>
+              <TypographyLead>Real-time network security monitoring with AI-powered insights</TypographyLead>
             </div>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-sm bg-gray-100 dark:bg-gray-800/40 px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700/50">
+              <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border">
                 <Loader2 size={14} className={`${isRefreshing ? 'animate-spin' : ''} text-primary`} />
-                <span className="text-gray-700 dark:text-gray-300">Live monitoring active</span>
+                <span>Live monitoring active</span>
               </div>
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="gap-1"
+                className="gap-1 hover:scale-105 transition-transform"
                 onClick={refreshData}
               >
                 <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
@@ -220,7 +222,7 @@ const Index = () => {
                 variant={timeFilter === period.value ? "default" : "outline"}
                 size="sm"
                 onClick={() => setTimeFilter(period.value)}
-                className="text-xs h-8"
+                className="text-xs h-8 transition-all hover:scale-105"
               >
                 {period.label}
               </Button>
@@ -229,17 +231,17 @@ const Index = () => {
 
           <div className="mb-6 relative w-full md:w-1/2 lg:w-1/3">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 placeholder="Search attacks, IPs, threats..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`pl-10 border ${isDarkMode ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white/90 border-gray-200'}`}
+                className="pl-10 bg-muted/30 border-0 focus:bg-background/50 transition-colors"
               />
               {searchQuery && (
                 <button 
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   ×
                 </button>
@@ -249,7 +251,7 @@ const Index = () => {
         </header>
 
         <Tabs defaultValue="overview" className="mb-8">
-          <TabsList className="mb-6 p-1 bg-gray-100/80 dark:bg-gray-800/30 rounded-xl">
+          <TabsList className="mb-6 p-1 bg-muted/50 rounded-xl">
             <TabsTrigger value="overview" className="rounded-lg">Overview</TabsTrigger>
             <TabsTrigger value="performance" className="rounded-lg">Performance</TabsTrigger>
             <TabsTrigger value="threats" className="rounded-lg">Threats</TabsTrigger>
@@ -259,43 +261,36 @@ const Index = () => {
           <TabsContent value="overview">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {isLoading ? (
-                <>
-                  {[1, 2, 3, 4].map((i) => (
-                    <Card key={i} className="p-6">
-                      <Skeleton className="h-4 w-24 mb-2" />
-                      <Skeleton className="h-8 w-16 mb-2" />
-                      <Skeleton className="h-4 w-40" />
-                    </Card>
-                  ))}
-                </>
+                <MetricsSkeleton />
               ) : (
                 <>
-                  <MetricsCard
+                  <EnhancedMetricsCard
                     title="Total Attacks"
-                    value="1,234"
-                    icon={<Shield className="text-blue-500" />}
+                    value={1234}
+                    icon={<Shield className="text-blue-500 h-5 w-5" />}
                     trend={{ value: 12, isPositive: false }}
-                    className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 dark:from-blue-900/20 dark:to-blue-800/10 border-blue-200 dark:border-blue-900/30"
+                    className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200/50"
                   />
-                  <MetricsCard
+                  <EnhancedMetricsCard
                     title="Critical Threats"
-                    value="23"
-                    icon={<AlertTriangle className="text-red-500" />}
+                    value={23}
+                    icon={<AlertTriangle className="text-red-500 h-5 w-5" />}
                     trend={{ value: 5, isPositive: false }}
-                    className="bg-gradient-to-br from-red-500/10 to-red-600/5 dark:from-red-900/20 dark:to-red-800/10 border-red-200 dark:border-red-900/30"
+                    className="bg-gradient-to-br from-red-500/10 to-red-600/5 border-red-200/50"
                   />
-                  <MetricsCard
+                  <EnhancedMetricsCard
                     title="Network Status"
                     value="Stable"
-                    icon={<Activity className="text-green-500" />}
-                    className="bg-gradient-to-br from-green-500/10 to-green-600/5 dark:from-green-900/20 dark:to-green-800/10 border-green-200 dark:border-green-900/30"
+                    icon={<Activity className="text-green-500 h-5 w-5" />}
+                    className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-200/50"
+                    animated={false}
                   />
-                  <MetricsCard
+                  <EnhancedMetricsCard
                     title="Protected Systems"
-                    value="156"
-                    icon={<Database className="text-purple-500" />}
+                    value={156}
+                    icon={<Database className="text-purple-500 h-5 w-5" />}
                     trend={{ value: 3, isPositive: true }}
-                    className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 dark:from-purple-900/20 dark:to-purple-800/10 border-purple-200 dark:border-purple-900/30"
+                    className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200/50"
                   />
                 </>
               )}
@@ -304,19 +299,17 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-2">
                 {isLoading ? (
-                  <Card className="p-6 h-[400px]">
-                    <Skeleton className="h-4 w-48 mb-6" />
-                    <Skeleton className="h-[320px] w-full rounded-md" />
-                  </Card>
+                  <EnhancedCard className="h-[400px]">
+                    <CardSkeleton />
+                  </EnhancedCard>
                 ) : (
                   <LiveTrafficGraph />
                 )}
               </div>
               {isLoading ? (
-                <Card className="p-6 h-[400px]">
-                  <Skeleton className="h-4 w-32 mb-6" />
-                  <Skeleton className="h-[320px] w-full rounded-full" />
-                </Card>
+                <EnhancedCard className="h-[400px]">
+                  <CardSkeleton />
+                </EnhancedCard>
               ) : (
                 <SecurityScore score={78} />
               )}
@@ -414,28 +407,18 @@ const Index = () => {
           <TabsContent value="threats">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-2">
-                <Card className={`p-6 backdrop-blur-lg border border-gray-200 dark:border-gray-700/50 hover-lift animate-fade-in ${
-                  isDarkMode ? "bg-gray-900/50" : "bg-gray-50"
-                }`}>
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">Global Threat Map</h3>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                      <span>Live attacks</span>
-                    </div>
-                  </div>
-                  {isLoading ? (
-                    <Skeleton className="h-[320px] w-full rounded-md" />
-                  ) : (
-                    <ThreatMap />
-                  )}
-                </Card>
+                {isLoading ? (
+                  <EnhancedCard className="h-[400px]">
+                    <CardSkeleton />
+                  </EnhancedCard>
+                ) : (
+                  <InteractiveThreatMap />
+                )}
               </div>
               {isLoading ? (
-                <Card className="p-6 h-[400px]">
-                  <Skeleton className="h-4 w-32 mb-6" />
-                  <Skeleton className="h-[320px] w-full rounded-md" />
-                </Card>
+                <EnhancedCard className="h-[400px]">
+                  <CardSkeleton />
+                </EnhancedCard>
               ) : (
                 <AttackChart />
               )}

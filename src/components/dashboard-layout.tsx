@@ -7,7 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { BreadcrumbNavigation } from "./breadcrumb-navigation";
 import { useUserStore } from "@/utils/userDatabase";
-import { DashboardHeader } from "./dashboard-header";
+import { ModernDashboardHeader } from "./modern-dashboard-header";
+import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -52,34 +53,36 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const contentWidth = collapsed ? "w-[calc(100%-4rem)]" : "w-[calc(100%-16rem)]";
 
   return (
-    <div className={`min-h-screen flex animate-fade-in ${isDarkMode 
-      ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100' 
-      : 'bg-gradient-to-br from-blue-50/50 via-white to-slate-50/80 text-gray-800'}`}>
+    <div className={cn(
+      "min-h-screen flex animate-fade-in transition-colors duration-300",
+      isDarkMode 
+        ? "bg-gradient-to-br from-background via-muted/20 to-background text-foreground" 
+        : "bg-gradient-to-br from-blue-50/30 via-background to-slate-50/50 text-foreground"
+    )}>
       <aside 
-        className={`${sidebarWidth} border-r transition-all duration-500 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50 ${
-          isDarkMode 
-            ? 'border-gray-800/50 bg-gray-900/80 backdrop-blur-xl shadow-lg shadow-black/5' 
-            : 'border-gray-200 bg-white/90 shadow-lg shadow-gray-200/50 backdrop-blur-xl'
-        }`}
+        className={cn(
+          sidebarWidth,
+          "border-r transition-all duration-500 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50",
+          "border-border/50 bg-background/80 backdrop-blur-xl shadow-lg"
+        )}
       >
-        <div className="flex-1 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
+        <div className="flex-1 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-muted">
           <MainNav collapsed={collapsed} />
         </div>
         <button 
           onClick={() => setCollapsed(!collapsed)}
-          className={`mt-auto mb-4 mx-auto p-2 rounded-full transition-all ${
-            isDarkMode 
-              ? 'bg-gray-800/70 hover:bg-gray-700/70 text-primary hover:scale-110 shadow-lg shadow-primary/5' 
-              : 'bg-blue-50/80 hover:bg-blue-100/80 text-blue-700 hover:scale-110 shadow-sm'
-          }`}
+          className={cn(
+            "mt-auto mb-4 mx-auto p-2 rounded-full transition-all duration-200 hover:scale-110",
+            "bg-muted/50 hover:bg-primary/10 text-primary shadow-sm hover:shadow-md"
+          )}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </button>
       </aside>
-      <main className={`${contentWidth} ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-6 lg:px-8 relative`}>
-        {/* Dashboard header with fixed positioning */}
-        <DashboardHeader />
+      <main className={cn(contentWidth, "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted p-6 lg:px-8 relative")}>
+        {/* Modern dashboard header */}
+        <ModernDashboardHeader />
         
         <div className="max-w-7xl mx-auto pt-20">
           {/* Add breadcrumb navigation at the top of the content area */}
