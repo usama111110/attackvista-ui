@@ -1,3 +1,4 @@
+
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { AttackChart } from "@/components/attack-chart";
 import { LiveTrafficGraph } from "@/components/live-traffic-graph";
@@ -20,7 +21,8 @@ import { AIThreatDetection } from "@/components/ai-threat-detection";
 import { TypographyH1, TypographyLead } from "@/components/ui/typography";
 import { ModernCard } from "@/components/ui/modern-card";
 import { ModernButton } from "@/components/ui/modern-button";
-import { GradientBackground, GlowingOrb } from "@/components/ui/floating-elements";
+import { GradientBackground } from "@/components/ui/gradient-background";
+import { GlowingOrb } from "@/components/ui/floating-elements";
 import { ModernMetricsGrid } from "@/components/modern-metrics-grid";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
