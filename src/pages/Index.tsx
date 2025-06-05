@@ -1,3 +1,4 @@
+
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
 import { AttackChart } from "@/components/attack-chart";
@@ -15,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { MetricsSkeleton, LoadingSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
 import { useNotifications } from "@/components/notification-provider";
 import { WidgetManager, WidgetType } from "@/components/widget-manager";
