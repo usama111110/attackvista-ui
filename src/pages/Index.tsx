@@ -1,4 +1,3 @@
-
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
 import { AttackChart } from "@/components/attack-chart";
@@ -649,3 +648,5 @@ const Index = () => {
 }
 
 export default Index;
+
+</edits_to_apply>
