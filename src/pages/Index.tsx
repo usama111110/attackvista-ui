@@ -20,6 +20,8 @@ import { SecurityTrendsChart } from "@/components/data-visualizations/security-t
 import { useNotifications } from "@/components/notification-provider";
 import { WidgetManager, WidgetType } from "@/components/widget-manager";
 import { AIThreatDetection } from "@/components/ai-threat-detection";
+import { ThreatHunting } from "@/components/threat-hunting";
+import { BehavioralAnalytics } from "@/components/behavioral-analytics";
 import { TypographyH1, TypographyLead } from "@/components/ui/typography";
 import { EnhancedCard } from "@/components/ui/enhanced-card";
 
@@ -122,7 +124,11 @@ const Index = () => {
           </Card>
         );
       case "ai-threat-detection":
-        return <AIThreatDetection />; // New AI threat detection widget
+        return <AIThreatDetection />;
+      case "threat-hunting":
+        return <ThreatHunting />;
+      case "behavioral-analytics":
+        return <BehavioralAnalytics />;
       default:
         return (
           <Card className="p-4 h-full flex items-center justify-center">
@@ -648,3 +654,5 @@ const Index = () => {
 }
 
 export default Index;
+
+</edits_to_apply>
