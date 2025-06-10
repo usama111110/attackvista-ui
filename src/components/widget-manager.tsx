@@ -20,10 +20,7 @@ export type WidgetType =
   | "live-traffic" 
   | "metrics" 
   | "network-status"
-  | "system-health"
-  | "ai-threat-detection"
-  | "threat-hunting"
-  | "behavioral-analytics";
+  | "system-health";
 
 interface WidgetDefinition {
   id: string;
@@ -58,10 +55,7 @@ export const WidgetManager = memo(({
     { type: "live-traffic", title: "Live Traffic", defaultSize: "large" },
     { type: "metrics", title: "Key Metrics", defaultSize: "medium" },
     { type: "network-status", title: "Network Status", defaultSize: "medium" },
-    { type: "system-health", title: "System Health", defaultSize: "small" },
-    { type: "ai-threat-detection", title: "AI Threat Detection", defaultSize: "medium" },
-    { type: "threat-hunting", title: "Threat Hunting", defaultSize: "large" },
-    { type: "behavioral-analytics", title: "Behavioral Analytics", defaultSize: "large" }
+    { type: "system-health", title: "System Health", defaultSize: "small" }
   ];
 
   // Add a new widget to the dashboard

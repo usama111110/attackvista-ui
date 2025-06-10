@@ -123,12 +123,6 @@ const Index = () => {
             </div>
           </Card>
         );
-      case "ai-threat-detection":
-        return <AIThreatDetection />;
-      case "threat-hunting":
-        return <ThreatHunting />;
-      case "behavioral-analytics":
-        return <BehavioralAnalytics />;
       default:
         return (
           <Card className="p-4 h-full flex items-center justify-center">
@@ -654,3 +648,5 @@ const Index = () => {
 }
 
 export default Index;
+
+</edits_to_apply>
