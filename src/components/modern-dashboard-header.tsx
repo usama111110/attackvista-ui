@@ -2,7 +2,6 @@
 import { ReactNode } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { NotificationIndicator } from "./notification-indicator";
-import { UserProfile } from "./user-profile";
 import { DataExport } from "./data-export";
 import { Collaboration } from "./collaboration";
 import { Download, Users, Search, Command } from "lucide-react";
@@ -79,7 +78,6 @@ export function ModernDashboardHeader() {
         
         <ThemeToggle />
         <NotificationIndicator onClick={toggleNotifications} />
-        <UserProfile />
       </div>
     </div>
   );

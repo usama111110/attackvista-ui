@@ -19,7 +19,9 @@ import {
   Shield,
   Crown,
   Eye,
-  UserPlus
+  UserPlus,
+  Save,
+  X
 } from "lucide-react";
 import { useOrganizationStore, Organization } from "@/utils/organizationDatabase";
 import { useUserStore } from "@/utils/userDatabase";
@@ -27,7 +29,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export function OrganizationManagement() {
   const { toast } = useToast();
-  const { currentUser } = useUserStore();
+  const { currentUser, users } = useUserStore();
   const { 
     organizations, 
     members, 
@@ -40,7 +42,8 @@ export function OrganizationManagement() {
     removeMember,
     getUserOrganizations,
     getUserRole,
-    hasPermission
+    hasPermission,
+    getOrganizationMembers
   } = useOrganizationStore();
 
   const [isCreating, setIsCreating] = useState(false);
@@ -56,6 +59,8 @@ export function OrganizationManagement() {
     size: "",
     website: ""
   });
+
+  const [editOrgData, setEditOrgData] = useState<Partial<Organization>>({});
 
   if (!currentUser) return null;
 
@@ -75,7 +80,18 @@ export function OrganizationManagement() {
       return;
     }
 
-    createOrganization({
+    // Check if slug already exists
+    const slugExists = organizations.some(org => org.slug === newOrgData.slug);
+    if (slugExists) {
+      toast({
+        title: "Error",
+        description: "URL slug already exists. Please choose a different one.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const orgId = createOrganization({
       ...newOrgData,
       settings: {
         theme: "dark",
@@ -89,16 +105,7 @@ export function OrganizationManagement() {
           sms: false
         }
       }
-    });
-
-    // Add the current user as owner
-    addMember({
-      userId: currentUser.id,
-      organizationId: `org-${Date.now()}`, // This would be the actual ID in real implementation
-      role: "owner",
-      permissions: ["*"],
-      isActive: true
-    });
+    }, currentUser.id);
 
     toast({
       title: "Success",
@@ -116,17 +123,83 @@ export function OrganizationManagement() {
     });
   };
 
+  const handleUpdateOrganization = (orgId: string) => {
+    if (editOrgData) {
+      updateOrganization(orgId, editOrgData);
+      setEditingOrg(null);
+      setEditOrgData({});
+      toast({
+        title: "Success",
+        description: "Organization updated successfully"
+      });
+    }
+  };
+
   const handleInviteMember = () => {
     if (!currentOrganization || !inviteEmail) return;
 
-    // In a real app, this would send an invitation email
+    // Find user by email
+    const inviteUser = users.find(u => u.email.toLowerCase() === inviteEmail.toLowerCase());
+    if (!inviteUser) {
+      toast({
+        title: "Error",
+        description: "User not found with this email",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check if user is already a member
+    const existingMember = members.find(m => 
+      m.userId === inviteUser.id && m.organizationId === currentOrganization.id && m.isActive
+    );
+    if (existingMember) {
+      toast({
+        title: "Error",
+        description: "User is already a member of this organization",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Add member with appropriate permissions
+    const permissions = getRolePermissions(inviteRole);
+    addMember({
+      userId: inviteUser.id,
+      organizationId: currentOrganization.id,
+      role: inviteRole as any,
+      permissions,
+      isActive: true
+    });
+
     toast({
-      title: "Invitation Sent",
-      description: `Invitation sent to ${inviteEmail} as ${inviteRole}`
+      title: "Success",
+      description: `${inviteUser.name} has been added as ${inviteRole}`
     });
 
     setInviteEmail("");
     setInviteRole("viewer");
+  };
+
+  const getRolePermissions = (role: string): string[] => {
+    switch (role) {
+      case "owner": return ["*"];
+      case "admin": return ["users.manage", "settings.manage", "analytics.view", "org.manage"];
+      case "manager": return ["users.view", "settings.view", "analytics.view"];
+      case "analyst": return ["analytics.view", "security.view"];
+      case "viewer": return ["analytics.view"];
+      default: return ["analytics.view"];
+    }
+  };
+
+  const getUserByIdName = (userId: number): string => {
+    const user = users.find(u => u.id === userId);
+    return user ? user.name : `User ${userId}`;
+  };
+
+  const getUserByIdEmail = (userId: number): string => {
+    const user = users.find(u => u.id === userId);
+    return user ? user.email : '';
   };
 
   const getRoleIcon = (role: string) => {
@@ -183,7 +256,7 @@ export function OrganizationManagement() {
                   <Input
                     id="slug"
                     value={newOrgData.slug}
-                    onChange={(e) => setNewOrgData({...newOrgData, slug: e.target.value})}
+                    onChange={(e) => setNewOrgData({...newOrgData, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')})}
                     placeholder="acme-corp"
                   />
                 </div>
@@ -195,6 +268,7 @@ export function OrganizationManagement() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="technology">Technology</SelectItem>
+                      <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
                       <SelectItem value="finance">Financial Services</SelectItem>
                       <SelectItem value="healthcare">Healthcare</SelectItem>
                       <SelectItem value="retail">Retail</SelectItem>
@@ -260,9 +334,26 @@ export function OrganizationManagement() {
                       <div className="bg-primary/10 p-3 rounded-full">
                         <Building2 className="h-6 w-6 text-primary" />
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{org.name}</h3>
-                        <p className="text-muted-foreground">{org.description}</p>
+                      <div className="flex-1">
+                        {editingOrg === org.id ? (
+                          <div className="space-y-3">
+                            <Input
+                              value={editOrgData.name || org.name}
+                              onChange={(e) => setEditOrgData({...editOrgData, name: e.target.value})}
+                              className="font-semibold text-lg"
+                            />
+                            <Textarea
+                              value={editOrgData.description || org.description || ''}
+                              onChange={(e) => setEditOrgData({...editOrgData, description: e.target.value})}
+                              placeholder="Organization description"
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <h3 className="font-semibold text-lg">{org.name}</h3>
+                            <p className="text-muted-foreground">{org.description}</p>
+                          </>
+                        )}
                         <div className="flex items-center gap-4 mt-2">
                           <Badge className={getRoleBadgeColor(getUserRole(currentUser.id, org.id) || "")}>
                             <div className="flex items-center gap-1">
@@ -276,10 +367,21 @@ export function OrganizationManagement() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      {hasPermission(currentUser.id, org.id, "org.manage") && (
-                        <Button variant="outline" size="sm">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
+                      {editingOrg === org.id ? (
+                        <>
+                          <Button variant="outline" size="sm" onClick={() => handleUpdateOrganization(org.id)}>
+                            <Save className="h-4 w-4" />
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => {setEditingOrg(null); setEditOrgData({})}}>
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </>
+                      ) : (
+                        hasPermission(currentUser.id, org.id, "org.manage") && (
+                          <Button variant="outline" size="sm" onClick={() => {setEditingOrg(org.id); setEditOrgData(org)}}>
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        )
                       )}
                     </div>
                   </div>
@@ -295,7 +397,7 @@ export function OrganizationManagement() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <UserPlus className="h-5 w-5" />
-                  Invite Member
+                  Add Member
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -317,7 +419,7 @@ export function OrganizationManagement() {
                     </SelectContent>
                   </Select>
                   <Button onClick={handleInviteMember}>
-                    Send Invite
+                    Add Member
                   </Button>
                 </div>
               </CardContent>
@@ -329,34 +431,43 @@ export function OrganizationManagement() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {members
-                    .filter(m => m.organizationId === currentOrganization.id && m.isActive)
-                    .map((member) => (
-                      <div key={member.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="bg-primary/10 p-2 rounded-full">
-                            <Users className="h-4 w-4 text-primary" />
-                          </div>
-                          <div>
-                            <p className="font-medium">User {member.userId}</p>
-                            <p className="text-sm text-muted-foreground">Joined {new Date(member.joinedAt).toLocaleDateString()}</p>
-                          </div>
+                  {getOrganizationMembers(currentOrganization.id).map((member) => (
+                    <div key={member.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-primary/10 p-2 rounded-full">
+                          <Users className="h-4 w-4 text-primary" />
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Badge className={getRoleBadgeColor(member.role)}>
-                            <div className="flex items-center gap-1">
-                              {getRoleIcon(member.role)}
-                              {member.role}
-                            </div>
-                          </Badge>
-                          {member.role !== "owner" && (
-                            <Button variant="outline" size="sm">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          )}
+                        <div>
+                          <p className="font-medium">{getUserByIdName(member.userId)}</p>
+                          <p className="text-sm text-muted-foreground">{getUserByIdEmail(member.userId)}</p>
+                          <p className="text-xs text-muted-foreground">Joined {new Date(member.joinedAt).toLocaleDateString()}</p>
                         </div>
                       </div>
-                    ))}
+                      <div className="flex items-center gap-2">
+                        <Badge className={getRoleBadgeColor(member.role)}>
+                          <div className="flex items-center gap-1">
+                            {getRoleIcon(member.role)}
+                            {member.role}
+                          </div>
+                        </Badge>
+                        {member.role !== "owner" && member.userId !== currentUser.id && (
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => {
+                              removeMember(member.id);
+                              toast({
+                                title: "Member removed",
+                                description: `${getUserByIdName(member.userId)} has been removed from the organization`
+                              });
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>

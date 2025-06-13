@@ -12,6 +12,7 @@ export interface Organization {
   industry?: string;
   size?: string;
   createdAt: string;
+  ownerId: number;
   settings: {
     theme?: string;
     branding?: {
@@ -46,6 +47,7 @@ const initialOrganizations: Organization[] = [
     description: "Leading cybersecurity solutions provider",
     industry: "Cybersecurity",
     size: "51-200",
+    ownerId: 1,
     createdAt: new Date().toISOString(),
     settings: {
       theme: "dark",
@@ -67,6 +69,7 @@ const initialOrganizations: Organization[] = [
     description: "International financial services",
     industry: "Financial Services",
     size: "201-1000",
+    ownerId: 1,
     createdAt: new Date().toISOString(),
     settings: {
       theme: "light",
@@ -98,7 +101,7 @@ const initialMembers: OrganizationMember[] = [
     userId: 2,
     organizationId: "org-1",
     role: "admin",
-    permissions: ["users.manage", "settings.view", "analytics.view"],
+    permissions: ["users.manage", "settings.view", "analytics.view", "org.manage"],
     joinedAt: new Date().toISOString(),
     isActive: true
   },
@@ -106,8 +109,8 @@ const initialMembers: OrganizationMember[] = [
     id: "mem-3",
     userId: 1,
     organizationId: "org-2",
-    role: "viewer",
-    permissions: ["analytics.view"],
+    role: "owner",
+    permissions: ["*"],
     joinedAt: new Date().toISOString(),
     isActive: true
   }
@@ -119,7 +122,7 @@ interface OrganizationStore {
   currentOrganization: Organization | null;
   
   // Organization management
-  createOrganization: (org: Omit<Organization, 'id' | 'createdAt'>) => void;
+  createOrganization: (org: Omit<Organization, 'id' | 'createdAt' | 'ownerId'>, userId: number) => string;
   updateOrganization: (id: string, updates: Partial<Organization>) => void;
   deleteOrganization: (id: string) => void;
   setCurrentOrganization: (orgId: string) => void;
@@ -133,6 +136,7 @@ interface OrganizationStore {
   getUserOrganizations: (userId: number) => Organization[];
   getUserRole: (userId: number, orgId: string) => string | null;
   hasPermission: (userId: number, orgId: string, permission: string) => boolean;
+  getOrganizationMembers: (orgId: string) => OrganizationMember[];
 }
 
 export const useOrganizationStore = create<OrganizationStore>()(
@@ -142,16 +146,36 @@ export const useOrganizationStore = create<OrganizationStore>()(
       members: initialMembers,
       currentOrganization: initialOrganizations[0],
       
-      createOrganization: (org) => {
+      createOrganization: (org, userId) => {
+        const orgId = `org-${Date.now()}`;
         const newOrg = {
           ...org,
-          id: `org-${Date.now()}`,
+          id: orgId,
+          ownerId: userId,
           createdAt: new Date().toISOString()
         };
         
+        // Create the organization
         set((state) => ({
           organizations: [...state.organizations, newOrg]
         }));
+        
+        // Add the creator as owner
+        const ownerMember: OrganizationMember = {
+          id: `mem-${Date.now()}`,
+          userId,
+          organizationId: orgId,
+          role: "owner",
+          permissions: ["*"],
+          joinedAt: new Date().toISOString(),
+          isActive: true
+        };
+        
+        set((state) => ({
+          members: [...state.members, ownerMember]
+        }));
+        
+        return orgId;
       },
       
       updateOrganization: (id, updates) => {
@@ -226,6 +250,10 @@ export const useOrganizationStore = create<OrganizationStore>()(
         if (!membership) return false;
         if (membership.permissions.includes("*")) return true;
         return membership.permissions.includes(permission);
+      },
+
+      getOrganizationMembers: (orgId) => {
+        return get().members.filter(m => m.organizationId === orgId && m.isActive);
       }
     }),
     {

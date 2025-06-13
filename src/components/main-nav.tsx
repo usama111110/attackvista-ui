@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { LucideIcon } from "lucide-react";
 import { 
   Shield, 
   BarChart3, 
@@ -23,7 +24,7 @@ import { useTheme } from "@/providers/ThemeProvider";
 
 interface NavItemProps {
   to: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;
   children: React.ReactNode;
   collapsed?: boolean;
 }
@@ -90,7 +91,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         collapsed ? "px-2" : ""
       )}>
         <div className="flex items-center gap-2">
-          <Logo className="h-8 w-8 flex-shrink-0" />
+          <Logo />
           {!collapsed && (
             <div>
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
@@ -154,13 +155,12 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         </div>
       </nav>
 
-      {/* User Profile */}
-      <div className={cn(
-        "p-4 border-t border-border/50",
-        collapsed ? "px-2" : ""
-      )}>
-        <UserProfile />
-      </div>
+      {/* User Profile - Only show when not collapsed */}
+      {!collapsed && (
+        <div className="p-4 border-t border-border/50">
+          <UserProfile />
+        </div>
+      )}
     </div>
   );
 }
