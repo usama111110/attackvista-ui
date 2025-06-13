@@ -88,12 +88,12 @@ export function MainNav({ collapsed = false }: MainNavProps) {
         "p-4 border-b border-border/50",
         collapsed ? "px-2" : ""
       )}>
-        <div className="flex items-center gap-2">
-          <Logo />
+        <div className="flex items-center gap-3">
+          <Logo size="md" showText={false} />
           {!collapsed && (
             <div>
               <span className="font-bold text-lg bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                SecureSentry
+                NetworkFort
               </span>
               <div className="text-xs text-muted-foreground">Security Dashboard</div>
             </div>
@@ -138,6 +138,9 @@ export function MainNav({ collapsed = false }: MainNavProps) {
           "pt-4 mt-4 border-t border-border/50 space-y-1",
           collapsed ? "border-t-0 pt-2 mt-2" : ""
         )}>
+          <NavItem to="/organizations" icon={Building2} collapsed={collapsed}>
+            Organizations
+          </NavItem>
           <NavItem to="/users" icon={Users} collapsed={collapsed}>
             Users
           </NavItem>
