@@ -9,6 +9,7 @@ import { NotificationProvider } from "@/components/notification-provider";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
+import Organizations from "./pages/Organizations";
 import LiveTraffic from "./pages/LiveTraffic";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/detection" element={<Detection />} />
               <Route path="/network" element={<Network />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/organizations" element={<Organizations />} />
               <Route path="/live-traffic" element={<LiveTraffic />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/security" element={<Security />} />
