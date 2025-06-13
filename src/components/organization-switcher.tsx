@@ -47,39 +47,39 @@ export function OrganizationSwitcher() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-64 justify-between"
+          className="w-full justify-between bg-muted/50 hover:bg-muted border-border/50"
         >
-          <div className="flex items-center gap-2">
-            <Building2 className="h-4 w-4" />
-            <span className="truncate">
+          <div className="flex items-center gap-2 min-w-0">
+            <Building2 className="h-4 w-4 flex-shrink-0" />
+            <span className="truncate font-medium">
               {currentOrganization?.name || "Select organization..."}
             </span>
           </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-0">
+      <PopoverContent className="w-64 p-0" align="start">
         <Command>
-          <CommandInput placeholder="Search organizations..." />
+          <CommandInput placeholder="Search organizations..." className="h-9" />
           <CommandList>
             <CommandEmpty>No organizations found.</CommandEmpty>
-            <CommandGroup heading="Organizations">
+            <CommandGroup>
               {userOrganizations.map((org) => (
                 <CommandItem
                   key={org.id}
                   onSelect={() => handleSelect(org.id)}
                   className="cursor-pointer"
                 >
-                  <div className="flex items-center gap-2 flex-1">
-                    <Building2 className="h-4 w-4" />
-                    <div className="flex-1">
-                      <div className="font-medium">{org.name}</div>
-                      <div className="text-xs text-muted-foreground">{org.industry}</div>
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <Building2 className="h-4 w-4 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate">{org.name}</div>
+                      <div className="text-xs text-muted-foreground truncate">{org.industry}</div>
                     </div>
                   </div>
                   <Check
                     className={cn(
-                      "ml-auto h-4 w-4",
+                      "ml-2 h-4 w-4 flex-shrink-0",
                       currentOrganization?.id === org.id ? "opacity-100" : "opacity-0"
                     )}
                   />
@@ -93,7 +93,7 @@ export function OrganizationSwitcher() {
                   setOpen(false);
                   navigate("/organizations/new");
                 }}
-                className="cursor-pointer"
+                className="cursor-pointer text-primary"
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Create Organization

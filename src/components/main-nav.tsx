@@ -12,12 +12,10 @@ import {
   Eye, 
   Network, 
   Search, 
-  ShieldCheck,
   FileCheck,
   Building2
 } from "lucide-react";
 import { Logo } from "./Logo";
-import { UserProfile } from "./user-profile";
 import { OrganizationSwitcher } from "./organization-switcher";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -140,9 +138,6 @@ export function MainNav({ collapsed = false }: MainNavProps) {
           "pt-4 mt-4 border-t border-border/50 space-y-1",
           collapsed ? "border-t-0 pt-2 mt-2" : ""
         )}>
-          <NavItem to="/organizations" icon={Building2} collapsed={collapsed}>
-            Organizations
-          </NavItem>
           <NavItem to="/users" icon={Users} collapsed={collapsed}>
             Users
           </NavItem>
@@ -154,13 +149,6 @@ export function MainNav({ collapsed = false }: MainNavProps) {
           </NavItem>
         </div>
       </nav>
-
-      {/* User Profile - Only show when not collapsed */}
-      {!collapsed && (
-        <div className="p-4 border-t border-border/50">
-          <UserProfile />
-        </div>
-      )}
     </div>
   );
 }
