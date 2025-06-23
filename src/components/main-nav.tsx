@@ -91,7 +91,7 @@ export function MainNav({ collapsed = false }: MainNavProps) {
       )}>
         <div className="flex items-center gap-3 group">
           <div className="relative">
-            <Logo size="md" showText={false} className="hover:scale-110 transition-transform duration-300" />
+            <Logo size="md" showText={false} />
             <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
           </div>
           {!collapsed && (
