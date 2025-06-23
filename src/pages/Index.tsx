@@ -1,4 +1,4 @@
-import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, AreaChart, Gauge, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
+import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
 import { AttackChart } from "@/components/attack-chart";
 import { LiveTrafficGraph } from "@/components/live-traffic-graph";
@@ -14,17 +14,17 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { MetricsSkeleton, LoadingSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
+import { MetricsSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
 import { useNotifications } from "@/components/notification-provider";
-import { WidgetManager, WidgetType } from "@/components/widget-manager";
+import { WidgetManager } from "@/components/widget-manager";
 import { AIThreatDetection } from "@/components/ai-threat-detection";
 import { TypographyH1, TypographyLead } from "@/components/ui/typography";
 import { EnhancedCard } from "@/components/ui/enhanced-card";
-import { AttackTrendsChart } from "@/components/data-visualizations/attack-trends-chart";
-import { SeverityDistributionChart } from "@/components/data-visualizations/severity-distribution-chart";
-import { EnhancedAttackLog } from "@/components/data-visualizations/enhanced-attack-log";
+import { AttackTrendsChart } from "@/components/attack-trends-chart";
+import { SeverityDistributionChart } from "@/components/severity-distribution-chart";
+import { EnhancedAttackLog } from "@/components/enhanced-attack-log";
 
 // Example attack data
 const attackData = [
