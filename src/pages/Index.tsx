@@ -22,6 +22,9 @@ import { WidgetManager, WidgetType } from "@/components/widget-manager";
 import { AIThreatDetection } from "@/components/ai-threat-detection";
 import { TypographyH1, TypographyLead } from "@/components/ui/typography";
 import { EnhancedCard } from "@/components/ui/enhanced-card";
+import { AttackTrendsChart } from "@/components/data-visualizations/attack-trends-chart";
+import { SeverityDistributionChart } from "@/components/data-visualizations/severity-distribution-chart";
+import { EnhancedAttackLog } from "@/components/data-visualizations/enhanced-attack-log";
 
 // Example attack data
 const attackData = [
@@ -297,6 +300,17 @@ const Index = () => {
               )}
             </div>
 
+            {/* New Attack Trends Visualization */}
+            <div className="mb-8">
+              {isLoading ? (
+                <EnhancedCard className="h-[400px]">
+                  <CardSkeleton />
+                </EnhancedCard>
+              ) : (
+                <AttackTrendsChart />
+              )}
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-2">
                 {isLoading ? (
@@ -313,6 +327,25 @@ const Index = () => {
                 </EnhancedCard>
               ) : (
                 <SecurityScore score={78} />
+              )}
+            </div>
+
+            {/* Enhanced Attack Analysis */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+              {isLoading ? (
+                <>
+                  <EnhancedCard className="h-[400px]">
+                    <CardSkeleton />
+                  </EnhancedCard>
+                  <EnhancedCard className="h-[400px]">
+                    <CardSkeleton />
+                  </EnhancedCard>
+                </>
+              ) : (
+                <>
+                  <SeverityDistributionChart />
+                  <EnhancedAttackLog />
+                </>
               )}
             </div>
             
