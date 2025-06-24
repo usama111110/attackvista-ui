@@ -4,13 +4,16 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { AttackTypesVisualization } from "@/components/attack-types-visualization";
 import { AttackInsights } from "@/components/attack-insights";
 import { AttackChart } from "@/components/attack-chart";
-import { Shield, AlertTriangle, Clock, LineChart, Filter, BarChart3, ArrowUpDown, Download, Target } from "lucide-react";
+import { AIThreatDetection } from "@/components/ai-threat/ai-threat-detection";
+import { SeverityDistributionChart } from "@/components/severity-distribution-chart";
+import { Shield, AlertTriangle, Clock, LineChart, Filter, BarChart3, ArrowUpDown, Download, Target, TrendingUp, Eye, Zap, Activity } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AttackDetailView } from "@/components/attack-detail-view";
 import { TimeFilter } from "@/components/time-filter";
 import { MetricsCard } from "@/components/metrics-card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -101,94 +104,124 @@ const Detection = () => {
 
   return (
     <DashboardLayout>
-      <header className="mb-6 animate-fade-in">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold mb-2 dark:text-gradient">Attack Detection</h1>
-            <p className="text-gray-600 dark:text-gray-400">Monitor and analyze security threats across your network</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 bg-red-100 dark:bg-red-900/20 px-4 py-2 rounded-lg border border-red-200 dark:border-red-700/50 animate-pulse">
-              <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
-              <span className="text-sm font-medium text-red-600 dark:text-red-400">27 Active Threats Detected</span>
+      {/* Enhanced Header with Gradient Background */}
+      <div className="relative mb-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/5 rounded-2xl"></div>
+        <div className="relative p-6 rounded-2xl border border-primary/20 backdrop-blur-sm">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <Shield className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                    Threat Detection Center
+                  </h1>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Real-time monitoring and analysis of security threats
+                  </p>
+                </div>
+              </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1"
-              onClick={refreshData}
-              disabled={isLoading}
-            >
-              <Clock className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-              Refresh
-            </Button>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-1">
-                  <Filter className="h-4 w-4" />
-                  Options
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Detection Settings</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setSortBy("value")}>
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Sort by count
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy("name")}>
-                  <ArrowUpDown className="h-4 w-4 mr-2" />
-                  Sort alphabetically
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setIsAutoRefresh(!isAutoRefresh)}>
-                  <Clock className="h-4 w-4 mr-2" />
-                  {isAutoRefresh ? 'Disable auto-refresh' : 'Enable auto-refresh'}
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Download className="h-4 w-4 mr-2" />
-                  Export report
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 animate-pulse">
+                <AlertTriangle className="h-3 w-3 mr-1" />
+                27 Active Threats
+              </Badge>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 hover:bg-primary/5"
+                onClick={refreshData}
+                disabled={isLoading}
+              >
+                <Activity className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+                Refresh
+              </Button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Filter className="h-4 w-4" />
+                    Options
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Detection Settings</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setSortBy("value")}>
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    Sort by count
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortBy("name")}>
+                    <ArrowUpDown className="h-4 w-4 mr-2" />
+                    Sort alphabetically
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setIsAutoRefresh(!isAutoRefresh)}>
+                    <Clock className="h-4 w-4 mr-2" />
+                    {isAutoRefresh ? 'Disable auto-refresh' : 'Enable auto-refresh'}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export report
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Time Filter */}
-      <div className="mb-6 animate-fade-in">
+      {/* Enhanced Time Filter */}
+      <div className="mb-8">
         <TimeFilter value={timeRange} onChange={setTimeRange} />
       </div>
 
-      <Tabs defaultValue="dashboard" className="mb-6">
-        <TabsList>
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="alerts">Alerts</TabsTrigger>
-          <TabsTrigger value="analysis">Analysis</TabsTrigger>
+      {/* Enhanced Tabs with Better Styling */}
+      <Tabs defaultValue="dashboard" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:grid-cols-4 bg-muted/50 backdrop-blur-sm">
+          <TabsTrigger value="dashboard" className="flex items-center gap-2">
+            <BarChart3 className="h-4 w-4" />
+            Dashboard
+          </TabsTrigger>
+          <TabsTrigger value="alerts" className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4" />
+            Alerts
+          </TabsTrigger>
+          <TabsTrigger value="analysis" className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4" />
+            Analysis
+          </TabsTrigger>
+          <TabsTrigger value="ai-detection" className="flex items-center gap-2">
+            <Zap className="h-4 w-4" />
+            AI Detection
+          </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="dashboard" className="space-y-6">
-          {/* Attack Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <TabsContent value="dashboard" className="space-y-8">
+          {/* Enhanced Attack Metrics */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {attackMetrics.map((metric, index) => (
-              <MetricsCard
-                key={index}
-                title={metric.name}
-                value={metric.value}
-                icon={metric.icon}
-                className="hover-lift"
-                trend={{
-                  value: metric.change,
-                  isPositive: metric.status === "positive"
-                }}
-              />
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <MetricsCard
+                  title={metric.name}
+                  value={metric.value}
+                  icon={metric.icon}
+                  className="hover:scale-105 transition-all duration-300 border-2 hover:border-primary/30 hover:shadow-lg"
+                  trend={{
+                    value: metric.change,
+                    isPositive: metric.status === "positive"
+                  }}
+                />
+              </div>
             ))}
           </div>
           
-          {/* Main attack visualization section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
+          {/* Enhanced Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-6">
               {selectedAttack ? (
                 <AttackDetailView 
                   attack={selectedAttack} 
@@ -196,56 +229,83 @@ const Detection = () => {
                   onBack={() => setSelectedAttackId(null)}
                 />
               ) : (
-                <Card className="backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50 data-card hover-lift animate-fade-in">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <Target className="h-5 w-5 text-primary" />
-                      Select an attack type to view detailed analysis
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Click on any attack type from the list to view detailed graphs and analysis for that specific attack.
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {sortedAttackTypes.map((attack) => (
+                <Card className="backdrop-blur-lg bg-gradient-to-br from-white/90 to-white/50 dark:from-gray-800/90 dark:to-gray-800/50 border-2 hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
+                  <CardContent className="p-8">
+                    <div className="text-center mb-8">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+                        <Target className="h-8 w-8 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2">
+                        Select Attack Type for Analysis
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        Click on any attack type below to view detailed graphs and analysis
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {sortedAttackTypes.slice(0, 9).map((attack, index) => (
                         <button
                           key={attack.id}
                           onClick={() => setSelectedAttackId(attack.id)}
-                          className="p-4 rounded-lg border border-gray-200 dark:border-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700/30 transition-all duration-300 hover:scale-105 text-left hover-lift shadow-glow group"
+                          className="group p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105 text-left transform hover:shadow-lg"
+                          style={{ animationDelay: `${index * 0.05}s` }}
                         >
-                          <div className="font-medium group-hover:text-primary transition-colors">{attack.name}</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">{attack.value} incidents</div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="font-semibold group-hover:text-primary transition-colors">
+                              {attack.name}
+                            </div>
+                            <Badge variant="secondary" className="text-xs">
+                              {attack.value}
+                            </Badge>
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                            {attack.description}
+                          </div>
                         </button>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
               )}
+              
+              {/* Enhanced Severity Distribution */}
+              <SeverityDistributionChart />
             </div>
-            <div>
+            
+            <div className="space-y-6">
               <AttackChart />
             </div>
           </div>
         </TabsContent>
         
-        <TabsContent value="alerts">
+        <TabsContent value="alerts" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50">
+            <Card className="backdrop-blur-lg bg-gradient-to-br from-red-50/80 to-white/90 dark:from-red-900/20 dark:to-gray-800/50 border-2 border-red-200/50 dark:border-red-800/30">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-4">Critical Alerts</h3>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 rounded-lg bg-red-100 dark:bg-red-900/30">
+                    <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-red-900 dark:text-red-100">Critical Alerts</h3>
+                </div>
                 <div className="space-y-4">
-                  {attackTypes.slice(0, 5).map(attack => (
+                  {attackTypes.slice(0, 5).map((attack, index) => (
                     <div 
                       key={attack.id}
-                      className="p-3 rounded-lg bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800/30 flex items-center justify-between"
+                      className="p-4 rounded-lg bg-white/60 dark:bg-gray-800/60 border border-red-200 dark:border-red-800/30 flex items-center justify-between hover:bg-white dark:hover:bg-gray-800 transition-colors"
+                      style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <div className="flex items-center gap-3">
                         <AlertTriangle className="h-5 w-5 text-red-500" />
                         <div>
                           <p className="font-medium">{attack.name}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">{attack.description}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-1">
+                            {attack.description}
+                          </p>
                         </div>
                       </div>
-                      <Button size="sm" variant="outline" className="h-8">
+                      <Button size="sm" variant="outline" className="h-8 hover:bg-red-50 dark:hover:bg-red-900/20">
+                        <Eye className="h-3 w-3 mr-1" />
                         View
                       </Button>
                     </div>
@@ -254,23 +314,32 @@ const Detection = () => {
               </CardContent>
             </Card>
             
-            <Card className="backdrop-blur-lg bg-white/90 dark:bg-gray-800/20 border border-gray-200 dark:border-gray-700/50">
+            <Card className="backdrop-blur-lg bg-gradient-to-br from-amber-50/80 to-white/90 dark:from-amber-900/20 dark:to-gray-800/50 border-2 border-amber-200/50 dark:border-amber-800/30">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-4">Warning Alerts</h3>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 rounded-lg bg-amber-100 dark:bg-amber-900/30">
+                    <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-amber-900 dark:text-amber-100">Warning Alerts</h3>
+                </div>
                 <div className="space-y-4">
-                  {attackTypes.slice(5, 10).map(attack => (
+                  {attackTypes.slice(5, 10).map((attack, index) => (
                     <div 
                       key={attack.id}
-                      className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/30 flex items-center justify-between"
+                      className="p-4 rounded-lg bg-white/60 dark:bg-gray-800/60 border border-amber-200 dark:border-amber-800/30 flex items-center justify-between hover:bg-white dark:hover:bg-gray-800 transition-colors"
+                      style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <div className="flex items-center gap-3">
                         <AlertTriangle className="h-5 w-5 text-amber-500" />
                         <div>
                           <p className="font-medium">{attack.name}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">{attack.description}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-1">
+                            {attack.description}
+                          </p>
                         </div>
                       </div>
-                      <Button size="sm" variant="outline" className="h-8">
+                      <Button size="sm" variant="outline" className="h-8 hover:bg-amber-50 dark:hover:bg-amber-900/20">
+                        <Eye className="h-3 w-3 mr-1" />
                         View
                       </Button>
                     </div>
@@ -281,22 +350,33 @@ const Detection = () => {
           </div>
         </TabsContent>
         
-        <TabsContent value="analysis">
-          {/* Attack types visualization */}
-          {!selectedAttack && (
-            <>
-              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 animate-fade-in">
-                <LineChart className="h-5 w-5 text-primary" />
-                <span className="dark:text-gradient">Attack Types Analysis</span>
-              </h2>
-              <AttackTypesVisualization />
-            </>
-          )}
+        <TabsContent value="analysis" className="space-y-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+              Attack Analysis Dashboard
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Comprehensive visualization of attack patterns and trends
+            </p>
+          </div>
+          <AttackTypesVisualization />
+        </TabsContent>
+
+        <TabsContent value="ai-detection" className="space-y-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              AI-Powered Threat Detection
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Advanced machine learning algorithms analyzing network behavior
+            </p>
+          </div>
+          <AIThreatDetection />
         </TabsContent>
       </Tabs>
 
-      {/* Attack insights section */}
-      <div className="mt-6">
+      {/* Enhanced Attack insights section */}
+      <div className="mt-12">
         <AttackInsights />
       </div>
     </DashboardLayout>
