@@ -1,4 +1,3 @@
-
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
 import { AttackChart } from "@/components/attack-chart";
@@ -290,10 +289,10 @@ const Index = () => {
                   <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
                     <EnhancedMetricsCard
                       title="Network Status"
-                      value="Stable"
+                      value={98}
                       icon={<Activity className="text-green-500 h-5 w-5" />}
+                      trend={{ value: 2, isPositive: true }}
                       className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-200/50"
-                      animated={false}
                     />
                   </div>
                   <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
