@@ -1,3 +1,4 @@
+
 import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
 import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
 import { AttackChart } from "@/components/attack-chart";
@@ -18,7 +19,7 @@ import { MetricsSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton"
 import { Skeleton } from "@/components/ui/skeleton";
 import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
 import { useNotifications } from "@/components/notification-provider";
-import { WidgetManager } from "@/components/widget-manager";
+import { WidgetManager, type WidgetType } from "@/components/widget-manager";
 import { AIThreatDetection } from "@/components/ai-threat-detection";
 import { TypographyH1, TypographyLead } from "@/components/ui/typography";
 import { EnhancedCard } from "@/components/ui/enhanced-card";
@@ -262,46 +263,54 @@ const Index = () => {
             <TabsTrigger value="widgets" className="rounded-lg">Widgets</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="overview">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <TabsContent value="overview" className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {isLoading ? (
                 <MetricsSkeleton />
               ) : (
                 <>
-                  <EnhancedMetricsCard
-                    title="Total Attacks"
-                    value={1234}
-                    icon={<Shield className="text-blue-500 h-5 w-5" />}
-                    trend={{ value: 12, isPositive: false }}
-                    className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200/50"
-                  />
-                  <EnhancedMetricsCard
-                    title="Critical Threats"
-                    value={23}
-                    icon={<AlertTriangle className="text-red-500 h-5 w-5" />}
-                    trend={{ value: 5, isPositive: false }}
-                    className="bg-gradient-to-br from-red-500/10 to-red-600/5 border-red-200/50"
-                  />
-                  <EnhancedMetricsCard
-                    title="Network Status"
-                    value="Stable"
-                    icon={<Activity className="text-green-500 h-5 w-5" />}
-                    className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-200/50"
-                    animated={false}
-                  />
-                  <EnhancedMetricsCard
-                    title="Protected Systems"
-                    value={156}
-                    icon={<Database className="text-purple-500 h-5 w-5" />}
-                    trend={{ value: 3, isPositive: true }}
-                    className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200/50"
-                  />
+                  <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                    <EnhancedMetricsCard
+                      title="Total Attacks"
+                      value={1234}
+                      icon={<Shield className="text-blue-500 h-5 w-5" />}
+                      trend={{ value: 12, isPositive: false }}
+                      className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200/50"
+                    />
+                  </div>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <EnhancedMetricsCard
+                      title="Critical Threats"
+                      value={23}
+                      icon={<AlertTriangle className="text-red-500 h-5 w-5" />}
+                      trend={{ value: 5, isPositive: false }}
+                      className="bg-gradient-to-br from-red-500/10 to-red-600/5 border-red-200/50"
+                    />
+                  </div>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                    <EnhancedMetricsCard
+                      title="Network Status"
+                      value="Stable"
+                      icon={<Activity className="text-green-500 h-5 w-5" />}
+                      className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-200/50"
+                      animated={false}
+                    />
+                  </div>
+                  <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                    <EnhancedMetricsCard
+                      title="Protected Systems"
+                      value={156}
+                      icon={<Database className="text-purple-500 h-5 w-5" />}
+                      trend={{ value: 3, isPositive: true }}
+                      className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200/50"
+                    />
+                  </div>
                 </>
               )}
             </div>
 
-            {/* New Attack Trends Visualization */}
-            <div className="mb-8">
+            {/* Attack Trends Visualization */}
+            <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
               {isLoading ? (
                 <EnhancedCard className="h-[400px]">
                   <CardSkeleton />
@@ -311,8 +320,8 @@ const Index = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-              <div className="lg:col-span-2">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 animate-fade-in" style={{ animationDelay: '0.6s' }}>
                 {isLoading ? (
                   <EnhancedCard className="h-[400px]">
                     <CardSkeleton />
@@ -321,36 +330,41 @@ const Index = () => {
                   <LiveTrafficGraph />
                 )}
               </div>
-              {isLoading ? (
-                <EnhancedCard className="h-[400px]">
-                  <CardSkeleton />
-                </EnhancedCard>
-              ) : (
-                <SecurityScore score={78} />
-              )}
+              <div className="animate-fade-in" style={{ animationDelay: '0.7s' }}>
+                {isLoading ? (
+                  <EnhancedCard className="h-[400px]">
+                    <CardSkeleton />
+                  </EnhancedCard>
+                ) : (
+                  <SecurityScore score={78} />
+                )}
+              </div>
             </div>
 
             {/* Enhanced Attack Analysis */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
-              {isLoading ? (
-                <>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
+                {isLoading ? (
                   <EnhancedCard className="h-[400px]">
                     <CardSkeleton />
                   </EnhancedCard>
-                  <EnhancedCard className="h-[400px]">
-                    <CardSkeleton />
-                  </EnhancedCard>
-                </>
-              ) : (
-                <>
+                ) : (
                   <SeverityDistributionChart />
+                )}
+              </div>
+              <div className="animate-fade-in" style={{ animationDelay: '0.9s' }}>
+                {isLoading ? (
+                  <EnhancedCard className="h-[400px]">
+                    <CardSkeleton />
+                  </EnhancedCard>
+                ) : (
                   <EnhancedAttackLog />
-                </>
-              )}
+                )}
+              </div>
             </div>
             
             {!isLoading && (
-              <div className="mb-8">
+              <div className="animate-fade-in" style={{ animationDelay: '1.0s' }}>
                 <SecurityTrendsChart />
               </div>
             )}
