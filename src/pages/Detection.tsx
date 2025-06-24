@@ -1,11 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { AttackTypesVisualization } from "@/components/attack-types-visualization";
 import { AttackInsights } from "@/components/attack-insights";
 import { AttackChart } from "@/components/attack-chart";
 import { AIThreatDetection } from "@/components/ai-threat/ai-threat-detection";
-import { SeverityDistributionChart } from "@/components/severity-distribution-chart";
 import { Shield, AlertTriangle, Clock, LineChart, Filter, BarChart3, ArrowUpDown, Download, Target, TrendingUp, Eye, Zap, Activity } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AttackDetailView } from "@/components/attack-detail-view";
@@ -267,9 +265,6 @@ const Detection = () => {
                   </CardContent>
                 </Card>
               )}
-              
-              {/* Enhanced Severity Distribution */}
-              <SeverityDistributionChart />
             </div>
             
             <div className="space-y-6">
