@@ -10,6 +10,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 export interface WidgetProps {
   id: string;
@@ -43,47 +44,53 @@ export function WidgetContainer({
 
   return (
     <Card 
-      className={`
-        ${sizeClasses[size]} 
-        backdrop-blur-lg border 
-        overflow-hidden relative transition-all duration-300
-        ${isDarkMode 
-          ? "bg-gray-900/50 border-gray-700/50 text-gray-100 hover:bg-gray-900/60 hover:border-gray-600/50" 
-          : "bg-white/90 border-gray-200 text-gray-800 hover:bg-white hover:border-gray-300/80"}
-        ${className}
-      `}
+      className={cn(
+        sizeClasses[size],
+        "card-modern overflow-hidden relative group",
+        "hover:shadow-lg transition-all duration-500",
+        className
+      )}
     >
-      <div className="flex items-center justify-between p-4 border-b dark:border-gray-700/50 border-gray-200">
-        <h3 className="font-medium">{title}</h3>
-        <div className="flex items-center space-x-1">
+      <div className="flex items-center justify-between p-6 border-b border-border/50 bg-gradient-to-r from-card to-card/50">
+        <h3 className="font-semibold text-lg text-foreground">{title}</h3>
+        <div className="flex items-center space-x-2 opacity-60 group-hover:opacity-100 transition-opacity">
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-9 w-9 hover:bg-primary/10 hover:text-primary transition-colors"
             onClick={() => setIsMinimized(!isMinimized)}
           >
-            {isMinimized ? <Maximize2 size={16} /> : <Minimize2 size={16} />}
+            {isMinimized ? <Maximize2 size={18} /> : <Minimize2 size={18} />}
           </Button>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreVertical size={16} />
+              <Button variant="ghost" size="icon" className="h-9 w-9 hover:bg-primary/10 hover:text-primary transition-colors">
+                <MoreVertical size={18} />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setSize('small')}>
-                Small
+            <DropdownMenuContent align="end" className="card-glass border-border/50">
+              <DropdownMenuItem 
+                onClick={() => setSize('small')}
+                className="cursor-pointer hover:bg-primary/10 hover:text-primary"
+              >
+                Small Size
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSize('medium')}>
-                Medium
+              <DropdownMenuItem 
+                onClick={() => setSize('medium')}
+                className="cursor-pointer hover:bg-primary/10 hover:text-primary"
+              >
+                Medium Size
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSize('large')}>
-                Large
+              <DropdownMenuItem 
+                onClick={() => setSize('large')}
+                className="cursor-pointer hover:bg-primary/10 hover:text-primary"
+              >
+                Large Size
               </DropdownMenuItem>
               {onRemove && (
                 <DropdownMenuItem 
-                  className="text-red-500 dark:text-red-400"
+                  className="text-destructive hover:bg-destructive/10 cursor-pointer"
                   onClick={() => onRemove(id)}
                 >
                   Remove Widget
@@ -94,13 +101,19 @@ export function WidgetContainer({
         </div>
       </div>
       
-      <div className={`p-4 ${contentHeight} transition-all duration-300`}>
+      <div className={cn(
+        "p-6 transition-all duration-300",
+        isMinimized ? "h-0 overflow-hidden p-0" : "h-auto"
+      )}>
         {children}
       </div>
       
-      {/* Background decoration elements */}
-      <div className="absolute -right-12 -top-12 w-24 h-24 rounded-full bg-primary/5 group-hover:bg-primary/10 transition-all duration-500"></div>
-      <div className="absolute -left-16 -bottom-16 w-32 h-32 rounded-full bg-primary/5 opacity-50 transition-all duration-700"></div>
+      {/* Enhanced background decoration elements */}
+      <div className="absolute -right-8 -top-8 w-16 h-16 rounded-full bg-primary/5 group-hover:bg-primary/10 transition-all duration-500 blur-xl"></div>
+      <div className="absolute -left-12 -bottom-12 w-24 h-24 rounded-full bg-secondary/5 opacity-30 group-hover:opacity-50 transition-all duration-700 blur-2xl"></div>
+      
+      {/* Subtle border glow on hover */}
+      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
     </Card>
   );
 }

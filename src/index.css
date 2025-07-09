@@ -6,31 +6,38 @@
 @tailwind utilities;
  
 @layer base {
-  /* Dark mode (default) */
+  /* Dark mode (default) - Enhanced with gradients */
   :root, .dark-mode {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 240 10% 6%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 240 10% 6%;
     --popover-foreground: 0 0% 98%;
-    --primary: 24 100% 50%;
+    --primary: 24 100% 55%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 39%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --accent: 240 4% 16%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 24 100% 50%;
+    --ring: 24 100% 55%;
     --radius: 0.75rem;
+    
+    /* Enhanced color palette */
+    --primary-glow: 24 100% 60%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(240 10% 8%));
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
   }
 
-  /* Light mode - updated with fresh, airy colors */
+  /* Light mode - enhanced with modern aesthetics */
   .light-mode {
     --background: 210 40% 98%;
     --foreground: 222 47% 11%;
@@ -38,7 +45,7 @@
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 24 100% 50%;
+    --primary: 24 100% 55%;
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
@@ -50,7 +57,14 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 24 100% 50%;
+    --ring: 24 100% 55%;
+    
+    /* Enhanced color palette */
+    --primary-glow: 24 100% 60%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(210 40% 99%));
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.2);
   }
 
   * {
@@ -124,7 +138,7 @@
   background-size: 20px 20px;
 }
 
-/* Utility classes */
+  /* Utility classes */
 @layer utilities {
   .backdrop-blur-md {
     backdrop-filter: blur(12px);
@@ -134,9 +148,41 @@
     backdrop-filter: blur(16px);
   }
   
+  .backdrop-blur-xl {
+    backdrop-filter: blur(24px);
+  }
+  
+  /* Enhanced cards */
+  .card-modern {
+    background: var(--gradient-card);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: var(--shadow-elegant);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .card-modern:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+  
+  .card-glass {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--border) / 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .card-glass:hover {
+    background: hsl(var(--card) / 0.8);
+    border-color: hsl(var(--primary) / 0.3);
+  }
+  
   /* Typography and text effects */
   .heading-gradient {
-    @apply bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent;
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
   
   .heading-gradient-subtle {

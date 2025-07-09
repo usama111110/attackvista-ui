@@ -56,14 +56,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className={cn(
       "min-h-screen flex animate-fade-in transition-colors duration-300",
       isDarkMode 
-        ? "bg-gradient-to-br from-background via-muted/20 to-background text-foreground" 
-        : "bg-gradient-to-br from-blue-50/30 via-background to-slate-50/50 text-foreground"
+        ? "bg-gradient-to-br from-background via-background/50 to-muted/10 text-foreground" 
+        : "bg-gradient-to-br from-slate-50 via-blue-50/30 to-white text-foreground"
     )}>
       <aside 
         className={cn(
           sidebarWidth,
           "border-r transition-all duration-500 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50",
-          "border-border/50 bg-background/80 backdrop-blur-xl shadow-lg"
+          "border-border/30 bg-card/90 backdrop-blur-xl shadow-2xl",
+          "shadow-primary/10"
         )}
       >
         <div className="flex-1 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-muted">
@@ -80,15 +81,21 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </button>
       </aside>
-      <main className={cn(contentWidth, "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted p-6 lg:px-8 relative")}>
+      <main className={cn(
+        contentWidth, 
+        "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted p-6 lg:px-8 relative",
+        "bg-gradient-to-b from-transparent to-muted/5"
+      )}>
         {/* Modern dashboard header */}
         <ModernDashboardHeader />
         
-        <div className="max-w-7xl mx-auto pt-20">
+        <div className="max-w-7xl mx-auto pt-20 space-y-6">
           {/* Add breadcrumb navigation at the top of the content area */}
           <BreadcrumbNavigation />
           
-          {children}
+          <div className="animate-fade-in">
+            {children}
+          </div>
         </div>
       </main>
     </div>

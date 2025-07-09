@@ -25,6 +25,7 @@ import { EnhancedCard } from "@/components/ui/enhanced-card";
 import { AttackTrendsChart } from "@/components/attack-trends-chart";
 import { SeverityDistributionChart } from "@/components/severity-distribution-chart";
 import { EnhancedAttackLog } from "@/components/enhanced-attack-log";
+import { cn } from "@/lib/utils";
 
 // Example attack data
 const attackData = [
@@ -195,57 +196,73 @@ const Index = () => {
     <DashboardLayout>
       <div className="space-y-8 animate-fade-in">
         <header className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <div>
-              <TypographyH1 className="mb-2">Security Dashboard</TypographyH1>
-              <TypographyLead>Real-time network security monitoring with AI-powered insights</TypographyLead>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div className="space-y-3">
+              <TypographyH1 className="heading-gradient text-4xl font-bold tracking-tight">
+                Security Dashboard
+              </TypographyH1>
+              <TypographyLead className="text-lg text-muted-foreground max-w-2xl">
+                Real-time network security monitoring with AI-powered insights and advanced threat detection
+              </TypographyLead>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-1.5 rounded-full border">
-                <Loader2 size={14} className={`${isRefreshing ? 'animate-spin' : ''} text-primary`} />
-                <span>Live monitoring active</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-sm bg-primary/10 text-primary px-4 py-2 rounded-full border border-primary/20 backdrop-blur-sm">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                <span className="font-medium">Live monitoring active</span>
               </div>
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="gap-1 hover:scale-105 transition-transform"
+                className="gap-2 hover:scale-105 transition-all card-glass border-primary/20 hover:border-primary/40"
                 onClick={refreshData}
               >
-                <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
-                Refresh
+                <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
+                Refresh Data
               </Button>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            <Calendar size={16} className="text-primary" />
-            <span className="text-sm font-medium mr-2">Time Period:</span>
-            {timePeriods.map((period) => (
-              <Button
-                key={period.value}
-                variant={timeFilter === period.value ? "default" : "outline"}
-                size="sm"
-                onClick={() => setTimeFilter(period.value)}
-                className="text-xs h-8 transition-all hover:scale-105"
-              >
-                {period.label}
-              </Button>
-            ))}
+          <div className="flex flex-wrap items-center gap-3 mb-8 p-4 card-glass rounded-xl">
+            <div className="flex items-center gap-2 text-primary">
+              <Calendar size={18} />
+              <span className="font-semibold">Time Period:</span>
+            </div>
+            <div className="flex gap-2">
+              {timePeriods.map((period) => (
+                <Button
+                  key={period.value}
+                  variant={timeFilter === period.value ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setTimeFilter(period.value)}
+                  className={cn(
+                    "h-9 px-4 text-sm font-medium transition-all hover:scale-105",
+                    timeFilter === period.value 
+                      ? "bg-primary text-white shadow-lg" 
+                      : "hover:bg-primary/10 hover:text-primary"
+                  )}
+                >
+                  {period.label}
+                </Button>
+              ))}
+            </div>
           </div>
 
-          <div className="mb-6 relative w-full md:w-1/2 lg:w-1/3">
+          <div className="mb-8 relative w-full md:w-1/2 lg:w-2/5">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-primary h-5 w-5" />
               <Input
                 placeholder="Search attacks, IPs, threats..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-muted/30 border-0 focus:bg-background/50 transition-colors"
+                className={cn(
+                  "pl-12 pr-10 h-12 text-base card-glass border-primary/20 focus:border-primary/40",
+                  "placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/20"
+                )}
               />
               {searchQuery && (
                 <button 
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors w-5 h-5 flex items-center justify-center"
                 >
                   ×
                 </button>
@@ -254,15 +271,23 @@ const Index = () => {
           </div>
         </header>
 
-        <Tabs defaultValue="overview" className="mb-8">
-          <TabsList className="mb-6 p-1 bg-muted/50 rounded-xl">
-            <TabsTrigger value="overview" className="rounded-lg">Overview</TabsTrigger>
-            <TabsTrigger value="performance" className="rounded-lg">Performance</TabsTrigger>
-            <TabsTrigger value="threats" className="rounded-lg">Threats</TabsTrigger>
-            <TabsTrigger value="widgets" className="rounded-lg">Widgets</TabsTrigger>
+        <Tabs defaultValue="overview" className="mb-10">
+          <TabsList className="mb-8 p-1.5 card-glass rounded-2xl h-auto shadow-lg">
+            <TabsTrigger value="overview" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="performance" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+              Performance
+            </TabsTrigger>
+            <TabsTrigger value="threats" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+              Threats
+            </TabsTrigger>
+            <TabsTrigger value="widgets" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+              Widgets
+            </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="overview" className="space-y-8">
+          <TabsContent value="overview" className="space-y-10">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {isLoading ? (
                 <MetricsSkeleton />
@@ -272,36 +297,36 @@ const Index = () => {
                     <EnhancedMetricsCard
                       title="Total Attacks"
                       value={1234}
-                      icon={<Shield className="text-blue-500 h-5 w-5" />}
+                      icon={<Shield className="text-blue-500 h-6 w-6" />}
                       trend={{ value: 12, isPositive: false }}
-                      className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-200/50"
+                      className="card-modern bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border-blue-200/30 hover:border-blue-300/50"
                     />
                   </div>
                   <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
                     <EnhancedMetricsCard
                       title="Critical Threats"
                       value={23}
-                      icon={<AlertTriangle className="text-red-500 h-5 w-5" />}
+                      icon={<AlertTriangle className="text-red-500 h-6 w-6" />}
                       trend={{ value: 5, isPositive: false }}
-                      className="bg-gradient-to-br from-red-500/10 to-red-600/5 border-red-200/50"
+                      className="card-modern bg-gradient-to-br from-red-500/10 via-red-500/5 to-transparent border-red-200/30 hover:border-red-300/50"
                     />
                   </div>
                   <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
                     <EnhancedMetricsCard
                       title="Network Status"
                       value={98}
-                      icon={<Activity className="text-green-500 h-5 w-5" />}
+                      icon={<Activity className="text-green-500 h-6 w-6" />}
                       trend={{ value: 2, isPositive: true }}
-                      className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-200/50"
+                      className="card-modern bg-gradient-to-br from-green-500/10 via-green-500/5 to-transparent border-green-200/30 hover:border-green-300/50"
                     />
                   </div>
                   <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
                     <EnhancedMetricsCard
                       title="Protected Systems"
                       value={156}
-                      icon={<Database className="text-purple-500 h-5 w-5" />}
+                      icon={<Database className="text-purple-500 h-6 w-6" />}
                       trend={{ value: 3, isPositive: true }}
-                      className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-200/50"
+                      className="card-modern bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-transparent border-purple-200/30 hover:border-purple-300/50"
                     />
                   </div>
                 </>
