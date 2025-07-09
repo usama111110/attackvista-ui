@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { NotificationProvider } from "@/components/notification-provider";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import Pricing from "./pages/Pricing";
 import Users from "./pages/Users";
 import Organizations from "./pages/Organizations";
 import LiveTraffic from "./pages/LiveTraffic";
@@ -32,6 +33,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/pricing" element={<Pricing />} />
               <Route path="/" element={<Index />} />
               <Route path="/detection" element={<Detection />} />
               <Route path="/network" element={<Network />} />

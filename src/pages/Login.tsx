@@ -312,8 +312,23 @@ const Login = () => {
             </div>
           </div>
           
-          {/* Footer with animation */}
+          {/* Pricing button */}
           <div className="text-center mt-8 animate-fade-in" style={{ animationDelay: '1.6s' }}>
+            <button
+              onClick={() => navigate("/pricing")}
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 mb-4 ${
+                isDarkMode 
+                  ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700' 
+                  : 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700'
+              } shadow-lg hover:shadow-xl`}
+            >
+              <Sparkles className="w-4 h-4" />
+              View Pricing Plans
+            </button>
+          </div>
+          
+          {/* Footer with animation */}
+          <div className="text-center animate-fade-in" style={{ animationDelay: '1.8s' }}>
             <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
               © 2024 NetworkFort. Secure by design.
             </p>
