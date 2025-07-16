@@ -25,6 +25,7 @@ import { EnhancedCard } from "@/components/ui/enhanced-card";
 import { AttackTrendsChart } from "@/components/attack-trends-chart";
 import { SeverityDistributionChart } from "@/components/severity-distribution-chart";
 import { EnhancedAttackLog } from "@/components/enhanced-attack-log";
+import { useUserStore } from "@/utils/userDatabase";
 import { cn } from "@/lib/utils";
 
 // Example attack data
@@ -48,6 +49,7 @@ const Index = () => {
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
   const { pushNotification } = useNotifications();
+  const { currentUser } = useUserStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [timeFilter, setTimeFilter] = useState("today");
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -195,21 +197,34 @@ const Index = () => {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-fade-in">
-        <header className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        {/* Welcome Section */}
+        <div className="relative overflow-hidden p-8 rounded-2xl border border-border/20 bg-gradient-to-br from-card/80 via-card/60 to-background/40 backdrop-blur-xl mb-8">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl" />
+          
+          <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="space-y-3">
-              <TypographyH1 className="heading-gradient text-4xl font-bold tracking-tight">
-                Security Dashboard
-              </TypographyH1>
-              <TypographyLead className="text-lg text-muted-foreground max-w-2xl">
-                Real-time network security monitoring with AI-powered insights and advanced threat detection
-              </TypographyLead>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-sm bg-primary/10 text-primary px-4 py-2 rounded-full border border-primary/20 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                <span className="font-medium">Live monitoring active</span>
+              <div className="flex items-center space-x-3">
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shadow-lg">
+                  <Shield className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
+                    Welcome back, {currentUser?.name || 'Security Admin'}
+                  </h1>
+                  <p className="text-muted-foreground text-lg">
+                    Your security dashboard is ready. Monitor threats and manage your network security.
+                  </p>
+                </div>
               </div>
+            </div>
+            <div className="flex items-center space-x-6">
+              <div className="text-right space-y-1">
+                <div className="text-sm text-muted-foreground">Last updated</div>
+                <div className="text-xl font-semibold text-foreground">{new Date().toLocaleTimeString()}</div>
+                <div className="text-xs text-primary">Live monitoring active</div>
+              </div>
+              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -221,8 +236,11 @@ const Index = () => {
               </Button>
             </div>
           </div>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-3 mb-8 p-4 card-glass rounded-xl">
+        {/* Filters and Search */}
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-center gap-3 p-4 card-glass rounded-xl border border-border/20">
             <div className="flex items-center gap-2 text-primary">
               <Calendar size={18} />
               <span className="font-semibold">Time Period:</span>
@@ -269,7 +287,7 @@ const Index = () => {
               )}
             </div>
           </div>
-        </header>
+        </div>
 
         <Tabs defaultValue="overview" className="mb-10">
           <TabsList className="mb-8 p-1.5 card-glass rounded-2xl h-auto shadow-lg">

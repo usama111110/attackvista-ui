@@ -62,10 +62,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <aside 
         className={cn(
           sidebarWidth,
-          "border-r transition-all duration-500 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50",
-          "border-border/30 bg-card/90 backdrop-blur-xl shadow-2xl",
-          "shadow-primary/10"
+          "border-r transition-all duration-700 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50",
+          "backdrop-blur-2xl shadow-2xl border-border/20",
+          "shadow-primary/5",
+          isDarkMode 
+            ? "bg-gradient-to-b from-background/98 via-background/95 to-card/95" 
+            : "bg-gradient-to-b from-background/98 via-background/95 to-card/90"
         )}
+        style={{
+          background: isDarkMode 
+            ? 'linear-gradient(180deg, hsl(222 84% 4.9% / 0.98), hsl(222 84% 5.9% / 0.95))' 
+            : 'linear-gradient(180deg, hsl(210 40% 98% / 0.98), hsl(var(--card) / 0.90))'
+        }}
       >
         <div className="flex-1 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-muted">
           <MainNav collapsed={collapsed} />
@@ -83,17 +91,19 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
       <main className={cn(
         contentWidth, 
-        "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted p-6 lg:px-8 relative",
-        "bg-gradient-to-b from-transparent to-muted/5"
+        "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted relative transition-all duration-500",
+        "bg-gradient-to-br from-background via-background/80 to-muted/5"
       )}>
         {/* Modern dashboard header */}
         <ModernDashboardHeader />
         
-        <div className="max-w-7xl mx-auto pt-20 space-y-6">
+        <div className="max-w-7xl mx-auto pt-20 px-6 lg:px-8 space-y-8">
           {/* Add breadcrumb navigation at the top of the content area */}
-          <BreadcrumbNavigation />
+          <div className="animate-slide-down">
+            <BreadcrumbNavigation />
+          </div>
           
-          <div className="animate-fade-in">
+          <div className="animate-fade-in space-y-6">
             {children}
           </div>
         </div>
