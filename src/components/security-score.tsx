@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Shield, AlertTriangle, ArrowRight, Lock, CheckCircle } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
+import { cn } from "@/lib/utils";
 
 interface SecurityScoreProps {
   score: number;
@@ -77,9 +78,10 @@ export function SecurityScore({ score }: SecurityScoreProps) {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (animatedScore / 100) * circumference;
 
-  const cardClassName = isDarkMode
-    ? "p-6 backdrop-blur-xl bg-gray-900/60 border border-gray-700/50 h-[400px] hover:bg-gray-900/70 hover:border-gray-600/60 transition-all duration-500"
-    : "p-6 backdrop-blur-xl bg-white/90 border border-gray-200 h-[400px] hover:bg-white hover:border-gray-300 transition-all duration-500";
+  const cardClassName = cn(
+    "p-6 backdrop-blur-xl border h-[400px] transition-all duration-500",
+    "bg-card/80 border-border/50 hover:bg-card/90 hover:border-border/60"
+  );
 
   return (
     <Card 
@@ -96,9 +98,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
           }`} 
           size={22} 
         />
-        <h3 className={`text-xl font-bold ${
-          isDarkMode ? "bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-transparent" : "text-gray-800"
-        }`}>
+        <h3 className="text-xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
           Security Score
         </h3>
       </div>
@@ -117,7 +117,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
             cy={size / 2}
             r={radius}
             fill="transparent"
-            stroke={isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}
+            stroke={isDarkMode ? "hsl(var(--muted) / 0.1)" : "hsl(var(--muted) / 0.2)"}
             strokeWidth={strokeWidth}
             className={`${isHovered ? 'animate-pulse' : ''}`}
           />
@@ -166,7 +166,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
                 cx={x}
                 cy={y}
                 r={4}
-                fill={isActive ? color : isDarkMode ? "#374151" : "#E5E7EB"}
+                fill={isActive ? color : "hsl(var(--muted))"}
                 className={`transition-all duration-300 ${
                   isActive && isHovered ? 'animate-pulse' : ''
                 }`}
@@ -177,16 +177,17 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         
         {/* Score text with animation */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className={`text-5xl font-bold transition-all duration-300 ${
+          <div className={cn(
+            "text-5xl font-bold transition-all duration-300 text-foreground",
             isHovered ? 'scale-110' : ''
-          } ${isDarkMode ? "text-white" : "text-gray-800"}`}>
+          )}>
             {animatedScore}
           </div>
-          <div className={`text-sm mt-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>out of 100</div>
+          <div className="text-sm mt-1 text-muted-foreground">out of 100</div>
         </div>
       </div>
       
-      <div className={`flex items-center gap-2 mt-6 text-lg font-medium ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
+      <div className="flex items-center gap-2 mt-6 text-lg font-medium text-foreground">
         <span>Rating:</span> 
         <div className="flex items-center gap-1">
           {icon}
@@ -194,7 +195,7 @@ export function SecurityScore({ score }: SecurityScoreProps) {
         </div>
       </div>
       
-      <p className={`text-sm mt-2 text-center ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+      <p className="text-sm mt-2 text-center text-muted-foreground">
         {details}
       </p>
       
@@ -208,9 +209,10 @@ export function SecurityScore({ score }: SecurityScoreProps) {
       </button>
       
       {/* Security verification badge */}
-      <div className={`mt-4 flex items-center gap-1.5 text-xs ${
-        isDarkMode ? "text-gray-400" : "text-gray-500"
-      } transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-70'}`}>
+      <div className={cn(
+        "mt-4 flex items-center gap-1.5 text-xs text-muted-foreground transition-opacity duration-300",
+        isHovered ? 'opacity-100' : 'opacity-70'
+      )}>
         <CheckCircle size={12} className="text-primary" />
         <span>Verified by SecureSentry™</span>
       </div>

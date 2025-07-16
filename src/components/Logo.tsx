@@ -22,13 +22,13 @@ export const Logo = ({ size = "md", showText = true }: LogoProps) => {
     <div className="flex items-center gap-3">
       <div className="relative flex items-center justify-center">
         <div className="absolute inset-0 bg-primary rounded-full opacity-20 animate-pulse"></div>
-        <div className="relative bg-gradient-to-br from-primary to-primary/70 text-white rounded-full p-2 shadow-lg">
+        <div className="relative bg-gradient-to-br from-primary to-primary/70 text-primary-foreground rounded-full p-2 shadow-lg">
           <Shield className={iconClass} strokeWidth={1.5} />
         </div>
       </div>
       
       {showText && (
-        <div className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        <div className="font-bold text-xl text-foreground">
           NetworkFort
         </div>
       )}
