@@ -343,7 +343,7 @@
   }
 
   .bg-indigo-50\/30 {
-    @apply bg-primary/3;
+    @apply bg-primary/5;
   }
 
   .bg-indigo-100 {
