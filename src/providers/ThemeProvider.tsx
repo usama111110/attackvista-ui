@@ -117,8 +117,27 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     
     // Update CSS variables for the theme
     if (theme) {
-      document.documentElement.style.setProperty('--color-primary', `var(--${theme.primary.replace('bg-', '')})`);
-      document.documentElement.style.setProperty('--color-accent', `var(--${theme.accent.replace('bg-', '')})`);
+      // Map theme colors to HSL values
+      const colorMap: Record<string, string> = {
+        'bg-indigo-500': '24 100% 55%',
+        'bg-blue-500': '217 91% 60%',
+        'bg-green-600': '142 71% 45%',
+        'bg-orange-500': '25 95% 53%',
+        'bg-pink-500': '330 81% 60%',
+        'bg-slate-600': '215 25% 27%',
+        'bg-purple-500': '271 81% 56%',
+        'bg-cyan-500': '188 86% 53%',
+        'bg-emerald-500': '160 84% 39%',
+        'bg-amber-500': '43 96% 56%',
+        'bg-rose-500': '330 81% 60%',
+        'bg-gray-500': '220 14% 46%',
+      };
+      
+      const primaryHsl = colorMap[theme.primary] || '24 100% 55%';
+      const accentHsl = colorMap[theme.accent] || '24 100% 55%';
+      
+      document.documentElement.style.setProperty('--color-primary', primaryHsl);
+      document.documentElement.style.setProperty('--color-accent', accentHsl);
       
       toast(`Color theme changed to ${theme.name}`, {
         description: `Your interface colors have been updated`,
@@ -154,8 +173,27 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   // Apply color theme if available
   useEffect(() => {
     if (colorTheme) {
-      document.documentElement.style.setProperty('--color-primary', `var(--${colorTheme.primary.replace('bg-', '')})`);
-      document.documentElement.style.setProperty('--color-accent', `var(--${colorTheme.accent.replace('bg-', '')})`);
+      // Map theme colors to HSL values
+      const colorMap: Record<string, string> = {
+        'bg-indigo-500': '24 100% 55%',
+        'bg-blue-500': '217 91% 60%',
+        'bg-green-600': '142 71% 45%',
+        'bg-orange-500': '25 95% 53%',
+        'bg-pink-500': '330 81% 60%',
+        'bg-slate-600': '215 25% 27%',
+        'bg-purple-500': '271 81% 56%',
+        'bg-cyan-500': '188 86% 53%',
+        'bg-emerald-500': '160 84% 39%',
+        'bg-amber-500': '43 96% 56%',
+        'bg-rose-500': '330 81% 60%',
+        'bg-gray-500': '220 14% 46%',
+      };
+      
+      const primaryHsl = colorMap[colorTheme.primary] || '24 100% 55%';
+      const accentHsl = colorMap[colorTheme.accent] || '24 100% 55%';
+      
+      document.documentElement.style.setProperty('--color-primary', primaryHsl);
+      document.documentElement.style.setProperty('--color-accent', accentHsl);
     }
   }, [colorTheme]);
 

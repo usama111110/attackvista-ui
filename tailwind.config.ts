@@ -26,50 +26,32 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#FF7B00", // Orange from the logo
-          foreground: "#FFFFFF",
-          50: "#FFF8EC",
-          100: "#FFEDD2",
-          200: "#FFD592",
-          300: "#FFBA5C",
-          400: "#FFA532",
-          500: "#FF7B00",
-          600: "#DC6A00",
-          700: "#B85800",
-          800: "#8C4200",
-          900: "#5C2C00",
-          950: "#2D1600",
+          DEFAULT: "hsl(var(--color-primary, var(--primary)))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#646464", // Gray from the logo
-          foreground: "#FFFFFF",
-          50: "#F9F9F9",
-          100: "#F3F3F3",
-          200: "#E6E6E6",
-          300: "#D9D9D9",
-          400: "#B3B3B3",
-          500: "#808080",
-          600: "#646464",
-          700: "#4D4D4D",
-          800: "#333333",
-          900: "#1A1A1A",
-          950: "#0D0D0D",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "#F43F5E",
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
+          DEFAULT: "hsl(var(--color-accent, var(--accent)))",
           foreground: "hsl(var(--accent-foreground))",
         },
         card: {
-          DEFAULT: "rgba(255, 255, 255, 0.05)",
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         success: {
           DEFAULT: "#10B981", // Green
