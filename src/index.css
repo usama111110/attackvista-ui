@@ -298,6 +298,66 @@
     @apply bg-card;
   }
 
+  .bg-gray-800\/20 {
+    @apply bg-muted/20;
+  }
+
+  .bg-gray-800\/50 {
+    @apply bg-muted/50;
+  }
+
+  .bg-gray-900\/50 {
+    @apply bg-card/50;
+  }
+
+  .bg-gray-700\/50 {
+    @apply bg-muted/50;
+  }
+
+  .border-gray-200 {
+    @apply border-border;
+  }
+
+  .border-gray-700 {
+    @apply border-border;
+  }
+
+  .border-gray-700\/50 {
+    @apply border-border/50;
+  }
+
+  .border-gray-700\/30 {
+    @apply border-border/30;
+  }
+
+  .bg-white\/90 {
+    @apply bg-background/90;
+  }
+
+  .bg-indigo-50 {
+    @apply bg-primary/5;
+  }
+
+  .bg-indigo-50\/50 {
+    @apply bg-primary/5;
+  }
+
+  .bg-indigo-50\/30 {
+    @apply bg-primary/3;
+  }
+
+  .bg-indigo-100 {
+    @apply bg-primary/10;
+  }
+
+  .border-indigo-100 {
+    @apply border-primary/20;
+  }
+
+  .border-indigo-200 {
+    @apply border-primary/30;
+  }
+
   /* Fix missing text in light mode for specific components with dark backgrounds */
   .light-mode .bg-gray-800\/20,
   .light-mode .bg-gray-800\/50,
