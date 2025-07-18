@@ -54,11 +54,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className={cn(
-      "min-h-screen flex animate-fade-in transition-colors duration-300",
+      "min-h-screen flex animate-fade-in transition-colors duration-300 relative",
       isDarkMode 
-        ? "bg-gradient-to-br from-background via-background/50 to-muted/10 text-foreground" 
+        ? "bg-background text-foreground" 
         : "bg-gradient-to-br from-slate-50 via-blue-50/30 to-white text-foreground"
     )}>
+      {/* Geometric background pattern */}
+      {isDarkMode && (
+        <div className="fixed inset-0 bg-geometric-pattern opacity-80 pointer-events-none z-0" />
+      )}
       <aside 
         className={cn(
           sidebarWidth,
@@ -91,8 +95,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
       <main className={cn(
         contentWidth, 
-        "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted relative transition-all duration-500",
-        "bg-gradient-to-br from-background via-background/80 to-muted/5"
+        "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted relative transition-all duration-500 z-10"
       )}>
         {/* Modern dashboard header */}
         <ModernDashboardHeader />

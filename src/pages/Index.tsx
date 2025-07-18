@@ -197,43 +197,39 @@ const Index = () => {
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-fade-in">
-        {/* Welcome Section */}
-        <div className="relative overflow-hidden p-8 rounded-2xl border border-border/20 bg-gradient-to-br from-card/80 via-card/60 to-background/40 backdrop-blur-xl mb-8">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl" />
-          
-          <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shadow-lg">
-                  <Shield className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
-                    Welcome back, {currentUser?.name || 'Security Admin'}
-                  </h1>
-                  <p className="text-muted-foreground text-lg">
-                    Your security dashboard is ready. Monitor threats and manage your network security.
-                  </p>
-                </div>
-              </div>
+        {/* Welcome Section - Matching the uploaded design */}
+        <div className="relative mb-8">
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-4xl font-bold text-foreground mb-2">
+                Welcome back, <span className="text-primary">{currentUser?.name || 'Admin User'}</span>
+              </h1>
+              <p className="text-muted-foreground text-lg">
+                Your security dashboard is ready. Monitor threats and manage your network security.
+              </p>
             </div>
-            <div className="flex items-center space-x-6">
-              <div className="text-right space-y-1">
-                <div className="text-sm text-muted-foreground">Last updated</div>
-                <div className="text-xl font-semibold text-foreground">{new Date().toLocaleTimeString()}</div>
-                <div className="text-xs text-primary">Live monitoring active</div>
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-6">
+                <div className="text-right space-y-1">
+                  <div className="text-sm text-muted-foreground">Last updated</div>
+                  <div className="text-2xl font-bold text-foreground">{new Date().toLocaleTimeString()}</div>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-2 hover:scale-105 transition-all border-primary/20 hover:border-primary/40 text-primary"
+                  onClick={refreshData}
+                >
+                  <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
+                  Refresh Data
+                </Button>
               </div>
-              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="gap-2 hover:scale-105 transition-all card-glass border-primary/20 hover:border-primary/40"
-                onClick={refreshData}
-              >
-                <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
-                Refresh Data
-              </Button>
+              
+              <div className="flex items-center text-primary gap-2">
+                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-sm font-medium">Live monitoring active</span>
+              </div>
             </div>
           </div>
         </div>
