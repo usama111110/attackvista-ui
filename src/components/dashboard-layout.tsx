@@ -54,30 +54,17 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className={cn(
-      "min-h-screen flex animate-fade-in transition-colors duration-300 relative",
-      isDarkMode 
-        ? "bg-background text-foreground" 
-        : "bg-gradient-to-br from-slate-50 via-blue-50/30 to-white text-foreground"
+      "min-h-screen flex animate-fade-in transition-colors duration-300 relative overflow-hidden",
+      "bg-background text-foreground"
     )}>
-      {/* Geometric background pattern */}
-      {isDarkMode && (
-        <div className="fixed inset-0 bg-geometric-pattern opacity-80 pointer-events-none z-0" />
-      )}
+      {/* Geometric background pattern - exact match to design */}
+      <div className="bg-geometric-dashboard"></div>
       <aside 
         className={cn(
           sidebarWidth,
-          "border-r transition-all duration-700 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50",
-          "backdrop-blur-2xl shadow-2xl border-border/20",
-          "shadow-primary/5",
-          isDarkMode 
-            ? "bg-gradient-to-b from-background/98 via-background/95 to-card/95" 
-            : "bg-gradient-to-b from-background/98 via-background/95 to-card/90"
+          "border-r border-border/10 transition-all duration-700 ease-in-out flex flex-col h-screen fixed left-0 top-0 z-50",
+          "bg-background/95 backdrop-blur-xl"
         )}
-        style={{
-          background: isDarkMode 
-            ? 'linear-gradient(180deg, hsl(222 84% 4.9% / 0.98), hsl(222 84% 5.9% / 0.95))' 
-            : 'linear-gradient(180deg, hsl(210 40% 98% / 0.98), hsl(var(--card) / 0.90))'
-        }}
       >
         <div className="flex-1 overflow-hidden hover:overflow-y-auto scrollbar-thin scrollbar-thumb-muted">
           <MainNav collapsed={collapsed} />
@@ -100,15 +87,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Modern dashboard header */}
         <ModernDashboardHeader />
         
-        <div className="max-w-7xl mx-auto pt-20 px-6 lg:px-8 space-y-8">
-          {/* Add breadcrumb navigation at the top of the content area */}
-          <div className="animate-slide-down">
-            <BreadcrumbNavigation />
-          </div>
-          
-          <div className="animate-fade-in space-y-6">
-            {children}
-          </div>
+        <div className="mx-auto pt-20 px-6 lg:px-8 space-y-8 relative z-20">
+          {children}
         </div>
       </main>
     </div>

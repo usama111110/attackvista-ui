@@ -196,107 +196,103 @@ const Index = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-fade-in">
-        {/* Welcome Section - Matching the uploaded design */}
-        <div className="relative mb-8">
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">
-                Welcome back, <span className="text-primary">{currentUser?.name || 'Admin User'}</span>
-              </h1>
-              <p className="text-muted-foreground text-lg">
-                Your security dashboard is ready. Monitor threats and manage your network security.
-              </p>
+      <div className="space-y-8 animate-fade-in max-w-4xl">
+        {/* Dashboard Title */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-4">Dashboard</h1>
+        </div>
+
+        {/* Welcome Section - Exact match to design */}
+        <div className="space-y-6 mb-12">
+          <div>
+            <h2 className="text-4xl font-bold text-white mb-2">
+              Welcome back, <span style={{ color: '#FF7B00' }}>{currentUser?.name || 'Admin User'}</span>
+            </h2>
+            <p className="text-gray-300 text-lg">
+              Your security dashboard is ready. Monitor threats and manage your network security.
+            </p>
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2" style={{ color: '#FF7B00' }}>
+                <Zap size={18} />
+                <span className="text-sm font-medium">Time Period:</span>
+              </div>
+              <div className="flex gap-2">
+                {timePeriods.map((period) => (
+                  <Button
+                    key={period.value}
+                    variant={timeFilter === period.value ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setTimeFilter(period.value)}
+                    className={cn(
+                      "px-4 py-2 rounded-md text-sm font-medium transition-all",
+                      timeFilter === period.value 
+                        ? "text-white border-0"
+                        : "text-gray-300 hover:text-white bg-transparent hover:bg-gray-700/50"
+                    )}
+                    style={timeFilter === period.value ? { backgroundColor: '#FF7B00' } : {}}
+                  >
+                    {period.label}
+                  </Button>
+                ))}
+              </div>
             </div>
             
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
-                <div className="text-right space-y-1">
-                  <div className="text-sm text-muted-foreground">Last updated</div>
-                  <div className="text-2xl font-bold text-foreground">{new Date().toLocaleTimeString()}</div>
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="gap-2 hover:scale-105 transition-all border-primary/20 hover:border-primary/40 text-primary"
-                  onClick={refreshData}
-                >
-                  <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
-                  Refresh Data
-                </Button>
-              </div>
-              
-              <div className="flex items-center text-primary gap-2">
-                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-sm font-medium">Live monitoring active</span>
+            <div className="text-right space-y-1">
+              <div className="text-sm text-gray-400">Last updated</div>
+              <div className="text-xl font-bold text-white">{new Date().toLocaleTimeString()}</div>
+              <div className="flex items-center gap-2 justify-end">
+                <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: '#FF7B00' }} />
+                <span className="text-sm font-medium" style={{ color: '#FF7B00' }}>Live monitoring active</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Filters and Search */}
-        <div className="space-y-6">
-          <div className="flex flex-wrap items-center gap-3 p-4 card-glass rounded-xl border border-border/20">
-            <div className="flex items-center gap-2 text-primary">
-              <Calendar size={18} />
-              <span className="font-semibold">Time Period:</span>
-            </div>
-            <div className="flex gap-2">
-              {timePeriods.map((period) => (
-                <Button
-                  key={period.value}
-                  variant={timeFilter === period.value ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setTimeFilter(period.value)}
-                  className={cn(
-                    "h-9 px-4 text-sm font-medium transition-all hover:scale-105",
-                    timeFilter === period.value 
-                      ? "bg-primary text-white shadow-lg" 
-                      : "hover:bg-primary/10 hover:text-primary"
-                  )}
-                >
-                  {period.label}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-8 relative w-full md:w-1/2 lg:w-2/5">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-primary h-5 w-5" />
-              <Input
-                placeholder="Search attacks, IPs, threats..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={cn(
-                  "pl-12 pr-10 h-12 text-base card-glass border-primary/20 focus:border-primary/40",
-                  "placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/20"
-                )}
-              />
-              {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors w-5 h-5 flex items-center justify-center"
-                >
-                  ×
-                </button>
-              )}
-            </div>
+        {/* Search Bar */}
+        <div className="mb-8 relative w-full max-w-md">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Input
+              placeholder="Search attacks, IPs, threats..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 pr-10 h-12 text-base bg-gray-800/50 border-gray-700/50 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-1 focus:ring-gray-600"
+            />
           </div>
         </div>
 
+        {/* Bottom Navigation Tabs */}
         <Tabs defaultValue="overview" className="mb-10">
-          <TabsList className="mb-8 p-1.5 card-glass rounded-2xl h-auto shadow-lg">
-            <TabsTrigger value="overview" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+          <TabsList className="mb-8 p-1 bg-gray-800/50 rounded-lg h-auto">
+            <TabsTrigger 
+              value="overview" 
+              className="px-6 py-3 text-sm font-medium rounded-md data-[state=active]:text-white transition-all"
+              style={{ 
+                backgroundColor: 'overview' === 'overview' ? '#FF7B00' : 'transparent',
+                color: 'overview' === 'overview' ? 'white' : '#9CA3AF'
+              }}
+            >
               Overview
             </TabsTrigger>
-            <TabsTrigger value="performance" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+            <TabsTrigger 
+              value="performance" 
+              className="px-6 py-3 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+            >
               Performance
             </TabsTrigger>
-            <TabsTrigger value="threats" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+            <TabsTrigger 
+              value="threats" 
+              className="px-6 py-3 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+            >
               Threats
             </TabsTrigger>
-            <TabsTrigger value="widgets" className="rounded-xl px-6 py-3 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all">
+            <TabsTrigger 
+              value="widgets" 
+              className="px-6 py-3 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+            >
               Widgets
             </TabsTrigger>
           </TabsList>
@@ -726,6 +722,17 @@ const Index = () => {
               </div>
             )}
           </Card>
+        </div>
+
+        {/* Security Dashboard Section - matching the image */}
+        <div className="flex flex-col items-center justify-center py-12 space-y-4">
+          <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
+            <Shield className="h-8 w-8 text-white" />
+          </div>
+          <h3 className="text-2xl font-bold text-white">Security Dashboard</h3>
+          <p className="text-gray-300 text-center max-w-2xl">
+            Your security monitoring dashboard is ready. Select different tabs to view various security metrics.
+          </p>
         </div>
       </div>
     </DashboardLayout>
