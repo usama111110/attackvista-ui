@@ -196,7 +196,7 @@ const Index = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 animate-fade-in max-w-4xl">
+      <div className="space-y-8 animate-fade-in w-full">
         {/* Dashboard Title */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-4">Dashboard</h1>
@@ -722,17 +722,6 @@ const Index = () => {
               </div>
             )}
           </Card>
-        </div>
-
-        {/* Security Dashboard Section - matching the image */}
-        <div className="flex flex-col items-center justify-center py-12 space-y-4">
-          <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
-            <Shield className="h-8 w-8 text-white" />
-          </div>
-          <h3 className="text-2xl font-bold text-white">Security Dashboard</h3>
-          <p className="text-gray-300 text-center max-w-2xl">
-            Your security monitoring dashboard is ready. Select different tabs to view various security metrics.
-          </p>
         </div>
       </div>
     </DashboardLayout>

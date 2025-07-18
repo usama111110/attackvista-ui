@@ -57,8 +57,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       "min-h-screen flex animate-fade-in transition-colors duration-300 relative overflow-hidden",
       "bg-background text-foreground"
     )}>
-      {/* Geometric background pattern - exact match to design */}
-      <div className="bg-geometric-dashboard"></div>
+      {/* Fluid background pattern */}
+      <div className="bg-fluid-waves"></div>
       <aside 
         className={cn(
           sidebarWidth,
@@ -87,7 +87,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Modern dashboard header */}
         <ModernDashboardHeader />
         
-        <div className="mx-auto pt-20 px-6 lg:px-8 space-y-8 relative z-20">
+        <div className="max-w-full pt-20 px-6 lg:px-8 space-y-8 relative z-20">
           {children}
         </div>
       </main>
