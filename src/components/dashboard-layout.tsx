@@ -57,8 +57,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       "min-h-screen flex animate-fade-in transition-colors duration-300 relative overflow-hidden",
       "bg-background text-foreground"
     )}>
-      {/* Fluid background pattern */}
-      <div className="bg-fluid-waves"></div>
+      {/* Fluid background pattern with additional wave layers */}
+      <div className="bg-fluid-waves">
+        <div className="wave-layer-1"></div>
+        <div className="wave-layer-2"></div>
+      </div>
       <aside 
         className={cn(
           sidebarWidth,
