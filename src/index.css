@@ -154,16 +154,15 @@
   overflow: hidden;
 }
 
-/* Dark mode fluid waves */
+/* Dark mode fluid waves - More subtle */
 .dark-mode .bg-fluid-waves,
 :root .bg-fluid-waves {
   background: linear-gradient(135deg, 
     #0a0f1c 0%, 
-    #1a2332 15%, 
-    #2a3441 35%, 
-    #1e3a5f 60%, 
-    #2563eb 85%, 
-    #0ea5e9 100%
+    #1a2332 25%, 
+    #1e2938 50%, 
+    #1e3a5f 75%, 
+    #1e40af 100%
   );
 }
 
@@ -173,14 +172,13 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 150%;
-  height: 120%;
+  width: 120%;
+  height: 100%;
   background: 
-    radial-gradient(ellipse 800px 500px at 20% 40%, rgba(30, 80, 120, 0.9) 0%, transparent 60%),
-    radial-gradient(ellipse 600px 700px at 80% 20%, rgba(50, 120, 160, 0.7) 0%, transparent 70%),
-    radial-gradient(ellipse 900px 400px at 60% 80%, rgba(70, 140, 180, 0.5) 0%, transparent 50%);
-  clip-path: ellipse(75% 65% at 30% 70%);
-  animation: waveFlow1 30s ease-in-out infinite;
+    radial-gradient(ellipse 600px 400px at 20% 60%, rgba(30, 80, 120, 0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 30%, rgba(50, 120, 160, 0.2) 0%, transparent 80%);
+  clip-path: ellipse(60% 50% at 30% 70%);
+  animation: waveFlow1 40s ease-in-out infinite;
 }
 
 .dark-mode .bg-fluid-waves::after,
@@ -189,25 +187,21 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 150%;
-  height: 120%;
+  width: 120%;
+  height: 100%;
   background: 
-    radial-gradient(ellipse 700px 600px at 60% 60%, rgba(80, 160, 200, 0.8) 0%, transparent 60%),
-    radial-gradient(ellipse 500px 800px at 90% 40%, rgba(100, 180, 220, 0.6) 0%, transparent 70%),
-    radial-gradient(ellipse 800px 500px at 40% 20%, rgba(120, 200, 240, 0.4) 0%, transparent 60%);
-  clip-path: ellipse(85% 75% at 70% 50%);
-  animation: waveFlow2 35s ease-in-out infinite reverse;
+    radial-gradient(ellipse 500px 400px at 70% 40%, rgba(70, 140, 180, 0.25) 0%, transparent 75%);
+  clip-path: ellipse(50% 40% at 70% 60%);
+  animation: waveFlow2 50s ease-in-out infinite reverse;
 }
 
-/* Light mode fluid waves */
+/* Light mode fluid waves - More subtle */
 .light-mode .bg-fluid-waves {
   background: linear-gradient(135deg, 
     #f8fafc 0%, 
-    #e2e8f0 20%, 
-    #cbd5e1 40%, 
-    #94a3b8 60%, 
-    #64748b 80%, 
-    #475569 100%
+    #f1f5f9 30%, 
+    #e2e8f0 60%, 
+    #cbd5e1 100%
   );
 }
 
@@ -216,14 +210,13 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 150%;
-  height: 120%;
+  width: 120%;
+  height: 100%;
   background: 
-    radial-gradient(ellipse 800px 500px at 20% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 600px 700px at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 900px 400px at 60% 80%, rgba(34, 197, 94, 0.06) 0%, transparent 50%);
-  clip-path: ellipse(75% 65% at 30% 70%);
-  animation: waveFlow1 30s ease-in-out infinite;
+    radial-gradient(ellipse 600px 400px at 20% 60%, rgba(59, 130, 246, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 30%, rgba(139, 92, 246, 0.04) 0%, transparent 80%);
+  clip-path: ellipse(60% 50% at 30% 70%);
+  animation: waveFlow1 40s ease-in-out infinite;
 }
 
 .light-mode .bg-fluid-waves::after {
@@ -231,71 +224,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 150%;
-  height: 120%;
-  background: 
-    radial-gradient(ellipse 700px 600px at 60% 60%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 500px 800px at 90% 40%, rgba(168, 85, 247, 0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 800px 500px at 40% 20%, rgba(20, 184, 166, 0.08) 0%, transparent 60%);
-  clip-path: ellipse(85% 75% at 70% 50%);
-  animation: waveFlow2 35s ease-in-out infinite reverse;
-}
-
-/* Enhanced wave layers for more depth */
-.dark-mode .bg-fluid-waves .wave-layer-1,
-:root .bg-fluid-waves .wave-layer-1 {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 120%;
   height: 100%;
   background: 
-    radial-gradient(ellipse 600px 400px at 50% 90%, rgba(100, 200, 240, 0.5) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 600px at 20% 60%, rgba(120, 220, 255, 0.4) 0%, transparent 60%);
-  clip-path: ellipse(65% 55% at 80% 80%);
-  animation: waveFlow3 40s ease-in-out infinite;
+    radial-gradient(ellipse 500px 400px at 70% 40%, rgba(34, 197, 94, 0.05) 0%, transparent 75%);
+  clip-path: ellipse(50% 40% at 70% 60%);
+  animation: waveFlow2 50s ease-in-out infinite reverse;
 }
 
-.dark-mode .bg-fluid-waves .wave-layer-2,
-:root .bg-fluid-waves .wave-layer-2 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120%;
-  height: 100%;
-  background: 
-    radial-gradient(ellipse 700px 500px at 80% 30%, rgba(140, 240, 255, 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse 400px 700px at 30% 90%, rgba(160, 255, 255, 0.3) 0%, transparent 70%);
-  clip-path: ellipse(55% 45% at 90% 60%);
-  animation: waveFlow4 45s ease-in-out infinite reverse;
-}
-
-/* Light mode wave layers */
-.light-mode .bg-fluid-waves .wave-layer-1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120%;
-  height: 100%;
-  background: 
-    radial-gradient(ellipse 600px 400px at 50% 90%, rgba(59, 130, 246, 0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 600px at 20% 60%, rgba(139, 92, 246, 0.06) 0%, transparent 60%);
-  clip-path: ellipse(65% 55% at 80% 80%);
-  animation: waveFlow3 40s ease-in-out infinite;
-}
-
-.light-mode .bg-fluid-waves .wave-layer-2 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120%;
-  height: 100%;
-  background: 
-    radial-gradient(ellipse 700px 500px at 80% 30%, rgba(34, 197, 94, 0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 400px 700px at 30% 90%, rgba(20, 184, 166, 0.05) 0%, transparent 70%);
-  clip-path: ellipse(55% 45% at 90% 60%);
-  animation: waveFlow4 45s ease-in-out infinite reverse;
-}
+/* Removed extra wave layers for a cleaner, more subtle look */
 
 @keyframes waveFlow1 {
   0%, 100% {
