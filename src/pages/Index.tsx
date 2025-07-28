@@ -1,32 +1,36 @@
-import { Shield, AlertTriangle, Activity, Network, Database, Lock, Zap, Globe, Loader2, Search, Calendar, Filter, RefreshCw, BarChart4, Cpu, Eye, BellRing, ArrowUpRight } from "lucide-react";
-import { EnhancedMetricsCard } from "@/components/enhanced-metrics-card";
-import { AttackChart } from "@/components/attack-chart";
-import { LiveTrafficGraph } from "@/components/live-traffic-graph";
+import { Shield, AlertTriangle, Activity, Database, Zap, Search, Globe, Network, Cpu, BarChart4, Filter, Eye, BellRing, ArrowUpRight, Lock } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard-layout";
-import { Card } from "@/components/ui/card";
-import { SecurityScore } from "@/components/security-score";
-import { InteractiveThreatMap } from "@/components/interactive-threat-map";
-import { Link } from "react-router-dom";
 import { useTheme } from "@/providers/ThemeProvider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo, memo, lazy, Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Badge } from "@/components/ui/badge";
 import { MetricsSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
-import { Skeleton } from "@/components/ui/skeleton";
-import { SecurityTrendsChart } from "@/components/data-visualizations/security-trends-chart";
 import { useNotifications } from "@/components/notification-provider";
-import { WidgetManager, type WidgetType } from "@/components/widget-manager";
-import { AIThreatDetection } from "@/components/ai-threat-detection";
-import { TypographyH1, TypographyLead } from "@/components/ui/typography";
-import { EnhancedCard } from "@/components/ui/enhanced-card";
-import { AttackTrendsChart } from "@/components/attack-trends-chart";
-import { SeverityDistributionChart } from "@/components/severity-distribution-chart";
-import { EnhancedAttackLog } from "@/components/enhanced-attack-log";
 import { useUserStore } from "@/utils/userDatabase";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Link } from "react-router-dom";
+
+// Import the widget types
+import { type WidgetType } from "@/components/widget-manager";
+
+// Lazy load heavy components for better performance
+const EnhancedMetricsCard = lazy(() => import("@/components/enhanced-metrics-card").then(m => ({ default: m.EnhancedMetricsCard })));
+const AttackTrendsChart = lazy(() => import("@/components/attack-trends-chart").then(m => ({ default: m.AttackTrendsChart })));
+const LiveTrafficGraph = lazy(() => import("@/components/live-traffic-graph").then(m => ({ default: m.LiveTrafficGraph })));
+const SecurityScore = lazy(() => import("@/components/security-score").then(m => ({ default: m.SecurityScore })));
+const SeverityDistributionChart = lazy(() => import("@/components/severity-distribution-chart").then(m => ({ default: m.SeverityDistributionChart })));
+const EnhancedAttackLog = lazy(() => import("@/components/enhanced-attack-log").then(m => ({ default: m.EnhancedAttackLog })));
+const SecurityTrendsChart = lazy(() => import("@/components/data-visualizations/security-trends-chart").then(m => ({ default: m.SecurityTrendsChart })));
+const WidgetManager = lazy(() => import("@/components/widget-manager").then(m => ({ default: m.WidgetManager })));
+const AttackChart = lazy(() => import("@/components/attack-chart").then(m => ({ default: m.AttackChart })));
+const InteractiveThreatMap = lazy(() => import("@/components/interactive-threat-map").then(m => ({ default: m.InteractiveThreatMap })));
+const AIThreatDetection = lazy(() => import("@/components/ai-threat-detection").then(m => ({ default: m.AIThreatDetection })));
+const EnhancedCard = lazy(() => import("@/components/ui/enhanced-card").then(m => ({ default: m.EnhancedCard })));
 
 // Example attack data
 const attackData = [
@@ -45,7 +49,7 @@ const timePeriods = [
   { label: "Last 30 days", value: "month" },
 ];
 
-const Index = () => {
+const Index = memo(() => {
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
   const { pushNotification } = useNotifications();
@@ -55,12 +59,12 @@ const Index = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Default widgets for the dashboard
-  const defaultWidgets = [
-    { id: "security-score-1", type: "security-score" as WidgetType, title: "Security Score", defaultSize: "small" as const },
-    { id: "attack-chart-1", type: "attack-chart" as WidgetType, title: "Attack Distribution", defaultSize: "medium" as const },
-    { id: "threat-map-1", type: "threat-map" as WidgetType, title: "Threat Map", defaultSize: "large" as const }
-  ];
+  // Memoize default widgets for performance
+  const defaultWidgets = useMemo(() => [
+    { id: "security-score-1", type: "security-score" as const, title: "Security Score", defaultSize: "small" as const },
+    { id: "attack-chart-1", type: "attack-chart" as const, title: "Attack Distribution", defaultSize: "medium" as const },
+    { id: "threat-map-1", type: "threat-map" as const, title: "Threat Map", defaultSize: "large" as const }
+  ], []);
 
   // Render widget based on type
   const renderWidget = (type: WidgetType) => {
@@ -138,13 +142,16 @@ const Index = () => {
     }
   };
   
-  // Filter data based on search query
-  const filteredAttacks = searchQuery 
-    ? attackData.filter(attack => 
-        attack.type.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        attack.ip.includes(searchQuery) ||
-        attack.details.toLowerCase().includes(searchQuery.toLowerCase()))
-    : attackData;
+  // Memoized filter for better performance
+  const filteredAttacks = useMemo(() => {
+    if (!searchQuery) return attackData;
+    const query = searchQuery.toLowerCase();
+    return attackData.filter(attack => 
+      attack.type.toLowerCase().includes(query) || 
+      attack.ip.includes(searchQuery) ||
+      attack.details.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
   
   // Simulate data loading
   useEffect(() => {
@@ -164,8 +171,8 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, [pushNotification]);
   
-  // Simulate data refresh
-  const refreshData = () => {
+  // Optimized refresh function with useCallback
+  const refreshData = useCallback(() => {
     setIsRefreshing(true);
     setIsLoading(true);
     setTimeout(() => {
@@ -182,17 +189,14 @@ const Index = () => {
         title: "New Threat Detected",
         message: "Potential port scanning detected from IP 203.45.78.32"
       });
-    }, 1500);
-  };
+    }, 800); // Reduced timeout for faster perceived performance
+  }, [toast, pushNotification]);
 
-  // Auto-refresh data every 60 seconds
+  // Optimized auto-refresh with dependency array
   useEffect(() => {
-    const interval = setInterval(() => {
-      refreshData();
-    }, 60000);
-    
+    const interval = setInterval(refreshData, 300000); // Increased to 5 minutes for better performance
     return () => clearInterval(interval);
-  }, []);
+  }, [refreshData]);
 
   return (
     <DashboardLayout>
@@ -303,103 +307,123 @@ const Index = () => {
                 <MetricsSkeleton />
               ) : (
                 <>
-                  <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                    <EnhancedMetricsCard
-                      title="Total Attacks"
-                      value={1234}
-                      icon={<Shield className="text-blue-500 h-6 w-6" />}
-                      trend={{ value: 12, isPositive: false }}
-                      className="card-modern bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border-blue-200/30 hover:border-blue-300/50"
-                    />
-                  </div>
-                  <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                    <EnhancedMetricsCard
-                      title="Critical Threats"
-                      value={23}
-                      icon={<AlertTriangle className="text-red-500 h-6 w-6" />}
-                      trend={{ value: 5, isPositive: false }}
-                      className="card-modern bg-gradient-to-br from-red-500/10 via-red-500/5 to-transparent border-red-200/30 hover:border-red-300/50"
-                    />
-                  </div>
-                  <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                    <EnhancedMetricsCard
-                      title="Network Status"
-                      value={98}
-                      icon={<Activity className="text-green-500 h-6 w-6" />}
-                      trend={{ value: 2, isPositive: true }}
-                      className="card-modern bg-gradient-to-br from-green-500/10 via-green-500/5 to-transparent border-green-200/30 hover:border-green-300/50"
-                    />
-                  </div>
-                  <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                    <EnhancedMetricsCard
-                      title="Protected Systems"
-                      value={156}
-                      icon={<Database className="text-purple-500 h-6 w-6" />}
-                      trend={{ value: 3, isPositive: true }}
-                      className="card-modern bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-transparent border-purple-200/30 hover:border-purple-300/50"
-                    />
-                  </div>
+                   <Suspense fallback={<CardSkeleton />}>
+                     <div className="animate-fade-in">
+                       <EnhancedMetricsCard
+                         title="Total Attacks"
+                         value={1234}
+                         icon={<Shield className="text-blue-500 h-6 w-6" />}
+                         trend={{ value: 12, isPositive: false }}
+                         className="card-modern bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border-blue-200/30 hover:border-blue-300/50"
+                       />
+                     </div>
+                   </Suspense>
+                   <Suspense fallback={<CardSkeleton />}>
+                     <div className="animate-fade-in">
+                       <EnhancedMetricsCard
+                         title="Critical Threats"
+                         value={23}
+                         icon={<AlertTriangle className="text-red-500 h-6 w-6" />}
+                         trend={{ value: 5, isPositive: false }}
+                         className="card-modern bg-gradient-to-br from-red-500/10 via-red-500/5 to-transparent border-red-200/30 hover:border-red-300/50"
+                       />
+                     </div>
+                   </Suspense>
+                   <Suspense fallback={<CardSkeleton />}>
+                     <div className="animate-fade-in">
+                       <EnhancedMetricsCard
+                         title="Network Status"
+                         value={98}
+                         icon={<Activity className="text-green-500 h-6 w-6" />}
+                         trend={{ value: 2, isPositive: true }}
+                         className="card-modern bg-gradient-to-br from-green-500/10 via-green-500/5 to-transparent border-green-200/30 hover:border-green-300/50"
+                       />
+                     </div>
+                   </Suspense>
+                   <Suspense fallback={<CardSkeleton />}>
+                     <div className="animate-fade-in">
+                       <EnhancedMetricsCard
+                         title="Protected Systems"
+                         value={156}
+                         icon={<Database className="text-purple-500 h-6 w-6" />}
+                         trend={{ value: 3, isPositive: true }}
+                         className="card-modern bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-transparent border-purple-200/30 hover:border-purple-300/50"
+                       />
+                     </div>
+                   </Suspense>
                 </>
               )}
             </div>
 
             {/* Attack Trends Visualization */}
-            <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <div className="animate-fade-in">
               {isLoading ? (
-                <EnhancedCard className="h-[400px]">
+                <div className="h-[400px] bg-card rounded-lg border">
                   <CardSkeleton />
-                </EnhancedCard>
+                </div>
               ) : (
-                <AttackTrendsChart />
+                <Suspense fallback={<CardSkeleton />}>
+                  <AttackTrendsChart />
+                </Suspense>
               )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+              <div className="lg:col-span-2 animate-fade-in">
                 {isLoading ? (
-                  <EnhancedCard className="h-[400px]">
+                  <div className="h-[400px] bg-card rounded-lg border">
                     <CardSkeleton />
-                  </EnhancedCard>
+                  </div>
                 ) : (
-                  <LiveTrafficGraph />
+                  <Suspense fallback={<CardSkeleton />}>
+                    <LiveTrafficGraph />
+                  </Suspense>
                 )}
               </div>
-              <div className="animate-fade-in" style={{ animationDelay: '0.7s' }}>
+              <div className="animate-fade-in">
                 {isLoading ? (
-                  <EnhancedCard className="h-[400px]">
+                  <div className="h-[400px] bg-card rounded-lg border">
                     <CardSkeleton />
-                  </EnhancedCard>
+                  </div>
                 ) : (
-                  <SecurityScore score={78} />
+                  <Suspense fallback={<CardSkeleton />}>
+                    <SecurityScore score={78} />
+                  </Suspense>
                 )}
               </div>
             </div>
 
             {/* Enhanced Attack Analysis */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
+              <div className="animate-fade-in">
                 {isLoading ? (
-                  <EnhancedCard className="h-[400px]">
+                  <div className="h-[400px] bg-card rounded-lg border">
                     <CardSkeleton />
-                  </EnhancedCard>
+                  </div>
                 ) : (
-                  <SeverityDistributionChart />
+                  <Suspense fallback={<CardSkeleton />}>
+                    <SeverityDistributionChart />
+                  </Suspense>
                 )}
               </div>
-              <div className="animate-fade-in" style={{ animationDelay: '0.9s' }}>
+              <div className="animate-fade-in">
                 {isLoading ? (
-                  <EnhancedCard className="h-[400px]">
+                  <div className="h-[400px] bg-card rounded-lg border">
                     <CardSkeleton />
-                  </EnhancedCard>
+                  </div>
                 ) : (
-                  <EnhancedAttackLog />
+                  <Suspense fallback={<CardSkeleton />}>
+                    <EnhancedAttackLog />
+                  </Suspense>
                 )}
               </div>
             </div>
             
             {!isLoading && (
-              <div className="animate-fade-in" style={{ animationDelay: '1.0s' }}>
-                <SecurityTrendsChart />
+              <div className="animate-fade-in">
+                <Suspense fallback={<CardSkeleton />}>
+                  <SecurityTrendsChart />
+                </Suspense>
               </div>
             )}
           </TabsContent>
@@ -513,10 +537,13 @@ const Index = () => {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Add, remove, and resize widgets to customize your security dashboard. Your layout will be saved automatically.
               </p>
-              <WidgetManager 
-                defaultWidgets={defaultWidgets}
-                renderWidget={renderWidget}
-              />
+              <Suspense fallback={<MetricsSkeleton />}>
+                <WidgetManager 
+                  defaultWidgets={defaultWidgets}
+                  renderWidget={renderWidget}
+                  storageKey="dashboard-widgets"
+                />
+              </Suspense>
             </div>
           </TabsContent>
         </Tabs>
@@ -726,6 +753,6 @@ const Index = () => {
       </div>
     </DashboardLayout>
   );
-}
+});
 
 export default Index;

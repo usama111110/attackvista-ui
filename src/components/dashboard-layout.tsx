@@ -1,11 +1,10 @@
 
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useEffect, memo } from "react";
 import { MainNav } from "./main-nav";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { BreadcrumbNavigation } from "./breadcrumb-navigation";
 import { useUserStore } from "@/utils/userDatabase";
 import { ModernDashboardHeader } from "./modern-dashboard-header";
 import { cn } from "@/lib/utils";
@@ -14,7 +13,7 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-export function DashboardLayout({ children }: DashboardLayoutProps) {
+export const DashboardLayout = memo(function DashboardLayout({ children }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const { isDarkMode } = useTheme();
   const { toast } = useToast();
@@ -96,4 +95,4 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </main>
     </div>
   );
-}
+});
