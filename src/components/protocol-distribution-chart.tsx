@@ -34,20 +34,23 @@ const generateProtocolData = () => {
   return hours;
 };
 
-const protocolColors = {
-  HTTP: "#3B82F6",
-  HTTPS: "#10B981", 
-  TCP: "#8B5CF6",
-  UDP: "#F59E0B",
-  ICMP: "#EF4444",
-  DNS: "#06B6D4",
-  FTP: "#84CC16",
-  SSH: "#F97316"
-};
+// Using semantic design tokens for better theming
+const getProtocolColors = (isDarkMode: boolean) => ({
+  HTTP: isDarkMode ? "hsl(217, 91%, 65%)" : "hsl(217, 91%, 60%)",      // Blue
+  HTTPS: isDarkMode ? "hsl(142, 76%, 45%)" : "hsl(142, 76%, 36%)",      // Green  
+  TCP: isDarkMode ? "hsl(262, 83%, 70%)" : "hsl(262, 83%, 58%)",        // Purple
+  UDP: isDarkMode ? "hsl(32, 98%, 65%)" : "hsl(32, 98%, 56%)",          // Orange
+  ICMP: isDarkMode ? "hsl(0, 84%, 65%)" : "hsl(0, 84%, 60%)",           // Red
+  DNS: isDarkMode ? "hsl(188, 94%, 50%)" : "hsl(188, 94%, 42%)",        // Cyan
+  FTP: isDarkMode ? "hsl(84, 81%, 60%)" : "hsl(84, 81%, 44%)",          // Lime
+  SSH: isDarkMode ? "hsl(25, 95%, 65%)" : "hsl(25, 95%, 53%)"           // Deep Orange
+});
 
 export function ProtocolDistributionChart() {
   const [data, setData] = useState(generateProtocolData());
   const { isDarkMode } = useTheme();
+  
+  const protocolColors = getProtocolColors(isDarkMode);
 
   // Update data every 30 seconds
   useEffect(() => {
@@ -79,7 +82,7 @@ export function ProtocolDistributionChart() {
     }, 30000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [protocolColors]);
 
   const cardClassName = isDarkMode
     ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[400px]"
