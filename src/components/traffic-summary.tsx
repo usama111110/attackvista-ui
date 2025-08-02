@@ -14,8 +14,6 @@ const generateTrafficData = () => {
     egressRate: Math.floor(Math.random() * 800) + 50, // KB/s
     totalIngress: Math.floor(Math.random() * 100) + 50, // GB
     totalEgress: Math.floor(Math.random() * 80) + 30, // GB
-    maliciousBlocked: Math.floor(Math.random() * 50) + 10,
-    threatsDetected: Math.floor(Math.random() * 20) + 5,
     protocols: {
       tcp: Math.floor(Math.random() * 70) + 30,
       udp: Math.floor(Math.random() * 20) + 5,
@@ -45,7 +43,7 @@ export function TrafficSummary() {
     : "p-4 backdrop-blur-lg bg-gray-50 border border-gray-200";
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       <Card className={cardClassName + " animate-fade-in hover-lift"}>
         <div className="flex justify-between items-start">
           <div>
@@ -94,19 +92,6 @@ export function TrafficSummary() {
           </div>
           <div className={`p-2 rounded-lg ${isDarkMode ? "bg-purple-900/20" : "bg-purple-100"}`}>
             <ArrowUp className={`h-5 w-5 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
-          </div>
-        </div>
-      </Card>
-
-      <Card className={cardClassName + " animate-fade-in hover-lift"}>
-        <div className="flex justify-between items-start">
-          <div>
-            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>Threats Blocked</p>
-            <p className={`text-2xl font-bold mt-1 ${isDarkMode ? "text-white" : "text-gray-800"}`}>{trafficData.maliciousBlocked}</p>
-            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"} mt-1`}>{trafficData.threatsDetected} detected</p>
-          </div>
-          <div className={`p-2 rounded-lg ${isDarkMode ? "bg-red-900/20" : "bg-red-100"}`}>
-            <Shield className={`h-5 w-5 ${isDarkMode ? "text-red-400" : "text-red-600"}`} />
           </div>
         </div>
       </Card>

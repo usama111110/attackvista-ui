@@ -36,14 +36,14 @@ const LiveTraffic = () => {
         <TrafficSummary />
       </div>
 
-      {/* Advanced Analytics Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Traffic Flow Chart */}
+      {/* Advanced Analytics - Full Width Charts */}
+      <div className="space-y-6 mb-6">
+        {/* Traffic Flow Chart - Full Width */}
         <div className="animate-fade-in">
           <TrafficFlowChart />
         </div>
         
-        {/* Connection Status Chart */}
+        {/* Connection Status Chart - Full Width */}
         <div className="animate-fade-in">
           <ConnectionStatusChart />
         </div>

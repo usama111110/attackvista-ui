@@ -56,8 +56,8 @@ export function ConnectionStatusChart() {
   }, []);
 
   const cardClassName = isDarkMode
-    ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[400px]"
-    : "p-6 backdrop-blur-lg bg-gray-50 border border-gray-200 h-[400px]";
+    ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[500px]"
+    : "p-6 backdrop-blur-lg bg-gray-50 border border-gray-200 h-[500px]";
 
   return (
     <Card className={cardClassName + " animate-fade-in hover-lift"}>
