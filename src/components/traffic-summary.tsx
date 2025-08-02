@@ -1,23 +1,28 @@
 
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { ArrowUp, ArrowDown, Activity, Share2 } from "lucide-react";
+import { ArrowUp, ArrowDown, Activity, Share2, Shield, AlertTriangle } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 
-// Mock traffic data for demonstration
+// Enhanced traffic data matching your script's metrics
 const generateTrafficData = () => {
   return {
     totalConnections: Math.floor(Math.random() * 1000) + 500,
     activeConnections: Math.floor(Math.random() * 500) + 100,
+    establishedConnections: Math.floor(Math.random() * 300) + 150,
     ingressRate: Math.floor(Math.random() * 1000) + 100, // KB/s
     egressRate: Math.floor(Math.random() * 800) + 50, // KB/s
     totalIngress: Math.floor(Math.random() * 100) + 50, // GB
     totalEgress: Math.floor(Math.random() * 80) + 30, // GB
+    maliciousBlocked: Math.floor(Math.random() * 50) + 10,
+    threatsDetected: Math.floor(Math.random() * 20) + 5,
     protocols: {
       tcp: Math.floor(Math.random() * 70) + 30,
       udp: Math.floor(Math.random() * 20) + 5,
       http: Math.floor(Math.random() * 30) + 10,
       https: Math.floor(Math.random() * 50) + 20,
+      icmp: Math.floor(Math.random() * 10) + 2,
+      dns: Math.floor(Math.random() * 15) + 5,
     }
   };
 };
@@ -40,7 +45,7 @@ export function TrafficSummary() {
     : "p-4 backdrop-blur-lg bg-gray-50 border border-gray-200";
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
       <Card className={cardClassName + " animate-fade-in hover-lift"}>
         <div className="flex justify-between items-start">
           <div>
@@ -50,6 +55,19 @@ export function TrafficSummary() {
           </div>
           <div className={`p-2 rounded-lg ${isDarkMode ? "bg-blue-900/20" : "bg-blue-100"}`}>
             <Activity className={`h-5 w-5 ${isDarkMode ? "text-blue-400" : "text-blue-600"}`} />
+          </div>
+        </div>
+      </Card>
+
+      <Card className={cardClassName + " animate-fade-in hover-lift"}>
+        <div className="flex justify-between items-start">
+          <div>
+            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>Established</p>
+            <p className={`text-2xl font-bold mt-1 ${isDarkMode ? "text-white" : "text-gray-800"}`}>{trafficData.establishedConnections}</p>
+            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"} mt-1`}>connections</p>
+          </div>
+          <div className={`p-2 rounded-lg ${isDarkMode ? "bg-emerald-900/20" : "bg-emerald-100"}`}>
+            <Activity className={`h-5 w-5 ${isDarkMode ? "text-emerald-400" : "text-emerald-600"}`} />
           </div>
         </div>
       </Card>
@@ -83,26 +101,33 @@ export function TrafficSummary() {
       <Card className={cardClassName + " animate-fade-in hover-lift"}>
         <div className="flex justify-between items-start">
           <div>
-            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>Protocol Distribution</p>
-            <div className="flex gap-2 mt-2">
+            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>Threats Blocked</p>
+            <p className={`text-2xl font-bold mt-1 ${isDarkMode ? "text-white" : "text-gray-800"}`}>{trafficData.maliciousBlocked}</p>
+            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"} mt-1`}>{trafficData.threatsDetected} detected</p>
+          </div>
+          <div className={`p-2 rounded-lg ${isDarkMode ? "bg-red-900/20" : "bg-red-100"}`}>
+            <Shield className={`h-5 w-5 ${isDarkMode ? "text-red-400" : "text-red-600"}`} />
+          </div>
+        </div>
+      </Card>
+
+      <Card className={cardClassName + " animate-fade-in hover-lift"}>
+        <div className="flex justify-between items-start">
+          <div>
+            <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>Protocol Mix</p>
+            <div className="flex flex-col gap-1 mt-2">
               <div className="text-xs">
                 <div className={`flex items-center gap-1 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
                   <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                   <span>TCP: {trafficData.protocols.tcp}%</span>
                 </div>
-                <div className={`flex items-center gap-1 mt-1 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>UDP: {trafficData.protocols.udp}%</span>
-                </div>
-              </div>
-              <div className="text-xs">
                 <div className={`flex items-center gap-1 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
-                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                  <span>HTTP: {trafficData.protocols.http}%</span>
-                </div>
-                <div className={`flex items-center gap-1 mt-1 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
-                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span>HTTPS: {trafficData.protocols.https}%</span>
+                </div>
+                <div className={`flex items-center gap-1 ${isDarkMode ? "text-gray-200" : "text-gray-700"}`}>
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                  <span>DNS: {trafficData.protocols.dns}%</span>
                 </div>
               </div>
             </div>
