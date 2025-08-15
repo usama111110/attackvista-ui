@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { MetricsSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
+import { MetricsLoading, ChartLoading, EnhancedLoading } from "@/components/ui/enhanced-loading";
 import { useNotifications } from "@/components/notification-provider";
 import { useUserStore } from "@/utils/userDatabase";
 import { cn } from "@/lib/utils";
@@ -304,50 +304,54 @@ const Index = memo(() => {
           <TabsContent value="overview" className="space-y-10">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {isLoading ? (
-                <MetricsSkeleton />
+                <MetricsLoading />
               ) : (
                 <>
-                   <Suspense fallback={<CardSkeleton />}>
+                   <Suspense fallback={<EnhancedLoading variant="card" />}>
                      <div className="animate-fade-in">
                        <EnhancedMetricsCard
                          title="Total Attacks"
                          value={1234}
-                         icon={<Shield className="text-blue-500 h-6 w-6" />}
+                         icon={<Shield className="h-5 w-5" />}
                          trend={{ value: 12, isPositive: false }}
-                         className="card-modern bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-transparent border-blue-200/30 hover:border-blue-300/50"
+                         variant="premium"
+                         description="Blocked this month"
                        />
                      </div>
                    </Suspense>
-                   <Suspense fallback={<CardSkeleton />}>
-                     <div className="animate-fade-in">
+                   <Suspense fallback={<EnhancedLoading variant="card" />}>
+                     <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
                        <EnhancedMetricsCard
                          title="Critical Threats"
                          value={23}
-                         icon={<AlertTriangle className="text-red-500 h-6 w-6" />}
+                         icon={<AlertTriangle className="h-5 w-5" />}
                          trend={{ value: 5, isPositive: false }}
-                         className="card-modern bg-gradient-to-br from-red-500/10 via-red-500/5 to-transparent border-red-200/30 hover:border-red-300/50"
+                         variant="elevated"
+                         description="Requires immediate attention"
                        />
                      </div>
                    </Suspense>
-                   <Suspense fallback={<CardSkeleton />}>
-                     <div className="animate-fade-in">
+                   <Suspense fallback={<EnhancedLoading variant="card" />}>
+                     <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
                        <EnhancedMetricsCard
-                         title="Network Status"
-                         value={98}
-                         icon={<Activity className="text-green-500 h-6 w-6" />}
+                         title="Network Uptime"
+                         value="99.8%"
+                         icon={<Activity className="h-5 w-5" />}
                          trend={{ value: 2, isPositive: true }}
-                         className="card-modern bg-gradient-to-br from-green-500/10 via-green-500/5 to-transparent border-green-200/30 hover:border-green-300/50"
+                         variant="modern"
+                         description="Last 30 days average"
                        />
                      </div>
                    </Suspense>
-                   <Suspense fallback={<CardSkeleton />}>
-                     <div className="animate-fade-in">
+                   <Suspense fallback={<EnhancedLoading variant="card" />}>
+                     <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
                        <EnhancedMetricsCard
-                         title="Protected Systems"
+                         title="Protected Assets"
                          value={156}
-                         icon={<Database className="text-purple-500 h-6 w-6" />}
+                         icon={<Database className="h-5 w-5" />}
                          trend={{ value: 3, isPositive: true }}
-                         className="card-modern bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-transparent border-purple-200/30 hover:border-purple-300/50"
+                         variant="glass"
+                         description="Actively monitored"
                        />
                      </div>
                    </Suspense>
@@ -356,37 +360,31 @@ const Index = memo(() => {
             </div>
 
             {/* Attack Trends Visualization */}
-            <div className="animate-fade-in">
+            <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
               {isLoading ? (
-                <div className="h-[400px] bg-card rounded-lg border">
-                  <CardSkeleton />
-                </div>
+                <ChartLoading />
               ) : (
-                <Suspense fallback={<CardSkeleton />}>
+                <Suspense fallback={<ChartLoading />}>
                   <AttackTrendsChart />
                 </Suspense>
               )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 animate-fade-in">
+              <div className="lg:col-span-2 animate-fade-in" style={{ animationDelay: '0.5s' }}>
                 {isLoading ? (
-                  <div className="h-[400px] bg-card rounded-lg border">
-                    <CardSkeleton />
-                  </div>
+                  <ChartLoading />
                 ) : (
-                  <Suspense fallback={<CardSkeleton />}>
+                  <Suspense fallback={<ChartLoading />}>
                     <LiveTrafficGraph />
                   </Suspense>
                 )}
               </div>
-              <div className="animate-fade-in">
+              <div className="animate-fade-in" style={{ animationDelay: '0.6s' }}>
                 {isLoading ? (
-                  <div className="h-[400px] bg-card rounded-lg border">
-                    <CardSkeleton />
-                  </div>
+                  <EnhancedLoading variant="card" />
                 ) : (
-                  <Suspense fallback={<CardSkeleton />}>
+                  <Suspense fallback={<EnhancedLoading variant="card" />}>
                     <SecurityScore score={78} />
                   </Suspense>
                 )}
@@ -396,36 +394,32 @@ const Index = memo(() => {
             {/* Enhanced Attack Analysis */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <div className="animate-fade-in">
-                {isLoading ? (
-                  <div className="h-[400px] bg-card rounded-lg border">
-                    <CardSkeleton />
-                  </div>
-                ) : (
-                  <Suspense fallback={<CardSkeleton />}>
-                    <SeverityDistributionChart />
-                  </Suspense>
-                )}
-              </div>
-              <div className="animate-fade-in">
-                {isLoading ? (
-                  <div className="h-[400px] bg-card rounded-lg border">
-                    <CardSkeleton />
-                  </div>
-                ) : (
-                  <Suspense fallback={<CardSkeleton />}>
-                    <EnhancedAttackLog />
-                  </Suspense>
-                )}
-              </div>
-            </div>
-            
-            {!isLoading && (
-              <div className="animate-fade-in">
-                <Suspense fallback={<CardSkeleton />}>
-                  <SecurityTrendsChart />
+              {isLoading ? (
+                <EnhancedLoading variant="card" />
+              ) : (
+                <Suspense fallback={<EnhancedLoading variant="card" />}>
+                  <SeverityDistributionChart />
                 </Suspense>
-              </div>
-            )}
+              )}
+            </div>
+            <div className="animate-fade-in">
+              {isLoading ? (
+                <EnhancedLoading variant="card" />
+              ) : (
+                <Suspense fallback={<EnhancedLoading variant="card" />}>
+                  <EnhancedAttackLog />
+                </Suspense>
+              )}
+            </div>
+          </div>
+          
+          {!isLoading && (
+            <div className="animate-fade-in">
+              <Suspense fallback={<EnhancedLoading variant="card" />}>
+                <SecurityTrendsChart />
+              </Suspense>
+            </div>
+          )}
           </TabsContent>
 
           <TabsContent value="performance">
@@ -513,21 +507,17 @@ const Index = memo(() => {
           <TabsContent value="threats">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-2">
-                {isLoading ? (
-                  <EnhancedCard className="h-[400px]">
-                    <CardSkeleton />
-                  </EnhancedCard>
-                ) : (
-                  <InteractiveThreatMap />
-                )}
-              </div>
               {isLoading ? (
-                <EnhancedCard className="h-[400px]">
-                  <CardSkeleton />
-                </EnhancedCard>
+                <EnhancedLoading variant="card" />
               ) : (
-                <AttackChart />
+                <InteractiveThreatMap />
               )}
+            </div>
+            {isLoading ? (
+              <EnhancedLoading variant="card" />
+            ) : (
+              <AttackChart />
+            )}
             </div>
           </TabsContent>
           
@@ -537,7 +527,7 @@ const Index = memo(() => {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Add, remove, and resize widgets to customize your security dashboard. Your layout will be saved automatically.
               </p>
-              <Suspense fallback={<MetricsSkeleton />}>
+              <Suspense fallback={<EnhancedLoading variant="metrics" />}>
                 <WidgetManager 
                   defaultWidgets={defaultWidgets}
                   renderWidget={renderWidget}
