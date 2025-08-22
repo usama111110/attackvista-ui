@@ -14,8 +14,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
-import { DateRange } from "react-day-picker";
-import { DateRangePicker } from "@/components/date-range-picker";
+import { KibanaTimePicker, TimeRange } from "@/components/kibana-time-picker";
 
 // Import the widget types
 import { type WidgetType } from "@/components/widget-manager";
@@ -57,10 +56,13 @@ const Index = memo(() => {
   const { pushNotification } = useNotifications();
   const { currentUser } = useUserStore();
   const [searchQuery, setSearchQuery] = useState("");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+  const [timeRange, setTimeRange] = useState<TimeRange>({
     from: new Date(Date.now() - 24 * 60 * 60 * 1000),
     to: new Date(),
+    label: "Last 24 hours"
   });
+  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [refreshInterval, setRefreshInterval] = useState(30);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -222,9 +224,16 @@ const Index = memo(() => {
             </p>
           </div>
           
-          {/* Enhanced Date Range Filter */}
+          {/* Kibana-style Time Range Picker */}
           <div className="mb-6">
-            <DateRangePicker value={dateRange} onChange={setDateRange} />
+            <KibanaTimePicker 
+              value={timeRange} 
+              onChange={setTimeRange}
+              autoRefresh={autoRefresh}
+              onAutoRefreshChange={setAutoRefresh}
+              refreshInterval={refreshInterval}
+              onRefreshIntervalChange={setRefreshInterval}
+            />
           </div>
         </div>
 

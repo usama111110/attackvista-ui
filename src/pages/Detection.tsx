@@ -7,7 +7,7 @@ import { AIThreatDetection } from "@/components/ai-threat/ai-threat-detection";
 import { Shield, AlertTriangle, Clock, LineChart, Filter, BarChart3, ArrowUpDown, Download, Target, TrendingUp, Eye, Zap, Activity } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AttackDetailView } from "@/components/attack-detail-view";
-import { DateRangePicker } from "@/components/date-range-picker";
+import { KibanaTimePicker, TimeRange } from "@/components/kibana-time-picker";
 import { MetricsCard } from "@/components/metrics-card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -55,10 +55,13 @@ const attackMetrics = [
 
 const Detection = () => {
   const [selectedAttackId, setSelectedAttackId] = useState<string | null>(null);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+  const [timeRange, setTimeRange] = useState<TimeRange>({
     from: new Date(Date.now() - 24 * 60 * 60 * 1000),
     to: new Date(),
+    label: "Last 24 hours"
   });
+  const [autoRefresh, setAutoRefresh] = useState(false);
+  const [refreshInterval, setRefreshInterval] = useState(30);
   const [sortBy, setSortBy] = useState<"name" | "value">("value");
   const [isAutoRefresh, setIsAutoRefresh] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -176,9 +179,16 @@ const Detection = () => {
         </div>
       </div>
 
-      {/* Enhanced Date Range Filter */}
+      {/* Kibana-style Time Range Picker */}
       <div className="mb-8">
-        <DateRangePicker value={dateRange} onChange={setDateRange} />
+        <KibanaTimePicker 
+          value={timeRange} 
+          onChange={setTimeRange}
+          autoRefresh={autoRefresh}
+          onAutoRefreshChange={setAutoRefresh}
+          refreshInterval={refreshInterval}
+          onRefreshIntervalChange={setRefreshInterval}
+        />
       </div>
 
       {/* Enhanced Tabs with Better Styling */}
@@ -227,7 +237,7 @@ const Detection = () => {
               {selectedAttack ? (
                 <AttackDetailView 
                   attack={selectedAttack} 
-                  timeRange={dateRange ? `${dateRange.from?.toISOString()}-${dateRange.to?.toISOString()}` : "24h"} 
+                  timeRange={timeRange.label || `${timeRange.from.toISOString()}-${timeRange.to.toISOString()}`} 
                   onBack={() => setSelectedAttackId(null)}
                 />
               ) : (
