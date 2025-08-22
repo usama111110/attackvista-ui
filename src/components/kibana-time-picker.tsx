@@ -126,11 +126,8 @@ export function KibanaTimePicker({
   };
 
   return (
-    <Card className={cn(
-      "py-2 px-4 backdrop-blur-xl flex items-center gap-3",
-      isDarkMode 
-        ? "bg-gray-900/50 border-gray-700/50" 
-        : "bg-white/90 border-gray-200",
+    <div className={cn(
+      "flex items-center gap-3",
       className
     )}>
       <div className="flex items-center gap-2">
@@ -144,13 +141,14 @@ export function KibanaTimePicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
+            size="sm"
             className={cn(
-              "min-w-[280px] justify-between text-left font-normal",
+              "max-w-[200px] justify-between text-left font-normal text-xs",
               isDarkMode ? "border-gray-600 hover:border-gray-500" : "border-gray-300"
             )}
           >
             <span className="truncate">{formatTimeRange(value)}</span>
-            <ChevronDown className="ml-2 h-4 w-4 shrink-0" />
+            <ChevronDown className="ml-2 h-3 w-3 shrink-0" />
           </Button>
         </PopoverTrigger>
         <PopoverContent 
@@ -255,24 +253,24 @@ export function KibanaTimePicker({
 
       {/* Auto-refresh controls */}
       {onAutoRefreshChange && (
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => onAutoRefreshChange(!autoRefresh)}
             className={cn(
-              "h-8 w-8 p-0",
+              "h-7 w-7 p-0",
               autoRefresh ? "text-green-500" : "text-gray-400"
             )}
           >
-            {autoRefresh ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {autoRefresh ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
           </Button>
           
           <Select 
             value={refreshInterval?.toString() || "0"} 
             onValueChange={(value) => onRefreshIntervalChange?.(parseInt(value))}
           >
-            <SelectTrigger className="w-16 h-8">
+            <SelectTrigger className="w-12 h-7 text-xs">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -283,13 +281,8 @@ export function KibanaTimePicker({
               ))}
             </SelectContent>
           </Select>
-          
-          <RefreshCw className={cn(
-            "h-4 w-4",
-            autoRefresh ? "animate-spin text-green-500" : "text-gray-400"
-          )} />
         </div>
       )}
-    </Card>
+    </div>
   );
 }

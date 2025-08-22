@@ -224,8 +224,8 @@ const Index = memo(() => {
             </p>
           </div>
           
-          {/* Kibana-style Time Range Picker */}
-          <div className="mb-6">
+          <div className="flex items-center justify-between">
+            {/* Compact Time Range Picker */}
             <KibanaTimePicker 
               value={timeRange} 
               onChange={setTimeRange}
@@ -234,6 +234,18 @@ const Index = memo(() => {
               refreshInterval={refreshInterval}
               onRefreshIntervalChange={setRefreshInterval}
             />
+            
+            {/* Live Status Display */}
+            <div className="text-right space-y-1">
+              <div className="text-sm text-gray-400">Last updated</div>
+              <div className="text-xl font-bold text-white">{new Date().toLocaleTimeString()}</div>
+              <div className="flex items-center gap-2 justify-end">
+                <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: '#FF7B00' }} />
+                <span className="text-sm font-medium" style={{ color: '#FF7B00' }}>
+                  {autoRefresh ? 'Auto-refresh active' : 'Live monitoring active'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 

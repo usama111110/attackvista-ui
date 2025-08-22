@@ -179,8 +179,8 @@ const Detection = () => {
         </div>
       </div>
 
-      {/* Kibana-style Time Range Picker */}
-      <div className="mb-8">
+      <div className="flex items-center justify-between mb-8">
+        {/* Compact Time Range Picker */}
         <KibanaTimePicker 
           value={timeRange} 
           onChange={setTimeRange}
@@ -189,6 +189,12 @@ const Detection = () => {
           refreshInterval={refreshInterval}
           onRefreshIntervalChange={setRefreshInterval}
         />
+        
+        {/* Status Display */}
+        <div className="text-right">
+          <div className="text-sm text-gray-400">Last scan</div>
+          <div className="text-lg font-bold">{new Date().toLocaleTimeString()}</div>
+        </div>
       </div>
 
       {/* Enhanced Tabs with Better Styling */}
