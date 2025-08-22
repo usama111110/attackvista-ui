@@ -14,6 +14,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
+import { DateRange } from "react-day-picker";
+import { DateRangePicker } from "@/components/date-range-picker";
 
 // Import the widget types
 import { type WidgetType } from "@/components/widget-manager";
@@ -55,7 +57,10 @@ const Index = memo(() => {
   const { pushNotification } = useNotifications();
   const { currentUser } = useUserStore();
   const [searchQuery, setSearchQuery] = useState("");
-  const [timeFilter, setTimeFilter] = useState("today");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: new Date(Date.now() - 24 * 60 * 60 * 1000),
+    to: new Date(),
+  });
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -217,41 +222,9 @@ const Index = memo(() => {
             </p>
           </div>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2" style={{ color: '#FF7B00' }}>
-                <Zap size={18} />
-                <span className="text-sm font-medium">Time Period:</span>
-              </div>
-              <div className="flex gap-2">
-                {timePeriods.map((period) => (
-                  <Button
-                    key={period.value}
-                    variant={timeFilter === period.value ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => setTimeFilter(period.value)}
-                    className={cn(
-                      "px-4 py-2 rounded-md text-sm font-medium transition-all",
-                      timeFilter === period.value 
-                        ? "text-white border-0"
-                        : "text-gray-300 hover:text-white bg-transparent hover:bg-gray-700/50"
-                    )}
-                    style={timeFilter === period.value ? { backgroundColor: '#FF7B00' } : {}}
-                  >
-                    {period.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            
-            <div className="text-right space-y-1">
-              <div className="text-sm text-gray-400">Last updated</div>
-              <div className="text-xl font-bold text-white">{new Date().toLocaleTimeString()}</div>
-              <div className="flex items-center gap-2 justify-end">
-                <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: '#FF7B00' }} />
-                <span className="text-sm font-medium" style={{ color: '#FF7B00' }}>Live monitoring active</span>
-              </div>
-            </div>
+          {/* Enhanced Date Range Filter */}
+          <div className="mb-6">
+            <DateRangePicker value={dateRange} onChange={setDateRange} />
           </div>
         </div>
 

@@ -7,11 +7,12 @@ import { AIThreatDetection } from "@/components/ai-threat/ai-threat-detection";
 import { Shield, AlertTriangle, Clock, LineChart, Filter, BarChart3, ArrowUpDown, Download, Target, TrendingUp, Eye, Zap, Activity } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AttackDetailView } from "@/components/attack-detail-view";
-import { TimeFilter } from "@/components/time-filter";
+import { DateRangePicker } from "@/components/date-range-picker";
 import { MetricsCard } from "@/components/metrics-card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { DateRange } from "react-day-picker";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,7 +55,10 @@ const attackMetrics = [
 
 const Detection = () => {
   const [selectedAttackId, setSelectedAttackId] = useState<string | null>(null);
-  const [timeRange, setTimeRange] = useState("24h");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: new Date(Date.now() - 24 * 60 * 60 * 1000),
+    to: new Date(),
+  });
   const [sortBy, setSortBy] = useState<"name" | "value">("value");
   const [isAutoRefresh, setIsAutoRefresh] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -172,9 +176,9 @@ const Detection = () => {
         </div>
       </div>
 
-      {/* Enhanced Time Filter */}
+      {/* Enhanced Date Range Filter */}
       <div className="mb-8">
-        <TimeFilter value={timeRange} onChange={setTimeRange} />
+        <DateRangePicker value={dateRange} onChange={setDateRange} />
       </div>
 
       {/* Enhanced Tabs with Better Styling */}
@@ -223,7 +227,7 @@ const Detection = () => {
               {selectedAttack ? (
                 <AttackDetailView 
                   attack={selectedAttack} 
-                  timeRange={timeRange} 
+                  timeRange={dateRange ? `${dateRange.from?.toISOString()}-${dateRange.to?.toISOString()}` : "24h"} 
                   onBack={() => setSelectedAttackId(null)}
                 />
               ) : (
