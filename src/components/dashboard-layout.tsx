@@ -87,9 +87,9 @@ export const DashboardLayout = memo(function DashboardLayout({ children }: Dashb
         "ml-auto overflow-y-auto scrollbar-thin scrollbar-thumb-muted relative transition-all duration-500 z-10"
       )}>
         {/* Modern dashboard header */}
-        <ModernDashboardHeader sidebarCollapsed={collapsed} />
+        <ModernDashboardHeader />
         
-        <div className="max-w-full pt-16 px-4 lg:px-6 space-y-6 relative z-20">
+        <div className="max-w-full pt-20 px-6 lg:px-8 space-y-8 relative z-20">
           {children}
         </div>
       </main>

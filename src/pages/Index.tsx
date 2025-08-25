@@ -208,63 +208,92 @@ const Index = memo(() => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 animate-fade-in w-full">
-        {/* Simplified Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Welcome back, <span className="text-primary font-medium">{currentUser?.name || 'Admin User'}</span>
-          </p>
+      <div className="space-y-8 animate-fade-in w-full">
+        {/* Dashboard Title */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-4">Dashboard</h1>
         </div>
 
-        {/* Time Range Picker */}
-        <div className="flex items-center justify-between mb-6">
-          <KibanaTimePicker 
-            value={timeRange} 
-            onChange={setTimeRange}
-            autoRefresh={autoRefresh}
-            onAutoRefreshChange={setAutoRefresh}
-            refreshInterval={refreshInterval}
-            onRefreshIntervalChange={setRefreshInterval}
-          />
+        {/* Welcome Section - Exact match to design */}
+        <div className="space-y-6 mb-12">
+          <div>
+            <h2 className="text-4xl font-bold text-foreground mb-2">
+              Welcome back, <span className="text-primary">{currentUser?.name || 'Admin User'}</span>
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              Your security dashboard is ready. Monitor threats and manage your network security.
+            </p>
+          </div>
           
-          <div className="text-right">
-            <div className="text-xs text-muted-foreground">Last updated</div>
-            <div className="text-sm font-medium text-foreground">{new Date().toLocaleTimeString()}</div>
+          <div className="flex items-center justify-between">
+            {/* Compact Time Range Picker */}
+            <KibanaTimePicker 
+              value={timeRange} 
+              onChange={setTimeRange}
+              autoRefresh={autoRefresh}
+              onAutoRefreshChange={setAutoRefresh}
+              refreshInterval={refreshInterval}
+              onRefreshIntervalChange={setRefreshInterval}
+            />
+            
+            {/* Live Status Display */}
+            <div className="text-right space-y-1">
+              <div className="text-sm text-muted-foreground">Last updated</div>
+              <div className="text-xl font-bold text-foreground">{new Date().toLocaleTimeString()}</div>
+              <div className="flex items-center gap-2 justify-end">
+                <div className="h-2 w-2 rounded-full animate-pulse bg-primary" />
+                <span className="text-sm font-medium text-primary">
+                  {autoRefresh ? 'Auto-refresh active' : 'Live monitoring active'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Simplified Tabs */}
-        <Tabs defaultValue="overview" className="mb-6">
-          <TabsList className="mb-6 p-1 bg-muted/30 rounded-lg h-auto">
+        {/* Search Bar */}
+        <div className="mb-8 relative w-full max-w-md">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Input
+              placeholder="Search attacks, IPs, threats..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 pr-10 h-12 text-base bg-card/50 border-border text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-1 focus:ring-ring"
+            />
+          </div>
+        </div>
+
+        {/* Bottom Navigation Tabs */}
+        <Tabs defaultValue="overview" className="mb-10">
+          <TabsList className="mb-8 p-1 bg-card/50 rounded-lg h-auto">
             <TabsTrigger 
               value="overview" 
-              className="px-4 py-2 text-sm font-medium rounded-md data-[state=active]:bg-background data-[state=active]:text-foreground transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
             >
               Overview
             </TabsTrigger>
             <TabsTrigger 
               value="performance" 
-              className="px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
             >
               Performance
             </TabsTrigger>
             <TabsTrigger 
               value="threats" 
-              className="px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
             >
               Threats
             </TabsTrigger>
             <TabsTrigger 
               value="widgets" 
-              className="px-4 py-2 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
             >
               Widgets
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <TabsContent value="overview" className="space-y-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {isLoading ? (
                 <MetricsLoading />
               ) : (
@@ -274,9 +303,9 @@ const Index = memo(() => {
                        <EnhancedMetricsCard
                          title="Total Attacks"
                          value={1234}
-                         icon={<Shield className="h-4 w-4 text-blue-500" />}
+                         icon={<Shield className="h-5 w-5" />}
                          trend={{ value: 12, isPositive: false }}
-                         variant="modern"
+                         variant="premium"
                          description="Blocked this month"
                        />
                      </div>
@@ -286,9 +315,9 @@ const Index = memo(() => {
                        <EnhancedMetricsCard
                          title="Critical Threats"
                          value={23}
-                         icon={<AlertTriangle className="h-4 w-4 text-red-500" />}
+                         icon={<AlertTriangle className="h-5 w-5" />}
                          trend={{ value: 5, isPositive: false }}
-                         variant="modern"
+                         variant="elevated"
                          description="Requires immediate attention"
                        />
                      </div>
@@ -298,7 +327,7 @@ const Index = memo(() => {
                        <EnhancedMetricsCard
                          title="Network Uptime"
                          value="99.8%"
-                         icon={<Activity className="h-4 w-4 text-green-500" />}
+                         icon={<Activity className="h-5 w-5" />}
                          trend={{ value: 2, isPositive: true }}
                          variant="modern"
                          description="Last 30 days average"
@@ -310,9 +339,9 @@ const Index = memo(() => {
                        <EnhancedMetricsCard
                          title="Protected Assets"
                          value={156}
-                         icon={<Database className="h-4 w-4 text-primary" />}
+                         icon={<Database className="h-5 w-5" />}
                          trend={{ value: 3, isPositive: true }}
-                         variant="modern"
+                         variant="glass"
                          description="Actively monitored"
                        />
                      </div>
@@ -321,7 +350,7 @@ const Index = memo(() => {
               )}
             </div>
 
-            {/* Charts - Simplified Layout */}
+            {/* Attack Trends Visualization */}
             <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
               {isLoading ? (
                 <ChartLoading />
@@ -332,7 +361,7 @@ const Index = memo(() => {
               )}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 animate-fade-in" style={{ animationDelay: '0.5s' }}>
                 {isLoading ? (
                   <ChartLoading />
@@ -353,8 +382,8 @@ const Index = memo(() => {
               </div>
             </div>
 
-            {/* Bottom Row - Simplified */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            {/* Enhanced Attack Analysis */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <div className="animate-fade-in">
               {isLoading ? (
                 <EnhancedLoading variant="card" />
