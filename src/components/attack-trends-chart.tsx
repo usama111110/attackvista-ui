@@ -39,7 +39,7 @@ export function AttackTrendsChart() {
   useEffect(() => {
     const interval = setInterval(() => {
       setData(generateAttackTrends());
-    }, 30000); // Update every 30 seconds
+    }, 60000); // Update every 60 seconds for better performance
 
     return () => clearInterval(interval);
   }, []);

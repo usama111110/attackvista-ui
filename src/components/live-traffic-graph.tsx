@@ -36,21 +36,23 @@ export function LiveTrafficGraph() {
   const isTrafficUp = parseFloat(trafficTrend) >= 0;
   const isMaliciousUp = parseFloat(maliciousTrend) >= 0;
 
-  // Update data every 5 seconds to simulate live traffic
+  // Update data every 30 seconds to improve performance
   useEffect(() => {
     const interval = setInterval(() => {
-      const newData = [...data.slice(1)];
-      const now = new Date();
-      newData.push({
-        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        traffic: Math.floor(Math.random() * 80) + 20,
-        malicious: Math.floor(Math.random() * 30)
+      setData(prevData => {
+        const newData = [...prevData.slice(1)];
+        const now = new Date();
+        newData.push({
+          time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          traffic: Math.floor(Math.random() * 80) + 20,
+          malicious: Math.floor(Math.random() * 30)
+        });
+        return newData;
       });
-      setData(newData);
-    }, 5000);
+    }, 30000);
 
     return () => clearInterval(interval);
-  }, [data]);
+  }, []);
 
   const cardClassName = isDarkMode
     ? "p-6 backdrop-blur-lg bg-gray-900/50 border border-gray-700/50 h-[400px]"

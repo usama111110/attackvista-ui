@@ -201,25 +201,26 @@ const Index = memo(() => {
 
   // Optimized auto-refresh with dependency array
   useEffect(() => {
-    const interval = setInterval(refreshData, 300000); // Increased to 5 minutes for better performance
+    if (!autoRefresh) return;
+    const interval = setInterval(refreshData, refreshInterval * 1000);
     return () => clearInterval(interval);
-  }, [refreshData]);
+  }, [refreshData, autoRefresh, refreshInterval]);
 
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-fade-in w-full">
         {/* Dashboard Title */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-4">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-4">Dashboard</h1>
         </div>
 
         {/* Welcome Section - Exact match to design */}
         <div className="space-y-6 mb-12">
           <div>
-            <h2 className="text-4xl font-bold text-white mb-2">
-              Welcome back, <span style={{ color: '#FF7B00' }}>{currentUser?.name || 'Admin User'}</span>
+            <h2 className="text-4xl font-bold text-foreground mb-2">
+              Welcome back, <span className="text-primary">{currentUser?.name || 'Admin User'}</span>
             </h2>
-            <p className="text-gray-300 text-lg">
+            <p className="text-muted-foreground text-lg">
               Your security dashboard is ready. Monitor threats and manage your network security.
             </p>
           </div>
@@ -237,11 +238,11 @@ const Index = memo(() => {
             
             {/* Live Status Display */}
             <div className="text-right space-y-1">
-              <div className="text-sm text-gray-400">Last updated</div>
-              <div className="text-xl font-bold text-white">{new Date().toLocaleTimeString()}</div>
+              <div className="text-sm text-muted-foreground">Last updated</div>
+              <div className="text-xl font-bold text-foreground">{new Date().toLocaleTimeString()}</div>
               <div className="flex items-center gap-2 justify-end">
-                <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: '#FF7B00' }} />
-                <span className="text-sm font-medium" style={{ color: '#FF7B00' }}>
+                <div className="h-2 w-2 rounded-full animate-pulse bg-primary" />
+                <span className="text-sm font-medium text-primary">
                   {autoRefresh ? 'Auto-refresh active' : 'Live monitoring active'}
                 </span>
               </div>
@@ -257,39 +258,35 @@ const Index = memo(() => {
               placeholder="Search attacks, IPs, threats..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-10 h-12 text-base bg-gray-800/50 border-gray-700/50 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-1 focus:ring-gray-600"
+              className="pl-12 pr-10 h-12 text-base bg-card/50 border-border text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-1 focus:ring-ring"
             />
           </div>
         </div>
 
         {/* Bottom Navigation Tabs */}
         <Tabs defaultValue="overview" className="mb-10">
-          <TabsList className="mb-8 p-1 bg-gray-800/50 rounded-lg h-auto">
+          <TabsList className="mb-8 p-1 bg-card/50 rounded-lg h-auto">
             <TabsTrigger 
               value="overview" 
-              className="px-6 py-3 text-sm font-medium rounded-md data-[state=active]:text-white transition-all"
-              style={{ 
-                backgroundColor: 'overview' === 'overview' ? '#FF7B00' : 'transparent',
-                color: 'overview' === 'overview' ? 'white' : '#9CA3AF'
-              }}
+              className="px-6 py-3 text-sm font-medium rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
             >
               Overview
             </TabsTrigger>
             <TabsTrigger 
               value="performance" 
-              className="px-6 py-3 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
             >
               Performance
             </TabsTrigger>
             <TabsTrigger 
               value="threats" 
-              className="px-6 py-3 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
             >
               Threats
             </TabsTrigger>
             <TabsTrigger 
               value="widgets" 
-              className="px-6 py-3 text-sm font-medium rounded-md text-gray-400 hover:text-white transition-all"
+              className="px-6 py-3 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground transition-all"
             >
               Widgets
             </TabsTrigger>
