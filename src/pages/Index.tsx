@@ -341,7 +341,7 @@ const Index = memo(() => {
                          value={156}
                          icon={<Database className="h-5 w-5" />}
                          trend={{ value: 3, isPositive: true }}
-                         variant="glass"
+                         variant="modern"
                          description="Actively monitored"
                        />
                      </div>
