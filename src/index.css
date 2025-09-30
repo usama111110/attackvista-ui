@@ -54,9 +54,9 @@
   .light-mode {
     --background: 0 0% 98%;
     --foreground: 220 15% 15%;
-    --card: 0 0% 100%;
+    --card: 210 30% 96%;
     --card-foreground: 220 15% 15%;
-    --popover: 0 0% 100%;
+    --popover: 210 30% 96%;
     --popover-foreground: 220 15% 15%;
     --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
